@@ -1,9 +1,10 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import useInput from "../../hooks/useInput";
 
 const style = {
   position: "absolute",
@@ -18,6 +19,55 @@ const style = {
 };
 
 export default function SinginModal({ open, handleClose }) {
+  // Disabling Confirm button if inputs are not valid
+  const [disabled, setDisabled] = useState(true);
+
+  // Custom hook for name input
+  const {
+    enteredValue: enteredName,
+    isValid: nameIsValid,
+    hasError: nameHasError,
+    onChangeHandler: nameChangeHandler,
+    onBlurHandler: nameBlurHandler,
+  } = useInput(
+    (enteredName) =>
+      enteredName.trim().length > 2 && enteredName.trim().length < 13
+  );
+
+  // Custom hook for password input
+  const {
+    enteredValue: enteredPassword,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    onChangeHandler: passwordChangeHandler,
+    onBlurHandler: passwordBlurHandler,
+  } = useInput((enteredPassword) => enteredPassword.trim().length > 5);
+
+  // Custom hook for confirmed password input
+  const {
+    enteredValue: enteredConfirmedPassword,
+    isValid: confirmedPasswordIsValid,
+    hasError: confirmedPasswordHasError,
+    onChangeHandler: confirmedPasswordChangeHandler,
+    onBlurHandler: confirmedPasswordBlurHandler,
+  } = useInput(
+    (enteredConfirmedPassword) => enteredConfirmedPassword.trim().length > 5
+  );
+
+  // Controls disable value depending on validity of the inputs
+  useEffect(() => {
+    if (
+      nameIsValid &&
+      passwordIsValid &&
+      confirmedPasswordIsValid &&
+      enteredPassword === enteredConfirmedPassword
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [enteredName, enteredPassword, enteredConfirmedPassword]);
+
   return (
     <Modal
       open={open}
@@ -34,15 +84,52 @@ export default function SinginModal({ open, handleClose }) {
           noValidate
           autoComplete="off"
         >
-          <TextField id="outlined-basic" label="Name" variant="outlined" />
-          <TextField id="outlined-basic" label="Password" variant="outlined" />
           <TextField
-            id="outlined-basic"
+            error={nameHasError}
+            id={nameHasError ? "outlined-error-helper-text" : "outlined-basic"}
+            helperText={
+              nameHasError ? "Please enter a valid name (3-12 characters)" : ""
+            }
+            label="Name"
+            variant="outlined"
+            value={enteredName}
+            onChange={nameChangeHandler}
+            onBlur={nameBlurHandler}
+          />
+          <TextField
+            error={passwordHasError}
+            id={
+              passwordHasError ? "outlined-error-helper-text" : "outlined-basic"
+            }
+            helperText={
+              passwordHasError ? "Please enter a valid password (min 6 characters)" : ""
+            }
+            label="Password"
+            variant="outlined"
+            value={enteredPassword}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
+          />
+          <TextField
+            error={confirmedPasswordHasError}
+            id={
+              confirmedPasswordHasError
+                ? "outlined-error-helper-text"
+                : "outlined-basic"
+            }
+            helperText={
+              confirmedPasswordHasError ? "Confirmed password doesn't match" : ""
+            }
             label="Confirm Password"
             variant="outlined"
+            value={enteredConfirmedPassword}
+            onChange={confirmedPasswordChangeHandler}
+            onBlur={confirmedPasswordBlurHandler}
           />
           <Stack spacing={2} direction="row">
-            <Button variant="contained"> Confirm </Button>
+            <Button variant="contained" disabled={disabled}>
+              Confirm
+            </Button>
             <Button variant="contained" onClick={handleClose}>
               Cancel
             </Button>
