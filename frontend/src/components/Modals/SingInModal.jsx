@@ -68,6 +68,27 @@ export default function SinginModal({ open, handleClose }) {
     }
   }, [enteredName, enteredPassword, enteredConfirmedPassword]);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:4000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: enteredName,
+          password: enteredPassword,
+        }),
+      });
+
+      await response.json();
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -102,9 +123,12 @@ export default function SinginModal({ open, handleClose }) {
               passwordHasError ? "outlined-error-helper-text" : "outlined-basic"
             }
             helperText={
-              passwordHasError ? "Please enter a valid password (min 6 characters)" : ""
+              passwordHasError
+                ? "Please enter a valid password (min 6 characters)"
+                : ""
             }
             label="Password"
+            type="password"
             variant="outlined"
             value={enteredPassword}
             onChange={passwordChangeHandler}
@@ -118,16 +142,19 @@ export default function SinginModal({ open, handleClose }) {
                 : "outlined-basic"
             }
             helperText={
-              confirmedPasswordHasError ? "Confirmed password doesn't match" : ""
+              confirmedPasswordHasError
+                ? "Confirmed password doesn't match"
+                : ""
             }
             label="Confirm Password"
+            type="password"
             variant="outlined"
             value={enteredConfirmedPassword}
             onChange={confirmedPasswordChangeHandler}
             onBlur={confirmedPasswordBlurHandler}
           />
           <Stack spacing={2} direction="row">
-            <Button variant="contained" disabled={disabled}>
+            <Button variant="contained" disabled={disabled} onClick={handleSubmit}>
               Confirm
             </Button>
             <Button variant="contained" onClick={handleClose}>

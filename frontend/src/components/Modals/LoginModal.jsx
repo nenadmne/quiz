@@ -89,6 +89,7 @@ export default function LoginModal({ open, handleClose }) {
               passwordHasError ? "Please enter a valid password." : ""
             }
             label="Password"
+            type="password"
             variant="outlined"
             value={enteredPassword}
             onChange={passwordChangeHandler}
