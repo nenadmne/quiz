@@ -4,7 +4,10 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+
 import useInput from "../../hooks/useInput";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -82,8 +85,14 @@ export default function SinginModal({ open, handleClose }) {
           password: enteredPassword,
         }),
       });
-
-      await response.json();
+      if (response.ok) {
+        await response.json();
+        toast.success("Signup successful!");
+        handleClose();
+      } else {
+        const errorData = await response.json(); // Parse error response body
+        toast.error(errorData.message || "Signup failed."); // Display error message from server if available
+      }
     } catch (error) {
       console.error("Error during signup:", error);
     }

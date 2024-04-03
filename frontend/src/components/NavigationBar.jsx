@@ -5,8 +5,10 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+
 import LoginModal from "./Modals/LoginModal";
 import SinginModal from "./Modals/SingInModal";
+import { ToastContainer } from 'react-toastify';
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -40,6 +42,7 @@ export default function NavigationBar() {
       {signinOpen && (
         <SinginModal open={signinOpen} handleClose={handleSigninClose} />
       )}
+      <ToastContainer />
     </Box>
   );
 }
