@@ -42,7 +42,9 @@ export default function LoginModal({ open, handleClose }) {
           <TextField id="outlined-basic" label="Password" variant="outlined" />
           <Stack spacing={2} direction="row">
             <Button variant="contained"> Confirm </Button>
-            <Button variant="contained"> Cancel </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
           </Stack>
         </Box>
       </Box>

@@ -35,11 +35,6 @@ export default function SinginModal({ open, handleClose }) {
           autoComplete="off"
         >
           <TextField id="outlined-basic" label="Name" variant="outlined" />
-          <TextField
-            id="outlined-basic"
-            label="Email adrress"
-            variant="outlined"
-          />
           <TextField id="outlined-basic" label="Password" variant="outlined" />
           <TextField
             id="outlined-basic"
@@ -48,7 +43,9 @@ export default function SinginModal({ open, handleClose }) {
           />
           <Stack spacing={2} direction="row">
             <Button variant="contained"> Confirm </Button>
-            <Button variant="contained"> Cancel </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Cancel
+            </Button>
           </Stack>
         </Box>
       </Box>
