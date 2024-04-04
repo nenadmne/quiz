@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,7 +7,6 @@ import Button from "@mui/material/Button";
 
 import LoginModal from "./Modals/LoginModal";
 import SinginModal from "./Modals/SingInModal";
-import { ToastContainer } from "react-toastify";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);

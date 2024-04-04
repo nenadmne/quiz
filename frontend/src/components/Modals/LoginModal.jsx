@@ -19,7 +19,7 @@ const style = {
 };
 
 export default function LoginModal({ open, handleClose }) {
-  // Disabling Confirm button if inputs are not valid  
+  // Disabling Confirm button if inputs are not valid
   const [disabled, setDisabled] = useState(true);
 
   // Custom hook for name input

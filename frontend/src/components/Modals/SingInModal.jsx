@@ -23,6 +23,7 @@ const style = {
 export default function SinginModal({ open, handleClose }) {
   // Disabling Confirm button if inputs are not valid
   const [disabled, setDisabled] = useState(true);
+  const [player, setPlayer] = useState();
 
   // Custom hook for name input
   const {
@@ -70,6 +71,7 @@ export default function SinginModal({ open, handleClose }) {
     }
   }, [enteredName, enteredPassword, enteredConfirmedPassword]);
 
+  // Submit Sign up function
   const handleSubmit = async (event) => {
     event.preventDefault();
     toast.dismiss();
@@ -85,7 +87,8 @@ export default function SinginModal({ open, handleClose }) {
         }),
       });
       if (response.ok) {
-        await response.json();
+        const data = await response.json();
+        setPlayer(data);
         toast.success("Signup successful!");
         setTimeout(() => {
           handleClose();
