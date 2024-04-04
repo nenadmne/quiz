@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import NavigationBar from "../components/NavigationBar";
+import JoinGameBtn from "../components/JoinGameBtn";
 
 const ENDPOINT = "http://localhost:4000";
 
@@ -39,10 +40,7 @@ function Homepage() {
   return (
     <div>
       <NavigationBar />
-      <h1>Online Multiplayer Quiz Game</h1>
-      <button onClick={handleJoinGame} disabled={isJoining}>
-        Join Game
-      </button>
+      <JoinGameBtn handleJoinGame={handleJoinGame}/>
       {isLoading ? (
         <p>Waiting for players to join...</p>
       ) : (
