@@ -6,8 +6,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 import useInput from "../../hooks/useInput";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -73,7 +72,7 @@ export default function SinginModal({ open, handleClose }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    toast.dismiss();
     try {
       const response = await fetch("http://localhost:4000/signup", {
         method: "POST",
@@ -88,7 +87,9 @@ export default function SinginModal({ open, handleClose }) {
       if (response.ok) {
         await response.json();
         toast.success("Signup successful!");
-        handleClose();
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
       } else {
         const errorData = await response.json(); // Parse error response body
         toast.error(errorData.message || "Signup failed."); // Display error message from server if available
@@ -175,6 +176,7 @@ export default function SinginModal({ open, handleClose }) {
             </Button>
           </Stack>
         </Box>
+        <ToastContainer />
       </Box>
     </Modal>
   );

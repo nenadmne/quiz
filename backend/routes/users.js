@@ -24,7 +24,13 @@ router.post("/signup", async (req, res) => {
     await db.query("INSERT INTO players (username, password) VALUES (?)", [
       data,
     ]);
-    res.status(200).json({ success: true, message: "Signup successful." });
+    const KEY = "supersecret";
+    const token = sign({ username: username }, KEY, { expiresIn: "8h" });
+    return res.status(200).json({
+      success: true,
+      message: "Signup successful.",
+      token: token,
+    });
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).json({ success: false, message: "Signup failed." });

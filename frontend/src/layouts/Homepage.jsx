@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import NavigationBar from "../components/NavigationBar";
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Background";
+import { ToastContainer } from "react-toastify";
 
 const ENDPOINT = "http://localhost:4000";
 

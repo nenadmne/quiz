@@ -36,7 +36,12 @@ export default function NavigationBar() {
           >
             Login
           </Button>
-          <Button color="inherit" variant="outlined" onClick={handleSigninOpen}>
+          <Button
+            sx={{ marginRight: 2 }}
+            color="inherit"
+            variant="outlined"
+            onClick={handleSigninOpen}
+          >
             Sign up
           </Button>
         </Toolbar>
@@ -47,7 +52,6 @@ export default function NavigationBar() {
       {signinOpen && (
         <SinginModal open={signinOpen} handleClose={handleSigninClose} />
       )}
-      <ToastContainer />
     </Box>
   );
 }
