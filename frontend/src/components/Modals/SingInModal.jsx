@@ -163,7 +163,11 @@ export default function SinginModal({ open, handleClose }) {
             onBlur={confirmedPasswordBlurHandler}
           />
           <Stack spacing={2} direction="row">
-            <Button variant="contained" disabled={disabled} onClick={handleSubmit}>
+            <Button
+              variant="contained"
+              disabled={disabled}
+              onClick={handleSubmit}
+            >
               Confirm
             </Button>
             <Button variant="contained" onClick={handleClose}>

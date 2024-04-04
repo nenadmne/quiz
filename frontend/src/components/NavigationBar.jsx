@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 
 import LoginModal from "./Modals/LoginModal";
 import SinginModal from "./Modals/SingInModal";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);

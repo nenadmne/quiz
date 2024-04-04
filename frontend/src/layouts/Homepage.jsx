@@ -38,30 +38,12 @@ function Homepage() {
   };
 
   return (
-    <div>
+    <>
       <NavigationBar />
-      <JoinGameBtn handleJoinGame={handleJoinGame}/>
-      {isLoading ? (
-        <p>Waiting for players to join...</p>
-      ) : (
-        <>
-          {isJoining ? (
-            <p>Waiting for other player...</p>
-          ) : (
-            <>
-              <h2>Players:</h2>
-              <ul>
-                {players.map((player, index) => (
-                  <li key={index}>
-                    {player.name} - Score: {player.score}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </>
-      )}
-    </div>
+      <section className="w-full h-full flex justify-center items-center">
+        <JoinGameBtn handleJoinGame={handleJoinGame} />
+      </section>
+    </>
   );
 }
 

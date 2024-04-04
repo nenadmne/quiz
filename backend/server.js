@@ -14,7 +14,7 @@ let players = [];
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(users)
+app.use(users);
 
 io.on("connection", (socket) => {
   console.log("A user connected");
