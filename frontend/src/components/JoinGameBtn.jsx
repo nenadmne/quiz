@@ -3,7 +3,7 @@ import "./JoinGameBtn.css";
 export default function JoinGameBtn({ handleJoinGame }) {
   return (
     <div className="voltage-button">
-      <button> Play </button>
+      <button onClick={handleJoinGame}> Play </button>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export default function JoinGameBtn({ handleJoinGame }) {
           stroke="#fff"
         />
       </svg>
-      <div class="dots">
+      <div className="dots">
         <div className="dot dot-1"></div>
         <div className="dot dot-2"></div>
         <div className="dot dot-3"></div>

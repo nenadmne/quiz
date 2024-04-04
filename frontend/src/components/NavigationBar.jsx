@@ -22,16 +22,21 @@ export default function NavigationBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className="bg-[#1e1e1e]">
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          <Button color="inherit" onClick={handleLoginOpen}>
+          <Button
+            sx={{ marginRight: 2 }}
+            color="inherit"
+            variant="outlined"
+            onClick={handleLoginOpen}
+          >
             Login
           </Button>
-          <Button color="inherit" onClick={handleSigninOpen}>
+          <Button color="inherit" variant="outlined" onClick={handleSigninOpen}>
             Sign up
           </Button>
         </Toolbar>

@@ -13,6 +13,10 @@ function App() {
       path: "/lobby",
       element: <Lobby />,
     },
+    {
+      path: "/gameroom",
+      element: <h1>Game Room </h1>,
+    },
   ]);
 
   return <RouterProvider router={router} />;

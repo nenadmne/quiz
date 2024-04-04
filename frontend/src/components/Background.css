@@ -1,0 +1,312 @@
+.background {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --spd: 2s;
+  background: radial-gradient(circle at 50% 86%, black, #444);
+}
+
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+.content {
+  width: 100vmin;
+  height: 100vmin;
+  perspective: 10vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.door {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  clip-path: circle(35% at 50% 50%);
+}
+
+.door:before {
+  content: "";
+  width: 200%;
+  height: 200%;
+  position: absolute;
+  left: -50%;
+  background-image: repeating-conic-gradient(
+      #fff9 0%,
+      transparent 0.0004%,
+      transparent 0.004%,
+      transparent 0.074%
+    ),
+    radial-gradient(#0000, #0a123a),
+    linear-gradient(180deg, #2000587d, #2000587d, #000, #9c27b02b),
+    linear-gradient(0deg, #ff9800, #ff9800, #000, #009688ba);
+  animation: spin 500s linear 0s infinite;
+  border-radius: 100%;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.door:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 222;
+  box-sizing: border-box;
+  border-radius: 100%;
+  background: radial-gradient(
+    #fff0 0 34%,
+    #959595 calc(34% + 1px) 34.75%,
+    #b7b7b7 calc(36% + 1px),
+    #c5c5c5 43%,
+    #737373 51%,
+    #3330 calc(51% + 1px) 100%
+  );
+  filter: drop-shadow(0px 0px 5px #000d);
+  box-shadow: 0vmin 0vmin 0vmin 14.55vmin #3c3c3c inset;
+}
+
+.panel {
+  position: absolute;
+  width: 70vmin;
+  height: 70vmin;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.panel:before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 10.5vmin solid #ff000000;
+  border-bottom-color: #1e1e1e;
+  border-bottom-color: #d3d3d3;
+  border-radius: 100%;
+  transform: rotate(0deg);
+  transform-origin: 100% 100%;
+  content: "";
+  box-sizing: border-box;
+  filter: drop-shadow(-3px -3px 2px #999);
+  clip-path: circle(52% at 78% 56%);
+  transition: all var(--spd) ease 0s;
+  overflow: hidden;
+  animation: start 3s ease 0s 1;
+}
+
+.hovered .panel:before,
+.hovered .panel span {
+  transition: all var(--spd) ease 0s;
+  transform: rotate(28.5deg);
+}
+
+.panel span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* border: 2px solid red; */
+  z-index: 2;
+  top: 0%;
+  left: 0%;
+  border-radius: 100%;
+  transform: rotate(0deg);
+  transform-origin: 100% 100%;
+  transition: all var(--spd) ease 0s;
+  background: radial-gradient(
+    circle at 66.5% -111.5%,
+    #fff0 calc(28vmin - 4px),
+    #999 calc(28vmin + 1px),
+    #fff0 calc(28vmin + 2px) 100%
+  );
+  background-repeat: no-repeat;
+  background-position: 64% 100%;
+  background-size: 50% 20%;
+  animation: start 3s ease 0s 1;
+}
+
+.panel:nth-child(12):before {
+  /* border-color: #fff0; */
+  filter: drop-shadow(0px -3px 2px #999);
+}
+
+@keyframes start {
+  0%,
+  33% {
+    transform: rotate(28.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.panel:nth-child(2) {
+  transform: rotate(30deg);
+}
+
+.panel:nth-child(3) {
+  transform: rotate(60deg);
+}
+
+.panel:nth-child(4) {
+  transform: rotate(90deg);
+}
+
+.panel:nth-child(5) {
+  transform: rotate(120deg);
+}
+
+.panel:nth-child(6) {
+  transform: rotate(150deg);
+}
+
+.panel:nth-child(7) {
+  transform: rotate(180deg);
+}
+
+.panel:nth-child(8) {
+  transform: rotate(210deg);
+}
+
+.panel:nth-child(9) {
+  transform: rotate(240deg);
+}
+
+.panel:nth-child(10) {
+  transform: rotate(270deg);
+}
+
+.panel:nth-child(11) {
+  transform: rotate(300deg);
+}
+
+.panel:nth-child(12) {
+  transform: rotate(330deg);
+}
+
+/*** tunnel ***/
+
+.tunnel {
+  --height: 75;
+  --width: 75;
+  --depth: 200;
+  --hue: 200;
+  --sat: 25%;
+  height: calc(var(--height) * 1vmin);
+  width: calc(var(--width) * 1vmin);
+  position: absolute;
+  --bg-side: linear-gradient(#fff, #eee);
+  --shw: #fff0 0 48.95%, #0008 49%, #fff0 50.125% 100%;
+  --shw: #fff0 0 49.45%, #0006 50%, #fff0 51.5% 100%;
+  /* background: radial-gradient(#fff0 50%, #000000 50%); */
+}
+
+.tunnel > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  filter: blur(3.1px) brightness(1.15);
+  box-shadow: 0 0 0 1vmin #6d6d6d, 0 0 15vmin 10vmin #0008 inset,
+    0 0 1vmin 1vmin #dfdfdf inset;
+}
+.tunnel > div:nth-of-type(1) {
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 30%,
+    100% 70%,
+    70% 100%,
+    30% 100%,
+    0% 70%,
+    0% 30%
+  );
+  transform: translate3d(-50%, -50%, calc(var(--depth) * 0.5vmin));
+  background: var(--bg-side), hsl(var(--hue), var(--sat), 50%);
+}
+.tunnel > div:nth-of-type(2) {
+  transform: translate3d(-50%, -50%, calc(var(--depth) * -0.5vmin))
+    rotateY(180deg);
+  background: var(--bg-side), hsl(var(--hue), var(--sat), 00%);
+  box-shadow: 0 0 30vmin 11vmin #080d1280 inset;
+}
+.tunnel > div:nth-of-type(3) {
+  width: calc(var(--depth) * 1vmin);
+  height: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateY(90deg)
+    translate3d(0, 0, calc(var(--width) * 0.5vmin));
+  background: linear-gradient(-90deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 90%); /*45*/
+}
+.tunnel > div:nth-of-type(4) {
+  width: calc(var(--depth) * 1vmin);
+  height: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateY(-90deg)
+    translate3d(0, 0, calc(var(--width) * 0.5vmin));
+  background: linear-gradient(90deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 90%); /*50*/
+}
+.tunnel > div:nth-of-type(5) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(90deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(180deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 95%);
+}
+.tunnel > div:nth-of-type(6) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(-90deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(0deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 95%);
+}
+.tunnel > div:nth-of-type(7) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(-90deg) rotateY(45deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(0deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 100%);
+}
+.tunnel > div:nth-of-type(8) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(-90deg) rotateY(-45deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(0deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 100%);
+}
+.tunnel > div:nth-of-type(9) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(-90deg) rotateY(135deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(0deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 95%);
+}
+.tunnel > div:nth-of-type(10) {
+  height: calc(var(--depth) * 1vmin);
+  width: calc(calc(calc(var(--width) * 41.17) / 100) * 1vmin);
+  transform: translate(-50%, -50%) rotateX(-90deg) rotateY(-135deg)
+    translate3d(0, 0, calc(var(--height) * 0.5vmin));
+  background: linear-gradient(0deg, var(--shw)), var(--bg-side),
+    hsl(var(--hue), var(--sat), 95%);
+}
