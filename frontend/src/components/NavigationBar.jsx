@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -38,81 +40,84 @@ export default function NavigationBar() {
     setAnchorEl(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    window.location.href = "/"
+    window.location.href = "/";
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar className="bg-[#1e1e1e]">
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          ></Typography>
-          {!token ? (
-            <>
-              <Button
-                sx={{ marginRight: 2 }}
-                color="inherit"
-                variant="outlined"
-                onClick={handleLoginOpen}
-              >
-                Login
-              </Button>
-              <Button
-                sx={{ marginRight: 2 }}
-                color="inherit"
-                variant="outlined"
-                onClick={handleSigninOpen}
-              >
-                Sign up
-              </Button>
-            </>
-          ) : (
-            <div className="h-full flex flex-col gap-1 justify-center items-center px-4 py-2">
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-                sx={{ padding: 0 }}
-              >
-                <AccountCircle sx={{ width: 34, height: 34 }} />
-              </IconButton>
-              <Typography>
-                {" "}
-                <strong>{username}</strong>
-              </Typography>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-      {loginOpen && (
-        <LoginModal open={loginOpen} handleClose={handleLoginClose} />
-      )}
-      {signinOpen && (
-        <SinginModal open={signinOpen} handleClose={handleSigninClose} />
-      )}
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1, overflow: "hiden" }}>
+        <AppBar position="static">
+          <Toolbar className="bg-[#1e1e1e]">
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+            ></Typography>
+            {!token ? (
+              <>
+                <Button
+                  sx={{ marginRight: 2 }}
+                  color="inherit"
+                  variant="outlined"
+                  onClick={handleLoginOpen}
+                >
+                  Login
+                </Button>
+                <Button
+                  sx={{ marginRight: 2 }}
+                  color="inherit"
+                  variant="outlined"
+                  onClick={handleSigninOpen}
+                >
+                  Sign up
+                </Button>
+              </>
+            ) : (
+              <div className="h-full flex flex-col gap-1 justify-center items-center px-4 py-2">
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                  sx={{ padding: 0 }}
+                >
+                  <AccountCircle sx={{ width: 34, height: 34 }} />
+                </IconButton>
+                <Typography>
+                  {" "}
+                  <strong>{username}</strong>
+                </Typography>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+        {loginOpen && (
+          <LoginModal open={loginOpen} handleClose={handleLoginClose} />
+        )}
+        {signinOpen && (
+          <SinginModal open={signinOpen} handleClose={handleSigninClose} />
+        )}
+      </Box>
+      <Outlet />
+    </>
   );
 }

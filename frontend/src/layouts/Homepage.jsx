@@ -17,7 +17,7 @@ function Homepage() {
   const [players, setPlayers] = useState([]);
 
   const socket = useSocket();
-  
+
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
@@ -43,7 +43,6 @@ function Homepage() {
 
   return (
     <>
-      <NavigationBar />
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
         {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}

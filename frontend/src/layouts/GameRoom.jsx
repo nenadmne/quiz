@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useSocket from "../hooks/useSocket";
+import GameBackground from "../components/GameBackground";
 
 export default function GameRoom() {
   const [question] = useState("What is the capital of France?");
@@ -27,16 +28,19 @@ export default function GameRoom() {
   console.log(playerAnswers);
   return (
     <div className="w-full h-full flex justify-center items-center flex-col">
-      <p>{question}</p>
-      <ul className="grid grid-cols-2 gap-4">
+      <GameBackground />
+      <p className="text-2xl mb-20 p-4 border rounded border-black">
+        {question}
+      </p>
+      <ul className="grid grid-cols-2 gap-6 mb-12">
         {answers.map((answer, index) => (
-          <li key={index}>
+          <li key={index} className="w-[400px]">
             <button
               className={`${
                 selectedAnswer === answer
                   ? "bg-blue-500 hover:bg-blue-700"
                   : "bg-gray-300 hover:bg-gray-400"
-              } text-white font-bold py-2 px-4 rounded`}
+              } text-white font-bold py-2 px-4 rounded w-full`}
               onClick={() => handleAnswerSelection(answer)}
               disabled={selectedAnswer !== null}
             >
