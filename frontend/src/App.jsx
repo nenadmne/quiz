@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./layouts/Homepage";
-import Lobby from "./layouts/Lobby";
+import GameRoom from "./layouts/GameRoom";
+
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     },
     {
       path: "/gameroom",
-      element: <h1>Game Room </h1>,
+      element: <GameRoom />,
     },
   ]);
 

@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import NavigationBar from "../components/NavigationBar";
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Background";
-import Lobby from "./Lobby";
+import Lobby from "../components/Lobby";
 import LobbyBackground from "../components/LobbyBackground";
 
 const ENDPOINT = "http://localhost:4000";
