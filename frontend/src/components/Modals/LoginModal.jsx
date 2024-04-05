@@ -4,6 +4,9 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+
+import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 import useInput from "../../hooks/useInput";
 
 const style = {
@@ -52,6 +55,39 @@ export default function LoginModal({ open, handleClose }) {
     }
   }, [enteredName, enteredPassword]);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    toast.dismiss();
+    try {
+      const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: enteredName,
+          password: enteredPassword,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        // Decode the token
+        const decodedToken = jwtDecode(data.token);
+        localStorage.setItem("username", decodedToken.username);
+        toast.success("Login successful!");
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      } else {
+        const errorData = await response.json(); // Parse error response body
+        toast.error(errorData.message || "Login failed."); // Display error message from server if available
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -96,7 +132,11 @@ export default function LoginModal({ open, handleClose }) {
             onBlur={passwordBlurHandler}
           />
           <Stack spacing={2} direction="row">
-            <Button variant="contained" disabled={disabled}>
+            <Button
+              variant="contained"
+              disabled={disabled}
+              onClick={handleSubmit}
+            >
               Confirm
             </Button>
             <Button variant="contained" onClick={handleClose}>
@@ -104,6 +144,7 @@ export default function LoginModal({ open, handleClose }) {
             </Button>
           </Stack>
         </Box>
+        <ToastContainer />
       </Box>
     </Modal>
   );
