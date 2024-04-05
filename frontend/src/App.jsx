@@ -10,10 +10,6 @@ function App() {
       element: <Homepage />,
     },
     {
-      path: "/lobby",
-      element: <Lobby />,
-    },
-    {
       path: "/gameroom",
       element: <h1>Game Room </h1>,
     },

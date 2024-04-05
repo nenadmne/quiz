@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
 import NavigationBar from "../components/NavigationBar";
@@ -11,20 +11,32 @@ const ENDPOINT = "http://localhost:4000";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
+
   const username = localStorage.getItem("username");
   const [players, setPlayers] = useState([]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 2800);
+  }, []);
   const handleJoinGame = () => {
     if (username) {
       setPlay(true);
-      const socket = io(ENDPOINT, { transports: ["websocket"] });
-      socket.emit("join", username);
-      socket.on("updatePlayers", (updatedPlayers, playerCount) => {
-        setPlayers(updatedPlayers);
-      });
-      socket.on("startGame", () => {
-        // Handle game start event if needed
-      });
+      setTimeout(() => {
+        const socket = io(ENDPOINT, { transports: ["websocket"] });
+        socket.emit("join", username);
+        socket.on("updatePlayers", (updatedPlayers, playerCount) => {
+          setPlayers(updatedPlayers);
+        });
+        socket.on("startGame", () => {
+          // Handle game start event if needed
+        });
+        setGameStarted(true);
+      }, 2800);
+
       return () => {
         socket.disconnect();
       };
@@ -35,10 +47,10 @@ function Homepage() {
     <>
       <NavigationBar />
       <section className="w-full h-full flex flex-col justify-center items-center">
-        {!play && <Background play={play} />}
-        {!play && <JoinGameBtn handleJoinGame={handleJoinGame} />}
-        {play && <LobbyBackground />}
-        {play && <Lobby players={players} />}
+        {!gameStarted && <Background play={play} />}
+        {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
+        {gameStarted && <LobbyBackground />}
+        {gameStarted && <Lobby players={players} />}
       </section>
     </>
   );

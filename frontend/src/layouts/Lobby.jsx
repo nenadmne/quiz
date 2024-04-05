@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 
 function Lobby({ players }) {
   const [countdown, setCountdown] = useState(5);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (players.length === 2) {
@@ -16,6 +17,12 @@ function Lobby({ players }) {
       return () => clearInterval(interval);
     }
   }, [countdown, players]);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      navigate("/gameroom");
+    }
+  }, [countdown]);
 
   if (players === undefined) {
     return <div> Loading </div>;
@@ -50,7 +57,7 @@ function Lobby({ players }) {
               {players[1].name}
             </span>
           </div>
-          <span className="text-4xl">{countdown}</span>
+          <span className={`text-4xl text-white transition-transform duration-100 ease-in-out transform ${countdown !== 0 ? 'scale-110' : ''}`}>{countdown}</span>
         </div>
       );
     }
