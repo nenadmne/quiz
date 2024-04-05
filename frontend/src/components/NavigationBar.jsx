@@ -38,6 +38,7 @@ export default function NavigationBar() {
     setAnchorEl(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    window.location.href = "/"
   };
 
   return (

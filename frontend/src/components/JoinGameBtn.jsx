@@ -1,9 +1,20 @@
+import { useEffect, useState } from "react";
 import "./JoinGameBtn.css";
 
 export default function JoinGameBtn({ handleJoinGame }) {
+  const [message, setMessage] = useState("");
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      setMessage("Play");
+    } else {
+      setMessage("Login to play");
+    }
+  }, [token]);
   return (
     <div className="voltage-button">
-      <button onClick={handleJoinGame}> Play </button>
+      <button onClick={handleJoinGame}>{message}</button>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

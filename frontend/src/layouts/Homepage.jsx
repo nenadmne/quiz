@@ -48,7 +48,9 @@ function Homepage() {
       <NavigationBar />
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
-        {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
+        {!play && loaded && (
+          <JoinGameBtn handleJoinGame={handleJoinGame} />
+        )}
         {gameStarted && <LobbyBackground />}
         {gameStarted && <Lobby players={players} />}
       </section>
