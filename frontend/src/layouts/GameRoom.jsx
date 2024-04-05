@@ -7,14 +7,13 @@ export default function GameRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
   const socket = useSocket(); // Obtain the socket instance from the hook
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
-    // Listen for incoming answers from the socket server
     socket.on("broadcastAnswer", (answer) => {
       setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
     });
 
-    // Clean up the event listener when the component unmounts
     return () => {
       socket.off("broadcastAnswer");
     };
@@ -22,7 +21,7 @@ export default function GameRoom() {
 
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
-    socket.emit("submitAnswer", answer); // Emit the selected answer to the socket server
+    socket.emit("submitAnswer", { answer, username }); // Emit the selected answer to the socket server
   };
 
   console.log(playerAnswers);
@@ -49,8 +48,8 @@ export default function GameRoom() {
       <div>
         <h3>Answers from Players:</h3>
         <ul>
-          {playerAnswers.map((answer, index) => (
-            <li key={index}>{answer}</li>
+          {playerAnswers.map((item, index) => (
+            <li key={index}>{`${item.username} answered ${item.answer}`}</li>
           ))}
         </ul>
       </div>
