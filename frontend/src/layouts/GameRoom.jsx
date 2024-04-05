@@ -1,14 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useSocket from "../hooks/useSocket";
 
 export default function GameRoom() {
   const [question] = useState("What is the capital of France?");
   const [answers] = useState(["A. London", "B. Berlin", "C. Paris", "D. Rome"]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
+  const socket = useSocket(); // Obtain the socket instance from the hook
+
+  useEffect(() => {
+    // Listen for incoming answers from the socket server
+    socket.on("broadcastAnswer", (answer) => {
+      setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
+    });
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      socket.off("broadcastAnswer");
+    };
+  }, [socket]);
 
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
+    socket.emit("submitAnswer", answer); // Emit the selected answer to the socket server
   };
 
+  console.log(playerAnswers);
   return (
     <div className="w-full h-full flex justify-center items-center flex-col">
       <p>{question}</p>
@@ -29,6 +46,14 @@ export default function GameRoom() {
           </li>
         ))}
       </ul>
+      <div>
+        <h3>Answers from Players:</h3>
+        <ul>
+          {playerAnswers.map((answer, index) => (
+            <li key={index}>{answer}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

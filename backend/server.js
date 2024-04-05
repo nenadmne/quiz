@@ -8,10 +8,10 @@ const users = require("./routes/users");
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-// 1.korak
+// 1.step on creating io
 const server = http.createServer(app);
 
-// 2.korak
+// 2.step on creating io
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
@@ -32,7 +32,6 @@ io.on("connection", (socket) => {
     const player = { id: socket.id, name: playerName, score: 0 };
     console.log(player);
 
-    // Find or create a room for the player
     let room;
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -46,29 +45,25 @@ io.on("connection", (socket) => {
       console.log("New room created:", room);
     }
 
-    // Add the player to the room
     playerRooms.get(room).push(player);
 
-    // Join the room
-    socket.join(room);
+    socket.join(room); // Join the room here
 
-    // Emit the updated player list to all clients in the room
     io.to(room).emit(
       "updatePlayers",
       playerRooms.get(room),
       playerRooms.get(room).length
     );
   });
+
   socket.on("submitAnswer", (answer) => {
-    // Handle the submitted answer here
-    // Broadcast the answer to all clients in the room
+    const room = Object.keys(socket.rooms); // Get the room ID
+    console.log(room);
     io.to(room).emit("broadcastAnswer", answer);
   });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-
-    // Find the room containing the disconnected player
     let room;
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.some((player) => player.id === socket.id)) {
@@ -77,7 +72,6 @@ io.on("connection", (socket) => {
       }
     }
 
-    // Remove the player from the room
     if (room) {
       playerRooms.set(
         room,

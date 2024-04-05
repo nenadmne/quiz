@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import useSocket from "../hooks/useSocket";
 
 import NavigationBar from "../components/NavigationBar";
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Background";
 import Lobby from "../components/Lobby";
 import LobbyBackground from "../components/LobbyBackground";
-
-const ENDPOINT = "http://localhost:4000";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -17,16 +16,18 @@ function Homepage() {
   const username = localStorage.getItem("username");
   const [players, setPlayers] = useState([]);
 
+  const socket = useSocket();
+  
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
     }, 2800);
   }, []);
+
   const handleJoinGame = () => {
     if (username) {
       setPlay(true);
       setTimeout(() => {
-        const socket = io(ENDPOINT);
         socket.emit("join", username);
         socket.on("updatePlayers", (updatedPlayers, playerCount) => {
           setPlayers(updatedPlayers);
