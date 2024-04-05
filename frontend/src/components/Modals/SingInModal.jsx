@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 
 import useInput from "../../hooks/useInput";
 import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const style = {
   position: "absolute",
@@ -23,7 +24,6 @@ const style = {
 export default function SinginModal({ open, handleClose }) {
   // Disabling Confirm button if inputs are not valid
   const [disabled, setDisabled] = useState(true);
-  const [player, setPlayer] = useState();
 
   // Custom hook for name input
   const {
@@ -88,7 +88,10 @@ export default function SinginModal({ open, handleClose }) {
       });
       if (response.ok) {
         const data = await response.json();
-        setPlayer(data);
+        localStorage.setItem("token", data.token);
+        // Decode the token
+        const decodedToken = jwtDecode(data.token);
+        localStorage.setItem("username", decodedToken.username);
         toast.success("Signup successful!");
         setTimeout(() => {
           handleClose();

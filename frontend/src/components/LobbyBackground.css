@@ -1,0 +1,69 @@
+/* Look, no Sass */
+
+.particle {
+  /* Starting values */
+  --angle: (5 * var(--index));
+  --radius: 30;
+  --x: calc(sin(var(--angle)) * var(--radius) * 0.4vmin);
+  --y: calc(cos(var(--angle)) * var(--radius) * 0.4vmin);
+
+  /* Ending values */
+  /* 
+    Had to move these outside the @keyframe and rename them 
+    because Chrome was being weird 
+    Bonusly, performance seems much better 
+    */
+  --angle2: calc(var(--index) * 1turn / var(--total));
+  --x2: calc(sin(var(--angle2)) * var(--radius) * 0.4vmin);
+  --y2: calc(cos(var(--angle2)) * var(--radius) * 0.4vmin);
+
+  --size: 5;
+  --speed: 3s;
+  --delay: calc(var(--index) * var(--speed) / var(--total) * 4);
+
+  --hue-angle: 10;
+  --hue-range: 60;
+  --hue-start: 20;
+
+  /* Animation */
+  animation: animation var(--speed) ease-out infinite alternate var(--delay);
+  transform: translate3d(var(--x), var(--y), 0);
+  opacity: 0;
+
+  /* Particle styling */
+  border-radius: 50%;
+  background: currentColor;
+  color: oklch(
+    75% 0.3
+      calc(
+        sin(var(--hue-angle) * var(--index)) * var(--hue-range) +
+          var(--hue-start)
+      )
+  );
+  position: absolute;
+  width: calc(var(--size) * 0.05vmin);
+  height: calc(var(--size) * 0.05vmin);
+  contain: strict; /* Does this help or is translate3d already doing it*/
+}
+
+@keyframes animation {
+  100% {
+    transform: translate3d(var(--x2), var(--y2), 0);
+    opacity: 1;
+  }
+}
+
+/* Pen styling, ignore */
+.center {
+  background: #3c3c3c;
+  display: flex;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-content: center;
+  align-items: top;
+  overflow: hidden;
+  position: absolute;
+  padding: 10rem;
+}
