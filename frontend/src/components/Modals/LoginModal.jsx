@@ -78,7 +78,7 @@ export default function LoginModal({ open, handleClose }) {
         toast.success("Login successful!");
         setTimeout(() => {
           handleClose();
-          window.location.href = "/"
+          window.location.href = "/";
         }, 2000);
       } else {
         const errorData = await response.json(); // Parse error response body
