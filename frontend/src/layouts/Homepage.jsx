@@ -26,13 +26,10 @@ function Homepage() {
     if (username) {
       setPlay(true);
       setTimeout(() => {
-        const socket = io(ENDPOINT, { transports: ["websocket"] });
+        const socket = io(ENDPOINT);
         socket.emit("join", username);
         socket.on("updatePlayers", (updatedPlayers, playerCount) => {
           setPlayers(updatedPlayers);
-        });
-        socket.on("startGame", () => {
-          // Handle game start event if needed
         });
         setGameStarted(true);
       }, 2800);
@@ -48,9 +45,7 @@ function Homepage() {
       <NavigationBar />
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
-        {!play && loaded && (
-          <JoinGameBtn handleJoinGame={handleJoinGame} />
-        )}
+        {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
         {gameStarted && <LobbyBackground />}
         {gameStarted && <Lobby players={players} />}
       </section>

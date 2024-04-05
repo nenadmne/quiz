@@ -1,14 +1,22 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
+const { Server } = require("socket.io");
 const cors = require("cors");
 
 const users = require("./routes/users");
 const PORT = process.env.PORT || 4000;
 const app = express();
+
+// 1.korak
 const server = http.createServer(app);
-const io = socketIo(server);
+
+// 2.korak
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
 
 app.use(cors());
 app.use(bodyParser.json());
