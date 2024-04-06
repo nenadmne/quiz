@@ -5,9 +5,34 @@ export default function GameRoom() {
   const [question] = useState("What is the capital of France?");
   const [answers] = useState(["A. London", "B. Berlin", "C. Paris", "D. Rome"]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [timer, setTimer] = useState(15); // Initial countdown timer value
   const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
   const socket = useSocket(); // Obtain the socket instance from the hook
   const username = localStorage.getItem("username");
+
+  // Countdown timer effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 1) {
+          clearInterval(interval);
+          return 0; // Timer reached zero
+        } else {
+          return prevTimer - 1; // Decrease timer value by 1 second
+        }
+      });
+    }, 1000);
+
+    // Cleanup function to clear interval when component unmounts or timer reaches zero
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // If timer reaches zero and no answer is selected, emit an empty answer
+    if (timer === 0 && selectedAnswer === null) {
+      handleAnswerSelection("");
+    }
+  }, [timer, selectedAnswer]);
 
   useEffect(() => {
     socket.on("broadcastAnswer", (answer) => {
@@ -26,7 +51,8 @@ export default function GameRoom() {
 
   return (
     <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
-      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
+      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-32">
+        <p className="text-black text-xl font-bold mb-16">{`Time Remaining: ${timer} seconds`}</p>
         <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
           {question}
         </p>
