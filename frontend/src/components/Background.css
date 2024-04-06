@@ -9,6 +9,7 @@
   justify-content: center;
   --spd: 2s;
   background: radial-gradient(circle at 50% 86%, black, #444);
+  padding-bottom: 5rem;
 }
 
 * {

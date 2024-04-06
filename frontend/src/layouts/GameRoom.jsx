@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import useSocket from "../hooks/useSocket";
-import GameBackground from "../components/GameBackground";
 
 export default function GameRoom() {
   const [question] = useState("What is the capital of France?");
@@ -26,9 +25,8 @@ export default function GameRoom() {
   };
 
   return (
-    <div className="w-full h-full flex justify-center items-center flex-col">
-      <GameBackground />
-      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad">
+    <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
+      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
         <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
           {question}
         </p>

@@ -3,7 +3,7 @@ import "./GameBackground.css";
 
 export default function GameBackground() {
   return (
-    <div className="game-background absolute">
+    <div className="w-full h-full bg-blackGrad absolute">
       <img src={image} alt="background image" />
     </div>
   );
