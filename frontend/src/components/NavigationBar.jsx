@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import LoginModal from "./Modals/LoginModal";
 import SinginModal from "./Modals/SingInModal";
@@ -55,6 +56,15 @@ export default function NavigationBar() {
       >
         <AppBar position="static">
           <Toolbar className="bg-darkPurple">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography
               variant="h6"
               component="div"
