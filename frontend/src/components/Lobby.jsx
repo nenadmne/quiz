@@ -4,6 +4,7 @@ const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 
 function Lobby({ players }) {
   const [countdown, setCountdown] = useState(5);
+  const [dots, setDots] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,8 +25,15 @@ function Lobby({ players }) {
     }
   }, [countdown]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots.length === 3 ? "" : prevDots + "."));
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   if (players === undefined) {
-    return <div> Loading </div>;
+    return <div> Loading... </div>;
   } else {
     if (players.length === 1) {
       return (
@@ -38,7 +46,7 @@ function Lobby({ players }) {
           <span
             className={`${style} rounded-br-2xl rounded-tr-2xl bg-stone-100`}
           >
-            Waiting for opponent...
+            Waiting for opponent{dots}
           </span>
         </div>
       );
@@ -57,7 +65,13 @@ function Lobby({ players }) {
               {players[1].name}
             </span>
           </div>
-          <span className={`text-4xl text-white transition-transform duration-100 ease-in-out transform ${countdown !== 0 ? 'scale-110' : ''}`}>{countdown}</span>
+          <span
+            className={`text-4xl text-white transition-transform duration-100 ease-in-out transform ${
+              countdown !== 0 ? "scale-110" : ""
+            }`}
+          >
+            {countdown}
+          </span>
         </div>
       );
     }

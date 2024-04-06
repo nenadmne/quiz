@@ -45,9 +45,16 @@ export default function NavigationBar() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, overflow: "hiden" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          position: "sticky",
+          overflow: "hidden",
+          zIndex: "2",
+        }}
+      >
         <AppBar position="static">
-          <Toolbar className="bg-[#1e1e1e]">
+          <Toolbar className="bg-darkPurple">
             <Typography
               variant="h6"
               component="div"

@@ -25,35 +25,28 @@ export default function GameRoom() {
     socket.emit("submitAnswer", { answer, username }); // Emit the selected answer to the socket server
   };
 
-  console.log(playerAnswers);
   return (
     <div className="w-full h-full flex justify-center items-center flex-col">
       <GameBackground />
-      <p className="text-2xl mb-20 p-4 border rounded border-black">
-        {question}
-      </p>
-      <ul className="grid grid-cols-2 gap-6 mb-12">
-        {answers.map((answer, index) => (
-          <li key={index} className="w-[400px]">
-            <button
-              className={`${
-                selectedAnswer === answer
-                  ? "bg-blue-500 hover:bg-blue-700"
-                  : "bg-gray-300 hover:bg-gray-400"
-              } text-white font-bold py-2 px-4 rounded w-full`}
-              onClick={() => handleAnswerSelection(answer)}
-              disabled={selectedAnswer !== null}
-            >
-              {answer}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div>
-        <h3>Answers from Players:</h3>
-        <ul>
-          {playerAnswers.map((item, index) => (
-            <li key={index}>{`${item.username} answered ${item.answer}`}</li>
+      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad">
+        <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
+          {question}
+        </p>
+        <ul className="grid grid-cols-2 gap-8">
+          {answers.map((answer, index) => (
+            <li key={index} className="w-[400px]">
+              <button
+                className={`${
+                  selectedAnswer === answer
+                    ? "bg-darkPurple hover:bg-darkPurple"
+                    : "bg-blueGrad hover:bg-darkPurple"
+                } text-white font-bold py-2 px-4 rounded w-full hover:scale-105`}
+                onClick={() => handleAnswerSelection(answer)}
+                disabled={selectedAnswer !== null}
+              >
+                {answer}
+              </button>
+            </li>
           ))}
         </ul>
       </div>

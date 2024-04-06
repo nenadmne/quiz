@@ -1,7 +1,7 @@
 import "./LobbyBackground.css";
 
 export default function LobbyBackground() {
-  const total = 360*2;
+  const total = 360 * 3;
   const particles = [];
 
   for (let i = total; i > 0; i--) {
@@ -15,10 +15,8 @@ export default function LobbyBackground() {
   }
 
   return (
-    // <div className="lobby-background">
-      <div className="center" style={{ "--total": total }}>
-        {particles}
-      </div>
-    // </div>
+    <div className="center bg-blackGrad" style={{ "--total": total }}>
+      {particles}
+    </div>
   );
 }
