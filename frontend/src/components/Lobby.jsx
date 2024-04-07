@@ -4,6 +4,7 @@ const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 
 function Lobby({ players }) {
   const [countdown, setCountdown] = useState(5);
+  const [bump, setBump] = useState(false);
   const [dots, setDots] = useState("");
   const navigate = useNavigate();
 
@@ -23,6 +24,10 @@ function Lobby({ players }) {
     if (countdown === 0) {
       navigate("/gameroom");
     }
+    setBump(true);
+    setTimeout(() => {
+      setBump(false);
+    }, 300);
   }, [countdown]);
 
   useEffect(() => {
@@ -66,8 +71,8 @@ function Lobby({ players }) {
             </span>
           </div>
           <span
-            className={`text-4xl text-white transition-transform duration-100 ease-in-out transform ${
-              countdown !== 0 ? "scale-110" : ""
+            className={`text-3xl text-darkPurple px-6 bg-white rounded-xl trans ${
+              bump ? "scale-150 transition ease-in-out duration-200" : ""
             }`}
           >
             {countdown}
