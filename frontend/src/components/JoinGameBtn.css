@@ -1,7 +1,6 @@
 .voltage-button {
   position: absolute;
   width: fit-content;
-  margin-bottom: 5rem;
   button {
     color: white;
     background: #0d1127;
