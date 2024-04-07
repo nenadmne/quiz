@@ -12,8 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import LoginModal from "./Modals/LoginModal";
-import SinginModal from "./Modals/SingInModal";
+import LoginModal from "../components/Modals/LoginModal";
+import SinginModal from "../components/Modals/SingInModal";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);

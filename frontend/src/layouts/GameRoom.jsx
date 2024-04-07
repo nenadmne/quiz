@@ -5,6 +5,7 @@ export default function GameRoom() {
   const [question] = useState("What is the capital of France?");
   const [answers] = useState(["A. London", "B. Berlin", "C. Paris", "D. Rome"]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [players, setPlayers] = useState([]);
   const [timer, setTimer] = useState(15); // Initial countdown timer value
   const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
   const socket = useSocket(); // Obtain the socket instance from the hook
@@ -28,19 +29,17 @@ export default function GameRoom() {
   }, []);
 
   useEffect(() => {
-    // If timer reaches zero and no answer is selected, emit an empty answer
-    if (timer === 0 && selectedAnswer === null) {
-      handleAnswerSelection("");
-    }
-  }, [timer, selectedAnswer]);
-
-  useEffect(() => {
     socket.on("broadcastAnswer", (answer) => {
       setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
     });
 
+    socket.on("updatePlayers", (playersInfo) => {
+      setPlayers(playersInfo);
+    });
+
     return () => {
       socket.off("broadcastAnswer");
+      socket.off("updatePlayers");
     };
   }, [socket]);
 
@@ -49,8 +48,18 @@ export default function GameRoom() {
     socket.emit("submitAnswer", { answer, username }); // Emit the selected answer to the socket server
   };
 
+  console.log(playerAnswers, players);
   return (
     <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
+      <div className="mt-8">
+        <h2 className="text-white text-lg font-bold mb-2">Players:</h2>
+        <ul className="text-white">
+          {players.map((player, index) => (
+            <li key={index}>{`${player.name}: ${player.score}`}</li>
+          ))}
+        </ul>
+      </div>
+
       <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-32">
         <p className="text-black text-xl font-bold mb-16">{`Time Remaining: ${timer} seconds`}</p>
         <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">

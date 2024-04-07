@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./layouts/Homepage";
 import GameRoom from "./layouts/GameRoom";
+import NavigationBar from "./layouts/NavigationBar";
 
 import "react-toastify/dist/ReactToastify.css";
-import NavigationBar from "./components/NavigationBar";
 
 function App() {
   const router = createBrowserRouter([
