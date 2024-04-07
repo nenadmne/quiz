@@ -90,7 +90,10 @@ export default function NavigationBar() {
                 </Button>
               </>
             ) : (
-              <div className="h-full flex flex-col gap-1 justify-center items-center px-4 py-2">
+              <div className="h-full flex flex-row gap-4 justify-center items-center px-4 pt-4 pb-2">
+                <Typography className="px-4 py-2 border border-black rounded-xl bg-white text-black">
+                  <strong className="italic">{username}</strong>
+                </Typography>
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -99,26 +102,23 @@ export default function NavigationBar() {
                   color="inherit"
                   sx={{ padding: 0 }}
                 >
-                  <AccountCircle sx={{ width: 34, height: 34 }} />
+                  <AccountCircle sx={{ width: 48, height: 48 }} />
                 </IconButton>
-                <Typography>
-                  {" "}
-                  <strong>{username}</strong>
-                </Typography>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: "left",
                   }}
                   keepMounted
                   transformOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: "left",
                   }}
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
+                  style={{ top: "4rem" }}
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
