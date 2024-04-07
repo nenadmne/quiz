@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useSocket from "../hooks/useSocket";
+import Logo from "../assets/logo.png";
 
 const dummyQuizQuestions = [
   {
@@ -121,7 +122,7 @@ export default function GameRoom() {
         setQuestionElement(randomElement);
         setReveal(false);
         setTimer(5);
-      }, 3000);
+      }, 3500);
     }
   }, [timer]);
 
@@ -156,13 +157,14 @@ export default function GameRoom() {
   return (
     questionElement && (
       <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
-        <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-32">
-          <p className="text-black text-xl font-bold mb-16">
+        <img src={Logo} alt="logo image" className="absolute w-[10rem] top-[1rem] bg-greyGrad rounded-xl" />
+        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-28">
+          <p className="text-black text-xl font-bold mb-12">
             {timer > 0
               ? `Time Remaining: ${timer} seconds`
               : `Preparing next question...`}
           </p>
-          <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
+          <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-16 rounded">
             {questionElement.question}
           </p>
           <ul className="grid grid-cols-2 gap-8">
