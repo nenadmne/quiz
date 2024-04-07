@@ -1,4 +1,4 @@
-import image from "../assets/background.jpg";
+import image from "../../assets/background.jpg";
 import "./GameBackground.css";
 
 export default function GameBackground() {

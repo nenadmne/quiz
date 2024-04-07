@@ -157,8 +157,12 @@ export default function GameRoom() {
   return (
     questionElement && (
       <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
-        <img src={Logo} alt="logo image" className="absolute w-[10rem] top-[1rem] bg-greyGrad rounded-xl" />
-        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-28">
+        <img
+          src={Logo}
+          alt="logo image"
+          className="absolute w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
+        />
+        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-36">
           <p className="text-black text-xl font-bold mb-12">
             {timer > 0
               ? `Time Remaining: ${timer} seconds`
@@ -179,7 +183,11 @@ export default function GameRoom() {
                     reveal && answer === questionElement.correctAnswer
                       ? "animate-pulse"
                       : ""
-                  } font-bold py-2 px-4 rounded w-full hover:scale-105`}
+                  } ${
+                    selectedAnswer !== null
+                      ? "disabled font-bold py-2 px-4 rounded w-full"
+                      : "font-bold py-2 px-4 rounded w-full hover:scale-105"
+                  } `}
                   onClick={() => handleAnswerSelection(answer)}
                   disabled={selectedAnswer !== null}
                 >

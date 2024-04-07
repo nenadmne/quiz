@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import useSocket from "../hooks/useSocket";
 
 import JoinGameBtn from "../components/JoinGameBtn";
-import Background from "../components/Background";
-import Lobby from "../components/Lobby";
-import LobbyBackground from "../components/LobbyBackground";
+import Background from "../components/Backgrounds/Background";
+import Lobby from "./Lobby";
+import LobbyBackground from "../components/Backgrounds/LobbyBackground";
 import vsImage from "../assets/vs.png";
 
 function Homepage() {
@@ -47,7 +47,9 @@ function Homepage() {
         {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
         {gameStarted && <LobbyBackground />}
         {gameStarted && <Lobby players={players} />}
-        {gameStarted && <img src={vsImage} className="w-[10rem] absolute pb-[5rem]" />}
+        {gameStarted && (
+          <img src={vsImage} className="w-[10rem] absolute pb-[5rem]" />
+        )}
       </section>
     </>
   );
