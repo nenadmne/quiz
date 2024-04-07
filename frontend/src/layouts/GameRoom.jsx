@@ -1,13 +1,92 @@
 import { useState, useEffect } from "react";
 import useSocket from "../hooks/useSocket";
 
+const dummyQuizQuestions = [
+  {
+    id: 1,
+    question: "What is the capital of Japan?",
+    answers: ["Tokyo", "Beijing", "Seoul", "Bangkok"],
+    correctAnswer: "Tokyo",
+  },
+  {
+    id: 2,
+    question: "Who painted the Mona Lisa?",
+    answers: [
+      "Leonardo da Vinci",
+      "Pablo Picasso",
+      "Vincent van Gogh",
+      "Michelangelo",
+    ],
+    correctAnswer: "Leonardo da Vinci",
+  },
+  {
+    id: 3,
+    question: "What is the chemical symbol for water?",
+    answers: ["H2O", "CO2", "NaCl", "O2"],
+    correctAnswer: "H2O",
+  },
+  {
+    id: 4,
+    question: "What is the largest planet in our solar system?",
+    answers: ["Jupiter", "Saturn", "Mars", "Earth"],
+    correctAnswer: "Jupiter",
+  },
+  {
+    id: 5,
+    question: "Who wrote 'To Kill a Mockingbird'?",
+    answers: [
+      "Harper Lee",
+      "John Steinbeck",
+      "F. Scott Fitzgerald",
+      "Mark Twain",
+    ],
+    correctAnswer: "Harper Lee",
+  },
+  {
+    id: 6,
+    question: "What is the main ingredient in guacamole?",
+    answers: ["Avocado", "Tomato", "Onion", "Lime"],
+    correctAnswer: "Avocado",
+  },
+  {
+    id: 7,
+    question: "Which country is known as the Land of the Rising Sun?",
+    answers: ["Japan", "China", "Korea", "Vietnam"],
+    correctAnswer: "Japan",
+  },
+  {
+    id: 8,
+    question: "Who is known as the father of modern physics?",
+    answers: [
+      "Isaac Newton",
+      "Albert Einstein",
+      "Galileo Galilei",
+      "Niels Bohr",
+    ],
+    correctAnswer: "Albert Einstein",
+  },
+  {
+    id: 9,
+    question: "What is the currency of Brazil?",
+    answers: ["Real", "Peso", "Dollar", "Euro"],
+    correctAnswer: "Real",
+  },
+  {
+    id: 10,
+    question: "Which mammal can fly?",
+    answers: ["Bat", "Mouse", "Rat", "Squirrel"],
+    correctAnswer: "Bat",
+  },
+];
+
 export default function GameRoom() {
-  const [question] = useState("What is the capital of France?");
-  const [answers] = useState(["A. London", "B. Berlin", "C. Paris", "D. Rome"]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [players, setPlayers] = useState([]);
-  const [timer, setTimer] = useState(15); // Initial countdown timer value
+  const [timer, setTimer] = useState(5); // Initial countdown timer value
+  const [glowing, setGlowing] = useState(false);
+  const [reveal, setReveal] = useState(false);
   const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
+  const [questionElement, setQuestionElement] = useState(null);
   const socket = useSocket(); // Obtain the socket instance from the hook
   const username = localStorage.getItem("username");
 
@@ -26,6 +105,30 @@ export default function GameRoom() {
 
     // Cleanup function to clear interval when component unmounts or timer reaches zero
     return () => clearInterval(interval);
+  }, [timer]);
+
+  useEffect(() => {
+    if (timer <= 5) {
+      setGlowing(true);
+    }
+    if (timer === 0) {
+      setReveal(true);
+      setTimeout(() => {
+        const randomIndex = Math.floor(
+          Math.random() * dummyQuizQuestions.length
+        );
+        const randomElement = dummyQuizQuestions[randomIndex];
+        setQuestionElement(randomElement);
+        setReveal(false);
+        setTimer(5);
+      }, 3000);
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * dummyQuizQuestions.length);
+    const randomElement = dummyQuizQuestions[randomIndex];
+    setQuestionElement(randomElement);
   }, []);
 
   useEffect(() => {
@@ -49,40 +152,42 @@ export default function GameRoom() {
   };
 
   console.log(playerAnswers, players);
-  return (
-    <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
-      <div className="mt-8">
-        <h2 className="text-white text-lg font-bold mb-2">Players:</h2>
-        <ul className="text-white">
-          {players.map((player, index) => (
-            <li key={index}>{`${player.name}: ${player.score}`}</li>
-          ))}
-        </ul>
-      </div>
 
-      <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-32">
-        <p className="text-black text-xl font-bold mb-16">{`Time Remaining: ${timer} seconds`}</p>
-        <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
-          {question}
-        </p>
-        <ul className="grid grid-cols-2 gap-8">
-          {answers.map((answer, index) => (
-            <li key={index} className="w-[400px]">
-              <button
-                className={`${
-                  selectedAnswer === answer
-                    ? "bg-darkPurple hover:bg-darkPurple"
-                    : "bg-blueGrad hover:bg-darkPurple"
-                } text-white font-bold py-2 px-4 rounded w-full hover:scale-105`}
-                onClick={() => handleAnswerSelection(answer)}
-                disabled={selectedAnswer !== null}
-              >
-                {answer}
-              </button>
-            </li>
-          ))}
-        </ul>
+  return (
+    questionElement && (
+      <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
+        <div className="p-20 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-32">
+          <p className="text-black text-xl font-bold mb-16">
+            {timer > 0
+              ? `Time Remaining: ${timer} seconds`
+              : `Preparing next question...`}
+          </p>
+          <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-20 rounded">
+            {questionElement.question}
+          </p>
+          <ul className="grid grid-cols-2 gap-8">
+            {questionElement.answers.map((answer, index) => (
+              <li key={index} className="w-[400px]">
+                <button
+                  className={`${
+                    selectedAnswer === answer
+                      ? "bg-darkPurple hover:bg-darkPurple"
+                      : "bg-blueGrad hover:bg-darkPurple"
+                  } text-white ${
+                    reveal && answer === questionElement.correctAnswer
+                      ? "animate-pulse"
+                      : ""
+                  } font-bold py-2 px-4 rounded w-full hover:scale-105`}
+                  onClick={() => handleAnswerSelection(answer)}
+                  disabled={selectedAnswer !== null}
+                >
+                  {answer}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    )
   );
 }
