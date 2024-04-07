@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 import LoginModal from "../components/Modals/LoginModal";
 import SinginModal from "../components/Modals/SingInModal";
@@ -91,7 +92,8 @@ export default function NavigationBar() {
               </>
             ) : (
               <div className="h-full flex flex-row gap-4 justify-center items-center px-4 pt-4 pb-2">
-                <Typography className="px-4 py-2 border border-black rounded-xl bg-white text-black">
+                <Typography className="flex flex-row gap-2 px-4 py-2 border border-black rounded-xl bg-white text-black">
+                  <EmojiEventsIcon />
                   <strong className="italic">{username}</strong>
                 </Typography>
                 <IconButton
@@ -118,7 +120,7 @@ export default function NavigationBar() {
                   }}
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
-                  style={{ top: "4rem" }}
+                  style={{ top: "3.5rem" }}
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
