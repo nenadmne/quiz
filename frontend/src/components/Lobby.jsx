@@ -37,7 +37,7 @@ function Lobby({ players }) {
   } else {
     if (players.length === 1) {
       return (
-        <div className="flex flex-row justify-center items-center w-full h-full">
+        <div className="flex flex-row justify-center items-center w-full h-full pb-[5rem]">
           <span
             className={`${style} rounded-bl-2xl rounded-tl-2xl bg-green-500`}
           >
@@ -52,7 +52,7 @@ function Lobby({ players }) {
       );
     } else if (players.length === 2) {
       return (
-        <div className="flex flex-col gap-12 justify-center items-center w-full h-full">
+        <div className="flex flex-col gap-24 justify-center items-center w-full h-full">
           <div className="flex flex-row justify-center items-center">
             <span
               className={`${style} rounded-bl-2xl rounded-tl-2xl bg-green-500 border`}

@@ -47,7 +47,7 @@ function Homepage() {
         {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
         {gameStarted && <LobbyBackground />}
         {gameStarted && <Lobby players={players} />}
-        {gameStarted && <img src={vsImage} className="w-[10rem] absolute" />}
+        {gameStarted && <img src={vsImage} className="w-[10rem] absolute pb-[5rem]" />}
       </section>
     </>
   );
