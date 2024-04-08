@@ -30,12 +30,10 @@ function Lobby() {
     }
   }, [countdown, players]);
 
-  console.log(players);
-
   if (players.length === 1) {
     return <OnePlayerLobby queue={queue} players={players} />;
   } else if (players.length === 2) {
-    return <TwoPlayerLobby countdown={countdown} players={players}/>;
+    return <TwoPlayerLobby countdown={countdown} players={players} />;
   }
 }
 

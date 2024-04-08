@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import useSocket from "../hooks/useSocket";
 import Logo from "../assets/logo.png";
+import GameContext from "../store/context";
 
 const dummyQuizQuestions = [
   {
@@ -82,7 +83,7 @@ const dummyQuizQuestions = [
 
 export default function GameRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [players, setPlayers] = useState([]);
+  // const [players, setPlayers] = useState([]);
   const [timer, setTimer] = useState(5);
   const [glowing, setGlowing] = useState(false);
   const [reveal, setReveal] = useState(false);
@@ -90,6 +91,10 @@ export default function GameRoom() {
   const [questionElement, setQuestionElement] = useState(null);
   const socket = useSocket();
   const username = localStorage.getItem("username");
+
+  const gameCtx = useContext(GameContext);
+  const { players } = gameCtx;
+  console.log(players);
 
   // Countdown timer effect
   useEffect(() => {
@@ -156,13 +161,24 @@ export default function GameRoom() {
 
   return (
     questionElement && (
-      <div className="w-full h-full gap-8 flex items-center flex-col bg-blackGrad pt-8">
-        <img
-          src={Logo}
-          alt="logo image"
-          className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
-        />
-        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
+      <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
+        <div className="w-[52rem] gap-8 flex flex-row justify-between items-end">
+          <div className="text-white">
+            <div> Player 1 name </div>
+            <div> Score player 1 </div>
+          </div>
+          <img
+            src={Logo}
+            alt="logo image"
+            className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
+          />
+          <div className="text-white">
+            <div> Player 2 name</div>
+            <div> Score player 2 </div>
+          </div>
+        </div>
+
+        <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
           <p className="text-black text-xl font-bold mb-12">
             {timer > 0
               ? `Time Remaining: ${timer} seconds`
@@ -173,20 +189,19 @@ export default function GameRoom() {
           </p>
           <ul className="grid grid-cols-2 gap-8">
             {questionElement.answers.map((answer, index) => (
-              <li key={index} className="w-[400px]">
+              <li key={index} className="w-[22rem]">
                 <button
                   className={`${
-                    selectedAnswer === answer
-                      ? "disabled bg-darkPurple hover:bg-darkPurple"
-                      : "bg-blueGrad hover:bg-darkPurple hover:scale-105"
-                  } text-white font-bold py-2 px-4 rounded w-full ${
+                    selectedAnswer === answer &&
+                    selectedAnswer !== null &&
+                    "disabled bg-darkPurple hover:bg-darkPurple"
+                  } text-white bg-blueGrad font-bold py-2 px-4 rounded w-full ${
                     reveal && answer === questionElement.correctAnswer
                       ? "animate-pulse"
                       : ""
                   } ${
-                    selectedAnswer !== null &&
-                    selectedAnswer !== answer &&
-                    "hover:scale-100 hover:bg-blueGrad"
+                    selectedAnswer === null &&
+                    "bg-blueGrad hover:bg-darkPurple hover:scale-105"
                   }`}
                   onClick={() => handleAnswerSelection(answer)}
                   disabled={selectedAnswer !== null}
