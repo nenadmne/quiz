@@ -163,18 +163,18 @@ export default function GameRoom() {
     questionElement && (
       <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
         <div className="w-[52rem] gap-8 flex flex-row justify-between items-end">
-          <div className="text-white">
-            <div> Player 1 name </div>
-            <div> Score player 1 </div>
+          <div className="text-white flex flex-col justify-center items-center gap-2">
+            <strong className="text-3xl"> {players[0].name} </strong>
+            <div className="text-5xl"> {players[0].score} </div>
           </div>
           <img
             src={Logo}
             alt="logo image"
             className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
           />
-          <div className="text-white">
-            <div> Player 2 name</div>
-            <div> Score player 2 </div>
+          <div className="text-white flex flex-col justify-center items-center gap-2">
+            <strong className="text-3xl"> {players[1].name}</strong>
+            <div className="text-5xl"> {players[1].score} </div>
           </div>
         </div>
 
