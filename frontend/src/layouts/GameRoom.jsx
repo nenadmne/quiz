@@ -154,8 +154,6 @@ export default function GameRoom() {
     socket.emit("submitAnswer", { answer, username });
   };
 
-  console.log(playerAnswers, players);
-
   return (
     questionElement && (
       <div className="w-full h-full gap-8 flex items-center flex-col bg-blackGrad pt-8">
