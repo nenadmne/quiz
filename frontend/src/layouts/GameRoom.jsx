@@ -83,12 +83,12 @@ const dummyQuizQuestions = [
 export default function GameRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [players, setPlayers] = useState([]);
-  const [timer, setTimer] = useState(5); // Initial countdown timer value
+  const [timer, setTimer] = useState(5);
   const [glowing, setGlowing] = useState(false);
   const [reveal, setReveal] = useState(false);
-  const [playerAnswers, setPlayerAnswers] = useState([]); // State to store answers from players
+  const [playerAnswers, setPlayerAnswers] = useState([]);
   const [questionElement, setQuestionElement] = useState(null);
-  const socket = useSocket(); // Obtain the socket instance from the hook
+  const socket = useSocket();
   const username = localStorage.getItem("username");
 
   // Countdown timer effect
@@ -97,17 +97,16 @@ export default function GameRoom() {
       setTimer((prevTimer) => {
         if (prevTimer === 1) {
           clearInterval(interval);
-          return 0; // Timer reached zero
+          return 0;
         } else {
-          return prevTimer - 1; // Decrease timer value by 1 second
+          return prevTimer - 1;
         }
       });
     }, 1000);
-
-    // Cleanup function to clear interval when component unmounts or timer reaches zero
     return () => clearInterval(interval);
   }, [timer]);
 
+  // Switching questions function
   useEffect(() => {
     if (timer <= 5) {
       setGlowing(true);
@@ -126,12 +125,14 @@ export default function GameRoom() {
     }
   }, [timer]);
 
+  // Function for providing 1 question object from database
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * dummyQuizQuestions.length);
     const randomElement = dummyQuizQuestions[randomIndex];
     setQuestionElement(randomElement);
   }, []);
 
+  // Connection with socket server
   useEffect(() => {
     socket.on("broadcastAnswer", (answer) => {
       setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
@@ -147,22 +148,23 @@ export default function GameRoom() {
     };
   }, [socket]);
 
+  // Function for selecting answer
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
-    socket.emit("submitAnswer", { answer, username }); // Emit the selected answer to the socket server
+    socket.emit("submitAnswer", { answer, username });
   };
 
   console.log(playerAnswers, players);
 
   return (
     questionElement && (
-      <div className="w-full h-full flex justify-center items-center flex-col bg-blackGrad">
+      <div className="w-full h-full gap-8 flex items-center flex-col bg-blackGrad pt-8">
         <img
           src={Logo}
           alt="logo image"
-          className="absolute w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
+          className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
         />
-        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl mb-36">
+        <div className="p-14 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
           <p className="text-black text-xl font-bold mb-12">
             {timer > 0
               ? `Time Remaining: ${timer} seconds`
@@ -177,17 +179,17 @@ export default function GameRoom() {
                 <button
                   className={`${
                     selectedAnswer === answer
-                      ? "bg-darkPurple hover:bg-darkPurple"
-                      : "bg-blueGrad hover:bg-darkPurple"
-                  } text-white ${
+                      ? "disabled bg-darkPurple hover:bg-darkPurple"
+                      : "bg-blueGrad hover:bg-darkPurple hover:scale-105"
+                  } text-white font-bold py-2 px-4 rounded w-full ${
                     reveal && answer === questionElement.correctAnswer
                       ? "animate-pulse"
                       : ""
                   } ${
-                    selectedAnswer !== null
-                      ? "disabled font-bold py-2 px-4 rounded w-full"
-                      : "font-bold py-2 px-4 rounded w-full hover:scale-105"
-                  } `}
+                    selectedAnswer !== null &&
+                    selectedAnswer !== answer &&
+                    "hover:scale-100 hover:bg-blueGrad"
+                  }`}
                   onClick={() => handleAnswerSelection(answer)}
                   disabled={selectedAnswer !== null}
                 >

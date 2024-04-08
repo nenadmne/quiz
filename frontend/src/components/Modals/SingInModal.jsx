@@ -95,6 +95,7 @@ export default function SinginModal({ open, handleClose }) {
         toast.success("Signup successful!");
         setTimeout(() => {
           handleClose();
+          window.location.href = "/"
         }, 2000);
       } else {
         const errorData = await response.json(); // Parse error response body
