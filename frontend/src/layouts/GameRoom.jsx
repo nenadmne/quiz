@@ -2,9 +2,10 @@ import { useState, useEffect, useContext } from "react";
 import useSocket from "../hooks/useSocket";
 import GameContext from "../store/context";
 
-import Logo from "../assets/logo.png";
-import ScoreSheet from "../components/ScoreSheet";
 import ScoreSheetTable from "../components/ScoreSheetTable";
+import AnswerList from "../components/AnswerList";
+import QuestionTimer from "../components/QuestionTimer";
+import Question from "../components/Question";
 
 const dummyQuizQuestions = [
   {
@@ -85,18 +86,17 @@ const dummyQuizQuestions = [
 ];
 
 export default function GameRoom() {
+  const socket = useSocket();
+  const gameCtx = useContext(GameContext);
+  const { players } = gameCtx;
+
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(5);
-  const [glowing, setGlowing] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [playerAnswers, setPlayerAnswers] = useState([]);
   const [questionElement, setQuestionElement] = useState(null);
-  const socket = useSocket();
-  const username = localStorage.getItem("username");
 
-  const gameCtx = useContext(GameContext);
-  const { players } = gameCtx;
-  console.log(players);
+  const username = localStorage.getItem("username");
 
   // Countdown timer effect
   useEffect(() => {
@@ -115,9 +115,6 @@ export default function GameRoom() {
 
   // Switching questions function
   useEffect(() => {
-    if (timer <= 5) {
-      setGlowing(true);
-    }
     if (timer === 0) {
       setReveal(true);
       setTimeout(() => {
@@ -167,38 +164,14 @@ export default function GameRoom() {
         />
 
         <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
-          <p className="text-black text-xl font-bold mb-12">
-            {timer > 0
-              ? `Time Remaining: ${timer} seconds`
-              : `Preparing next question...`}
-          </p>
-          <p className="w-full flex justify-center items-center bg-darkPurple text-white text-xl py-4 mb-16 rounded">
-            {questionElement.question}
-          </p>
-          <ul className="grid grid-cols-2 gap-8">
-            {questionElement.answers.map((answer, index) => (
-              <li key={index} className="w-[22rem]">
-                <button
-                  className={`${
-                    selectedAnswer === answer &&
-                    selectedAnswer !== null &&
-                    "disabled bg-darkPurple hover:bg-darkPurple"
-                  } text-white bg-blueGrad font-bold py-2 px-4 rounded w-full ${
-                    reveal && answer === questionElement.correctAnswer
-                      ? "animate-pulse"
-                      : ""
-                  } ${
-                    selectedAnswer === null &&
-                    "bg-blueGrad hover:bg-darkPurple hover:scale-105"
-                  }`}
-                  onClick={() => handleAnswerSelection(answer)}
-                  disabled={selectedAnswer !== null}
-                >
-                  {answer}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <QuestionTimer timer={timer} />
+          <Question questionElement={questionElement} />
+          <AnswerList
+            reveal={reveal}
+            selectedAnswer={selectedAnswer}
+            questionElement={questionElement}
+            handleAnswerSelection={handleAnswerSelection}
+          />
         </div>
       </div>
     )
