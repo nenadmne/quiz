@@ -48,7 +48,6 @@ io.on("connection", (socket) => {
     playerRooms.get(room).push(player);
 
     socket.join(room); // Join the room here
-
     io.to(room).emit(
       "updatePlayers",
       playerRooms.get(room),
@@ -56,10 +55,26 @@ io.on("connection", (socket) => {
     );
   });
 
-  socket.on("submitAnswer", (answer) => {
-    const room = Object.keys(socket.rooms); // Get the room ID
-    console.log(room);
+  socket.on("submitAnswer", ({ answer, username, isCorrectAnswer }) => {
+    const room = [...socket.rooms][0];
+    // Emit the submitted answer to all clients in the room
     io.to(room).emit("broadcastAnswer", answer);
+    let playerToUpdate;
+    if (isCorrectAnswer) {
+      console.log(playerRooms)
+      for (const [roomId, players] of playerRooms.entries()) {
+        playerToUpdate = players.find((player) => player.name === username);
+        break;
+      }
+    }
+    if (playerToUpdate) {
+      playerToUpdate.score++; // Increment score
+      // Emit the updated score to all clients in the room
+      io.to(room).emit("updateScore", {
+        username,
+        score: playerToUpdate.score,
+      });
+    }
   });
 
   socket.on("disconnect", () => {

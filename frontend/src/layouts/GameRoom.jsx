@@ -150,9 +150,11 @@ export default function GameRoom() {
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
-    socket.emit("submitAnswer", { answer, username });
+    const isCorrectAnswer = answer === questionElement.correctAnswer;
+    socket.emit("submitAnswer", { answer, username, isCorrectAnswer });
   };
 
+  console.log(players)
   return (
     questionElement && (
       <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
