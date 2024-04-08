@@ -1,13 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import useSocket from "../hooks/useSocket";
+import GameContext from "../store/context";
+
+import LobbyBackground from "../components/Backgrounds/LobbyBackground";
+import vsImage from "../assets/vs.png";
+import OnePlayerLobby from "../components/OnePlayerLobby";
 
 const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 
-function Lobby({ players }) {
+function Lobby() {
   const [countdown, setCountdown] = useState(5);
   const [queue, setQueue] = useState(0);
   const [dots, setDots] = useState("");
   const navigate = useNavigate();
+
+  const gameCtx = useContext(GameContext);
+  const { players, addPlayer } = gameCtx;
+  const socket = useSocket();
 
   // Function for queue display
   const queueTime = (queue) => {
@@ -46,39 +56,24 @@ function Lobby({ players }) {
 
   // Function for displaying 1-3 dots
   useEffect(() => {
+    socket.on("updatePlayers", (updatedPlayers, playerCount) => {
+      addPlayer(updatedPlayers);
+    });
     const interval = setInterval(() => {
       setDots((prevDots) => (prevDots.length === 3 ? "" : prevDots + "."));
     }, 500);
     return () => clearInterval(interval);
   }, []);
 
-  if (players === undefined) {
-    return <div> Loading... </div>;
-  } else {
-    if (players.length === 1) {
-      return (
-        <div className="flex flex-col gap-24 justify-center items-center w-full h-full">
-          <div className="flex flex-row justify-center items-center w-full">
-            <span
-              className={`${style} rounded-bl-2xl rounded-tl-2xl bg-green-500`}
-            >
-              {players[0].name}
-            </span>
-            <span
-              className={`${style} rounded-br-2xl rounded-tr-2xl bg-stone-100`}
-            >
-              Waiting for opponent{dots}
-            </span>
-          </div>
-          <span
-            className={`text-xl text-darkPurple px-6 py-2 bg-white rounded-xl`}
-          >
-            {`Queue time: ${queueTime(queue)}`}
-          </span>
-        </div>
-      );
-    } else if (players.length === 2) {
-      return (
+  console.log(players);
+
+  if (players.length === 1) {
+    return <OnePlayerLobby queue={queue} dots={dots} players={players} />;
+  } else if (players.length === 2) {
+    return (
+      <div className="w-full h-full flex flex-col justify-center items-center">
+        <LobbyBackground />
+        <img src={vsImage} className="w-[10rem] absolute pb-[8rem]" />
         <div className="flex flex-col gap-24 justify-center items-center w-full h-full">
           <div className="flex flex-row justify-center items-center">
             <span
@@ -98,8 +93,8 @@ function Lobby({ players }) {
             seconds
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

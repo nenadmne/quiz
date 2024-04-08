@@ -4,6 +4,7 @@ import GameRoom from "./layouts/GameRoom";
 import NavigationBar from "./layouts/NavigationBar";
 
 import "react-toastify/dist/ReactToastify.css";
+import Lobby from "./layouts/Lobby";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,10 @@ function App() {
         {
           path: "/",
           element: <Homepage />,
+        },
+        {
+          path: "/lobby",
+          element: <Lobby />,
         },
         {
           path: "/gameroom",

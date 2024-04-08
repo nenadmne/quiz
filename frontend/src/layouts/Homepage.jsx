@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import useSocket from "../hooks/useSocket";
+import GameContext from "../store/context";
 
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Backgrounds/Background";
-import Lobby from "./Lobby";
-import LobbyBackground from "../components/Backgrounds/LobbyBackground";
-import vsImage from "../assets/vs.png";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -13,9 +12,11 @@ function Homepage() {
   const [gameStarted, setGameStarted] = useState(false);
 
   const username = localStorage.getItem("username");
-  const [players, setPlayers] = useState([]);
+  const navigate = useNavigate();
 
   const socket = useSocket();
+  const gameCtx = useContext(GameContext);
+  const { players, addPlayer } = gameCtx;
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,9 +30,10 @@ function Homepage() {
       setTimeout(() => {
         socket.emit("join", username);
         socket.on("updatePlayers", (updatedPlayers, playerCount) => {
-          setPlayers(updatedPlayers);
+          addPlayer(updatedPlayers);
         });
         setGameStarted(true);
+        navigate("lobby")
       }, 2800);
 
       return () => {
@@ -40,16 +42,13 @@ function Homepage() {
     }
   };
 
+  console.log(players);
+
   return (
     <>
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
         {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
-        {gameStarted && <LobbyBackground />}
-        {gameStarted && <Lobby players={players} />}
-        {gameStarted && (
-          <img src={vsImage} className="w-[10rem] absolute pb-[8rem]" />
-        )}
       </section>
     </>
   );

@@ -2,12 +2,12 @@ import { useReducer } from "react";
 import GameContext from "./context";
 
 const defaultGameState = {
-  players: [],
+  players: []
 };
 
 const gameReducer = (state, action) => {
   if (action.type === "ADD") {
-    const updatedPlayers = [...state.players, action.player];
+    const updatedPlayers = action.player;
     return {
       players: updatedPlayers,
     };
