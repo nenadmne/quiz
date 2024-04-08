@@ -88,7 +88,7 @@ const dummyQuizQuestions = [
 export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
-  const { players } = gameCtx;
+  const { players, addPlayer } = gameCtx;
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(5);
@@ -142,10 +142,21 @@ export default function GameRoom() {
       setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
     });
 
+    // Listen for updateScore events
+    socket.on("updateScore", ({ username, score }) => {
+      // Update the score of the player with the specified username
+      const updatedPlayers = players.map((player) =>
+        player.name === username ? { ...player, score } : player
+      );
+      console.log(updatedPlayers)
+      addPlayer(updatedPlayers);
+    });
+
     return () => {
       socket.off("broadcastAnswer");
+      socket.off("updateScore");
     };
-  }, [socket]);
+  }, [socket, players]);
 
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
