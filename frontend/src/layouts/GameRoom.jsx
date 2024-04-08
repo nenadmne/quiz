@@ -1,7 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import useSocket from "../hooks/useSocket";
-import Logo from "../assets/logo.png";
 import GameContext from "../store/context";
+
+import Logo from "../assets/logo.png";
+import ScoreSheet from "../components/ScoreSheet";
+import ScoreSheetTable from "../components/ScoreSheetTable";
 
 const dummyQuizQuestions = [
   {
@@ -83,7 +86,6 @@ const dummyQuizQuestions = [
 
 export default function GameRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  // const [players, setPlayers] = useState([]);
   const [timer, setTimer] = useState(5);
   const [glowing, setGlowing] = useState(false);
   const [reveal, setReveal] = useState(false);
@@ -143,13 +145,8 @@ export default function GameRoom() {
       setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
     });
 
-    socket.on("updatePlayers", (playersInfo) => {
-      setPlayers(playersInfo);
-    });
-
     return () => {
       socket.off("broadcastAnswer");
-      socket.off("updatePlayers");
     };
   }, [socket]);
 
@@ -162,21 +159,12 @@ export default function GameRoom() {
   return (
     questionElement && (
       <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
-        <div className="w-[52rem] gap-8 flex flex-row justify-between items-end">
-          <div className="text-white flex flex-col justify-center items-center gap-2">
-            <strong className="text-3xl"> {players[0].name} </strong>
-            <div className="text-5xl"> {players[0].score} </div>
-          </div>
-          <img
-            src={Logo}
-            alt="logo image"
-            className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
-          />
-          <div className="text-white flex flex-col justify-center items-center gap-2">
-            <strong className="text-3xl"> {players[1].name}</strong>
-            <div className="text-5xl"> {players[1].score} </div>
-          </div>
-        </div>
+        <ScoreSheetTable
+          playerOneName={players[0].name}
+          playerOneScore={players[0].score}
+          playerTwoName={players[1].name}
+          playerTwoScore={players[1].score}
+        />
 
         <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
           <p className="text-black text-xl font-bold mb-12">
