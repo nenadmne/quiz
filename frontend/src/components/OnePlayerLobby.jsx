@@ -1,9 +1,13 @@
+import { useState, useEffect } from "react";
+
 import LobbyBackground from "./Backgrounds/LobbyBackground";
 import vsImage from "../assets/vs.png";
 
 const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 
-export default function OnePlayerLobby({ queue, dots, players }) {
+export default function OnePlayerLobby({ queue, players }) {
+  const [dots, setDots] = useState("");
+
   // Function for queue display
   const queueTime = (queue) => {
     if (queue / 60 >= 1) {
@@ -12,6 +16,14 @@ export default function OnePlayerLobby({ queue, dots, players }) {
       return `${queue % 60}sec`;
     }
   };
+
+  // Function for displaying 1-3 dots
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots.length === 3 ? "" : prevDots + "."));
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
