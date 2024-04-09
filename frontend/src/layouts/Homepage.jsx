@@ -29,11 +29,13 @@ function Homepage() {
       setPlay(true);
       setTimeout(() => {
         socket.emit("join", username);
-        socket.on("updatePlayers", (updatedPlayers, playerCount) => {
+        socket.on("updatePlayers", (updatedPlayers) => {
+          console.log("Check for emit");
           addPlayer(updatedPlayers);
         });
         setGameStarted(true);
-        navigate("lobby")
+        navigate("lobby");
+        setPlay(false);
       }, 2800);
 
       return () => {

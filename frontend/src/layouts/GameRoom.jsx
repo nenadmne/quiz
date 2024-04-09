@@ -93,7 +93,6 @@ export default function GameRoom() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(5);
   const [reveal, setReveal] = useState(false);
-  const [playerAnswers, setPlayerAnswers] = useState([]);
   const [questionElement, setQuestionElement] = useState(null);
 
   const username = localStorage.getItem("username");
@@ -123,9 +122,10 @@ export default function GameRoom() {
         );
         const randomElement = dummyQuizQuestions[randomIndex];
         setQuestionElement(randomElement);
+
         setReveal(false);
         setTimer(5);
-        setSelectedAnswer(null)
+        setSelectedAnswer(null);
       }, 3500);
     }
   }, [timer]);
@@ -139,8 +139,9 @@ export default function GameRoom() {
 
   // Listen for updateScore events
   useEffect(() => {
-    socket.on("updateScore", ({players}) => {
-      addPlayer(players)
+    socket.on("updateScore", ({ players }) => {
+      console.log(players);
+      addPlayer(players);
     });
   }, [socket]);
 
