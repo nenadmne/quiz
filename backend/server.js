@@ -6,6 +6,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const cors = require("cors");
 
 const users = require("./routes/users");
+const addQuestion = require("./routes/addQuestion");
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -29,6 +30,7 @@ instrument(io, {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(users);
+app.use(addQuestion);
 
 // Store the mapping of players to rooms
 const playerRooms = new Map();
