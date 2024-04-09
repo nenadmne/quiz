@@ -125,6 +125,7 @@ export default function GameRoom() {
         setQuestionElement(randomElement);
         setReveal(false);
         setTimer(5);
+        setSelectedAnswer(null)
       }, 3500);
     }
   }, [timer]);
@@ -136,27 +137,12 @@ export default function GameRoom() {
     setQuestionElement(randomElement);
   }, []);
 
-  // Connection with socket server
+  // Listen for updateScore events
   useEffect(() => {
-    socket.on("broadcastAnswer", (answer) => {
-      setPlayerAnswers((prevAnswers) => [...prevAnswers, answer]);
+    socket.on("updateScore", ({players}) => {
+      addPlayer(players)
     });
-
-    // Listen for updateScore events
-    socket.on("updateScore", ({ username, score }) => {
-      // Update the score of the player with the specified username
-      const updatedPlayers = players.map((player) =>
-        player.name === username ? { ...player, score } : player
-      );
-      console.log(updatedPlayers)
-      addPlayer(updatedPlayers);
-    });
-
-    return () => {
-      socket.off("broadcastAnswer");
-      socket.off("updateScore");
-    };
-  }, [socket, players]);
+  }, [socket]);
 
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
@@ -165,7 +151,6 @@ export default function GameRoom() {
     socket.emit("submitAnswer", { answer, username, isCorrectAnswer });
   };
 
-  console.log(players)
   return (
     questionElement && (
       <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">

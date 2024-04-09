@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
     io.to(room).emit("broadcastAnswer", answer);
     let playerToUpdate;
     if (isCorrectAnswer) {
-      console.log(playerRooms)
+      console.log(playerRooms);
       for (const [roomId, players] of playerRooms.entries()) {
         playerToUpdate = players.find((player) => player.name === username);
         break;
@@ -69,10 +69,13 @@ io.on("connection", (socket) => {
     }
     if (playerToUpdate) {
       playerToUpdate.score++; // Increment score
-      // Emit the updated score to all clients in the room
+      let updatedPlayers;
+      for (const [roomId, players] of playerRooms.entries()) {
+        updatedPlayers = players;
+      }
+      // Emit the updated rooms information to all clients in the room
       io.to(room).emit("updateScore", {
-        username,
-        score: playerToUpdate.score,
+        players: updatedPlayers,
       });
     }
   });
@@ -99,6 +102,7 @@ io.on("connection", (socket) => {
       );
     }
   });
+  console.log(playerRooms);
 });
 
 server.listen(PORT, () => {

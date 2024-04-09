@@ -42,8 +42,6 @@ function Homepage() {
     }
   };
 
-  console.log(players);
-
   return (
     <>
       <section className="w-full h-full flex flex-col justify-center items-center">

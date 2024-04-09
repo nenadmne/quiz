@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import GameContext from "./context";
 
 const defaultGameState = {
-  players: []
+  players: [],
 };
 
 const gameReducer = (state, action) => {
@@ -13,6 +13,14 @@ const gameReducer = (state, action) => {
     };
   }
   if (action.type === "REMOVE") {
+    const updatedPlayers = state.players.filter(
+      (player) => player.id !== action.id
+    );
+    return {
+      players: updatedPlayers,
+    };
+  }
+  if (action.type === "UPDATE") {
     const updatedPlayers = state.players.filter(
       (player) => player.id !== action.id
     );
@@ -38,10 +46,15 @@ const GameProvider = (props) => {
     dispatchGameAction({ type: "REMOVE", id: id });
   };
 
+  const updatePlayerHandler = (player) => {
+    dispatchGameAction({ type: "UPDATE", player: player });
+  };
+
   const gameContext = {
     players: gameState.players,
     addPlayer: addPlayerHandler,
     removePlayer: removePlayerHandler,
+    updatePlayer: updatePlayerHandler,
   };
 
   return (
