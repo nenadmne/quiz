@@ -16,7 +16,7 @@ function Homepage() {
 
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
-  const { players, addPlayer } = gameCtx;
+  const { addPlayer } = gameCtx;
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,7 +30,6 @@ function Homepage() {
       setTimeout(() => {
         socket.emit("join", username);
         socket.on("updatePlayers", (updatedPlayers) => {
-          console.log("Check for emit");
           addPlayer(updatedPlayers);
         });
         setGameStarted(true);

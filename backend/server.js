@@ -32,11 +32,11 @@ app.use(users);
 
 // Store the mapping of players to rooms
 const playerRooms = new Map();
+let room;
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
     const player = { id: socket.id, name: playerName, score: 0 };
-    let room;
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
         room = roomId;
@@ -54,10 +54,9 @@ io.on("connection", (socket) => {
     io.to(room).emit("updatePlayers", playerRooms.get(room));
   });
 
-  socket.on("submitAnswer", ({ answer, username, isCorrectAnswer }) => {
+  socket.on("submitAnswer", ({ username, isCorrectAnswer }) => {
     let playerToUpdate;
     if (isCorrectAnswer) {
-      // console.log(playerRooms);
       for (const [roomId, players] of playerRooms.entries()) {
         playerToUpdate = players.find((player) => player.name === username);
         if (playerToUpdate) {
@@ -71,13 +70,9 @@ io.on("connection", (socket) => {
       for (const [roomId, players] of playerRooms.entries()) {
         updatedPlayers = players;
       }
-      // Emit the updated rooms information to all clients in the room
-      for (const room of [...socket.rooms]) {
-        console.log(room)
-        io.to(room).emit("updateScore", {
-          players: updatedPlayers,
-        });
-      }
+      io.to(room).emit("updateScore", {
+        players: updatedPlayers,
+      });
     }
   });
 

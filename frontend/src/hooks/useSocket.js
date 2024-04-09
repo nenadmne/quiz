@@ -1,20 +1,16 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import io from "socket.io-client";
 
 const ENDPOINT = "http://localhost:4000"; // Change the endpoint to match your backend
 
+let socket = null;
+
 const useSocket = () => {
-  const [socket, setSocket] = useState(null);
-
-  // Establish the socket connection when the component mounts
-  useState(() => {
-    const newSocket = io(ENDPOINT);
-    setSocket(newSocket);
-
-    // Disconnect the socket when the component unmounts
-    return () => {
-      newSocket.disconnect();
-    };
+  useEffect(() => {
+    // Create the socket instance if it doesn't exist
+    if (!socket) {
+      socket = io(ENDPOINT);
+    }
   }, []);
 
   return socket;

@@ -149,7 +149,7 @@ export default function GameRoom() {
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
     const isCorrectAnswer = answer === questionElement.correctAnswer;
-    socket.emit("submitAnswer", { answer, username, isCorrectAnswer });
+    socket.emit("submitAnswer", { username, isCorrectAnswer });
   };
 
   return (
