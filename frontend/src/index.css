@@ -11,3 +11,10 @@ body,
   padding: 0 !important;
   overflow: hidden;
 }
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  height: fit-content;
+  bottom: 0;
+  top: unset;
+  padding: 1rem;
+}

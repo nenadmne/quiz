@@ -5,6 +5,7 @@ import GameContext from "../store/context";
 
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Backgrounds/Background";
+import ChatComponent from "../components/Chat";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -48,6 +49,7 @@ function Homepage() {
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
         {!play && loaded && <JoinGameBtn handleJoinGame={handleJoinGame} />}
+        <ChatComponent />
       </section>
     </>
   );
