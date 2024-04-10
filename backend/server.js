@@ -88,6 +88,11 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("chatMessage", (message) => {
+    console.log("Received message:", message);
+    io.emit("chatMessage", message);
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
     let room;
