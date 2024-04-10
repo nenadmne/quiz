@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const users = require("./routes/users");
 const addQuestion = require("./routes/addQuestion");
+const { getRandomQuestion } = require("./util/getQuestion");
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -54,6 +55,15 @@ io.on("connection", (socket) => {
 
     socket.join(room); // Join the room here
     io.to(room).emit("updatePlayers", playerRooms.get(room));
+  });
+
+  socket.on("getQuestion", async () => {
+    try {
+      const randomQuestion = await getRandomQuestion();
+      io.to(room).emit("question", randomQuestion);
+    } catch (error) {
+      console.error("Error fetching question:", error);
+    }
   });
 
   socket.on("submitAnswer", ({ username, isCorrectAnswer }) => {
