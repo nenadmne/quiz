@@ -34,12 +34,12 @@ export default function GameRoom() {
   // Switching questions function
   useEffect(() => {
     const fetchQuestion = () => {
-      if(username === players[0].name){
+      if (username === players[0].name) {
         socket.emit("getQuestion");
       }
       // Listen for question event from the backend
       socket.on("question", (receivedQuestion) => {
-        console.log(receivedQuestion)
+        console.log(receivedQuestion);
         setQuestionElement(receivedQuestion);
         setReveal(false);
         setSelectedAnswer(null);
