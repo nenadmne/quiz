@@ -10,21 +10,44 @@ export default function ChatComponent() {
   const [sentMessage, setSentMessage] = useState("");
   const [returnedMessages, setReturnedMessages] = useState([]);
   const socket = useSocket();
+  const username = localStorage.getItem("username");
+  const user = username ? username : `anonymous`;
 
   const messageChangeHandler = (event) => {
     setSentMessage(event.target.value);
   };
 
-  const messageSendHandler = () => {
+  const messageSendHandler = async () => {
     if (sentMessage.trim() !== "") {
       socket.emit("chatMessage", sentMessage);
+    }
+    const messageData = {
+      message: sentMessage,
+      user: user,
+    };
+    try {
+      const response = await fetch("http://localhost:4000/chatMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add question");
+      }
+      await response.json();
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("An error occurred");
     }
   };
 
   useEffect(() => {
     if (socket) {
       socket.on("chatMessage", (message) => {
-        setReturnedMessages(prevMessages => [...prevMessages, message]);
+        setReturnedMessages((prevMessages) => [...prevMessages, message]);
       });
     }
   }, [socket]);

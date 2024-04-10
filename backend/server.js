@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const users = require("./routes/users");
 const addQuestion = require("./routes/addQuestion");
+const chat = require("./util/chatMessages")
 const { getRandomQuestion } = require("./util/getQuestion");
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(users);
 app.use(addQuestion);
+app.use(chat)
 
 // Store the mapping of players to rooms
 const playerRooms = new Map();

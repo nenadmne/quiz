@@ -7,8 +7,8 @@ const { MongoClient } = require("mongodb");
 const uri = process.env.MONGODB_URI;
 
 router.post("/chatMessage", async (req, res) => {
-  const chatMessage = req.body.chatMessage;
-  console.log(questionData);
+  const chatMessage = req.body.messageData;
+  console.log(chatMessage);
 
   try {
     const client = await MongoClient.connect(uri);
