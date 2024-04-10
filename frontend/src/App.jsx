@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./layouts/Homepage";
 import GameRoom from "./layouts/GameRoom";
 import NavigationBar from "./layouts/NavigationBar";
-import AdminPage from "./layouts/AdminPage";
+import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
 
 import "react-toastify/dist/ReactToastify.css";
 import Lobby from "./layouts/Lobby";
@@ -28,6 +28,7 @@ function App() {
         {
           path: "/admin",
           element: <AdminPage />,
+          action: addQuestionAction
         },
       ],
     },

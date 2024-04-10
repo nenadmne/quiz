@@ -7,7 +7,7 @@ const uri =
 
 router.post("/addQuestion", async (req, res) => {
   const questionData = req.body.questionData;
-  console.log(questionData)
+  console.log(questionData);
 
   try {
     const client = await MongoClient.connect(uri, {
