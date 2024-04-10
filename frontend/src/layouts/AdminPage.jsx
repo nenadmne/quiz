@@ -42,11 +42,10 @@ export default function AdminPage() {
         <div className="grid grid-cols-2 gap-4">
           <Autocomplete
             disablePortal
-            name="correctAnswer"
             options={answerValues}
             sx={{ width: 300 }}
             renderInput={(params) => (
-              <TextField {...params} label="CorrectAnswer" />
+              <TextField {...params} label="CorrectAnswer" name="correctAnswer"/>
             )}
           />
           <TextField label="Points" variant="outlined" name="points" />

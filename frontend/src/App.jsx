@@ -3,9 +3,9 @@ import Homepage from "./layouts/Homepage";
 import GameRoom from "./layouts/GameRoom";
 import NavigationBar from "./layouts/NavigationBar";
 import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
-
-import "react-toastify/dist/ReactToastify.css";
 import Lobby from "./layouts/Lobby";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   const router = createBrowserRouter([
