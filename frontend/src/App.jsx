@@ -6,7 +6,6 @@ import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
 import Lobby from "./layouts/Lobby";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -28,7 +27,7 @@ function App() {
         {
           path: "/admin",
           element: <AdminPage />,
-          action: addQuestionAction
+          action: addQuestionAction,
         },
       ],
     },
