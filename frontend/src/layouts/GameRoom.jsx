@@ -16,7 +16,6 @@ export default function GameRoom() {
   const [timer, setTimer] = useState(5);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
-
   const username = localStorage.getItem("username");
 
   // Countdown timer effect
@@ -26,6 +25,7 @@ export default function GameRoom() {
         if (prevTimer >= 1) {
           return prevTimer - 1;
         }
+        return prevTimer;
       });
     }, 1000);
     return () => clearInterval(interval);
@@ -34,9 +34,12 @@ export default function GameRoom() {
   // Switching questions function
   useEffect(() => {
     const fetchQuestion = () => {
-      socket.emit("getQuestion");
+      if(username === players[0].name){
+        socket.emit("getQuestion");
+      }
       // Listen for question event from the backend
       socket.on("question", (receivedQuestion) => {
+        console.log(receivedQuestion)
         setQuestionElement(receivedQuestion);
         setReveal(false);
         setSelectedAnswer(null);
@@ -55,7 +58,6 @@ export default function GameRoom() {
     socket.emit("getQuestion");
     // Listen for question event from the backend
     socket.on("question", (receivedQuestion) => {
-      console.log(receivedQuestion);
       setQuestionElement(receivedQuestion);
     });
   }, []);
