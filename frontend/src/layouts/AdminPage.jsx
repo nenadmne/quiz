@@ -45,7 +45,11 @@ export default function AdminPage() {
             options={answerValues}
             sx={{ width: 300 }}
             renderInput={(params) => (
-              <TextField {...params} label="CorrectAnswer" name="correctAnswer"/>
+              <TextField
+                {...params}
+                label="CorrectAnswer"
+                name="correctAnswer"
+              />
             )}
           />
           <TextField label="Points" variant="outlined" name="points" />
