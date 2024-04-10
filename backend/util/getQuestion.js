@@ -1,9 +1,9 @@
 const { MongoClient } = require("mongodb");
+require("dotenv").config(); 
 
-const uri =
-  "mongodb+srv://cosovicnenad14:arsenal95@cluster0.0rzttmk.mongodb.net/quiz?retryWrites=true&w=majority";
-const dbName = "quiz"; // Your database name
-const collectionName = "questions"; // Your collection name
+const uri = process.env.MONGODB_URI
+const dbName = process.env.MONGODB_NAME
+const collectionName = process.env.MONGODB_COLLECTION
 
 async function connectToMongoDB() {
   const client = new MongoClient(uri);

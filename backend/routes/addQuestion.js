@@ -1,9 +1,11 @@
 const express = require("express");
+require("dotenv").config(); 
+
 const router = express.Router();
 const { MongoClient } = require("mongodb");
 
-const uri =
-  "mongodb+srv://cosovicnenad14:arsenal95@cluster0.0rzttmk.mongodb.net/quiz?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI
+const collection = process.env.MONGODB_COLLECTION
 
 router.post("/addQuestion", async (req, res) => {
   const questionData = req.body.questionData;
@@ -15,7 +17,7 @@ router.post("/addQuestion", async (req, res) => {
       useUnifiedTopology: true,
     });
     const db = client.db();
-    const questionCollection = db.collection("questions");
+    const questionCollection = db.collection(collection);
 
     // Insert the question data into the questions collection
     await questionCollection.insertOne(questionData);
