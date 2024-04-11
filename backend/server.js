@@ -94,14 +94,16 @@ io.on("connection", (socket) => {
 
   socket.on("connectedUsers", () => {
     const connectedUsers = io.engine.clientsCount;
-    console.log(connectedUsers)
+    console.log(connectedUsers);
     io.emit("connectedUsers", connectedUsers);
   });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
+
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
+
     let room;
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.some((player) => player.id === socket.id)) {

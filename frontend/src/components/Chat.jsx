@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import CircleIcon from "@mui/icons-material/Circle";
-import TextField from "@mui/material/TextField";
 
 import useSocket from "../hooks/useSocket";
 
@@ -13,12 +12,22 @@ export default function ChatComponent() {
   const [sentMessage, setSentMessage] = useState("");
   const [returnedMessages, setReturnedMessages] = useState([]);
   const [users, setUsers] = useState(0);
+  const chatRef = useRef();
 
   const socket = useSocket();
   const username = localStorage.getItem("username");
-  const user = username
-    ? username
-    : `anon_${Math.floor(Math.random() * 100000) + 1}`;
+
+  useEffect(() => {
+    if (username === "0" || !username) {
+      const randomNumber = Math.floor(Math.random() * 100000);
+      const generatedUsername = `anon_${randomNumber}`;
+      localStorage.setItem("anon", generatedUsername);
+    }
+  }, [username]);
+
+  const anon = localStorage.getItem("anon");
+  console.log(anon);
+  console.log(username)
 
   const messageChangeHandler = (event) => {
     setSentMessage(event.target.value);
@@ -26,7 +35,7 @@ export default function ChatComponent() {
 
   const messageData = {
     message: sentMessage,
-    user: user,
+    user: username !== "0" ? username : anon,
   };
 
   const messageSendHandler = async (event) => {
@@ -49,13 +58,16 @@ export default function ChatComponent() {
     }
   }, [socket]);
 
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messageData]);
+
   return (
-    <div
-      onClick={() => setOpen(!open)}
-      className="absolute left-[3rem] bottom-[10rem] bg-transparent rounded-full bg-darkPurple flex justify-center items-center w-[4rem] h-[4rem] hover:cursor-pointer"
-    >
+    <div className="absolute left-[2rem] bottom-[10rem] bg-transparent rounded-full bg-darkPurple flex justify-center items-center w-[4rem] h-[4rem] hover:cursor-pointer">
       <Tooltip title={`${open ? "close chat" : "open chat"}`}>
-        <Button className="w-full">
+        <Button className="w-full" onClick={() => setOpen(!open)}>
           <MailOutlineIcon sx={{ fontSize: "2rem", color: "white" }} />
         </Button>
       </Tooltip>
@@ -65,7 +77,10 @@ export default function ChatComponent() {
             <CircleIcon sx={{ color: "green", fontSize: "1.25rem" }} />
             <p className="text-white">{`Number of users online: ${users}`}</p>
           </div>
-          <div className="flex rounded-lg overflow-hidden gap-2 bg-white grow flex flex-col w-full h-full p-1">
+          <div
+            className="flex rounded-lg overflow-hidden gap-2 bg-white grow flex flex-col w-full h-full p-1 overflow-y-scroll break-words"
+            ref={chatRef}
+          >
             <ul className="text-sm">
               {returnedMessages.map((item, index) => (
                 <li key={index} className="p-0 m-0 text-[brown]">
@@ -76,10 +91,8 @@ export default function ChatComponent() {
             </ul>
           </div>
           <form className="flex flex-row overflow-hidden gap-2 p-0 m-0">
-            <TextField
-              className="grow p-1 bg-white p-1 rounded-lg"
-              variant="outlined"
-              size="small"
+            <input
+              className="grow bg-white rounded-lg h-full p-2 text-sm"
               onChange={messageChangeHandler}
               value={sentMessage}
             />
