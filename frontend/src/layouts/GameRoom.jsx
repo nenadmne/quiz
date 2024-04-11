@@ -54,7 +54,9 @@ export default function GameRoom() {
 
   // Function for providing 1 question object from database
   useEffect(() => {
-    socket.emit("getQuestion");
+    if (username === players[0].name) {
+      socket.emit("getQuestion");
+    }
     // Listen for question event from the backend
     socket.on("question", (receivedQuestion) => {
       setQuestionElement(receivedQuestion);
@@ -72,7 +74,7 @@ export default function GameRoom() {
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
     const isCorrectAnswer = answer === questionElement.correctAnswer;
-    const points = questionElement.points
+    const points = questionElement.points;
     socket.emit("submitAnswer", { username, isCorrectAnswer, points });
   };
 
@@ -87,7 +89,7 @@ export default function GameRoom() {
         />
 
         <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
-          <QuestionTimer timer={timer} points={questionElement.points}/>
+          <QuestionTimer timer={timer} points={questionElement.points} />
           <Question questionElement={questionElement} />
           <AnswerList
             reveal={reveal}

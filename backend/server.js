@@ -7,7 +7,7 @@ const cors = require("cors");
 
 const users = require("./routes/users");
 const addQuestion = require("./routes/addQuestion");
-const { getRandomQuestion } = require("./util/getQuestion");
+const { getRandomQuestion, updateUsedQuestions } = require("./util/getQuestion");
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -100,6 +100,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
+    updateUsedQuestions()
 
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
