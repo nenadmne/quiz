@@ -17,6 +17,7 @@ export default function ChatComponent() {
   const socket = useSocket();
   const username = localStorage.getItem("username");
 
+  // Chat users name --> Either username or anonymous
   useEffect(() => {
     if (username === "0" || !username) {
       const randomNumber = Math.floor(Math.random() * 100000);
@@ -27,15 +28,18 @@ export default function ChatComponent() {
 
   const anon = localStorage.getItem("anon");
 
+  // Input handler
   const messageChangeHandler = (event) => {
     setSentMessage(event.target.value);
   };
 
+  // Message data that stores message and its user --> emited to socket
   const messageData = {
     message: sentMessage,
     user: username !== "0" ? username : anon,
   };
 
+  // Function for sending message button
   const messageSendHandler = async (event) => {
     event.preventDefault();
     if (sentMessage.trim() !== "") {
@@ -44,6 +48,7 @@ export default function ChatComponent() {
     }
   };
 
+  // Handling users count and emiting chat messages to all users
   useEffect(() => {
     if (socket) {
       socket.emit("connectedUsers");
@@ -56,6 +61,7 @@ export default function ChatComponent() {
     }
   }, [socket]);
 
+  // Handling chat scrolling to be on last message always
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
