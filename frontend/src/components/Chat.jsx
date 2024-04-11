@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import CircleIcon from "@mui/icons-material/Circle";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+
 import useSocket from "../hooks/useSocket";
 
 export default function ChatComponent() {

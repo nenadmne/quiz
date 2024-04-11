@@ -39,7 +39,6 @@ export default function GameRoom() {
       }
       // Listen for question event from the backend
       socket.on("question", (receivedQuestion) => {
-        console.log(receivedQuestion);
         setQuestionElement(receivedQuestion);
         setReveal(false);
         setSelectedAnswer(null);
