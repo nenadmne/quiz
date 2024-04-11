@@ -24,9 +24,11 @@ export default function ChatComponent() {
     user: user,
   };
 
-  const messageSendHandler = async () => {
+  const messageSendHandler = async (event) => {
+    event.preventDefault();
     if (sentMessage.trim() !== "") {
       socket.emit("chatMessage", messageData);
+      setSentMessage("");
     }
   };
 
@@ -38,7 +40,6 @@ export default function ChatComponent() {
     }
   }, [socket]);
 
-  console.log(returnedMessages);
   return (
     <div className="absolute left-[3rem] bottom-[10rem] bg-transparent rounded-full bg-darkPurple flex justify-center items-center w-[4rem] h-[4rem]">
       <Tooltip title={`${open ? "close chat" : "open chat"}`}>
@@ -51,29 +52,31 @@ export default function ChatComponent() {
           <div className="flex rounded-lg overflow-hidden gap-2 bg-white grow flex flex-col w-full h-full p-1">
             <ul className="text-sm">
               {returnedMessages.map((item, index) => (
-                <li key={index} className="p-0 m-0">
-                  <strong>{`${item.user}: `}</strong>
+                <li key={index} className="p-0 m-0 text-[brown]">
+                  <strong className="text-black">{`${item.user}: `}</strong>
                   {item.message}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="flex flex-row overflow-hidden gap-2">
+          <form className="flex flex-row overflow-hidden gap-2">
             <TextField
               className="grow p-1 bg-white p-1 rounded-lg"
               variant="outlined"
               size="small"
               onChange={messageChangeHandler}
+              value={sentMessage}
             />
             <Button
               className="bg-darkPurple text-white w-[5rem] p-1"
               variant="contained"
               sx={{ borderRadius: "0.5rem" }}
               onClick={messageSendHandler}
+              type="submit"
             >
               Send
             </Button>
-          </div>
+          </form>
         </div>
       )}
     </div>
