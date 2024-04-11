@@ -26,8 +26,6 @@ export default function ChatComponent() {
   }, [username]);
 
   const anon = localStorage.getItem("anon");
-  console.log(anon);
-  console.log(username)
 
   const messageChangeHandler = (event) => {
     setSentMessage(event.target.value);
