@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("submitAnswer", ({ username, isCorrectAnswer }) => {
+  socket.on("submitAnswer", ({ username, isCorrectAnswer, points }) => {
     let playerToUpdate;
     if (isCorrectAnswer) {
       for (const [roomId, players] of playerRooms.entries()) {
@@ -77,7 +77,7 @@ io.on("connection", (socket) => {
       }
     }
     if (playerToUpdate) {
-      playerToUpdate.score++; // Increment score
+      playerToUpdate.score = +playerToUpdate.score + +points; // Increment score
       let updatedPlayers;
       for (const [roomId, players] of playerRooms.entries()) {
         updatedPlayers = players;

@@ -72,7 +72,8 @@ export default function GameRoom() {
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
     const isCorrectAnswer = answer === questionElement.correctAnswer;
-    socket.emit("submitAnswer", { username, isCorrectAnswer });
+    const points = questionElement.points
+    socket.emit("submitAnswer", { username, isCorrectAnswer, points });
   };
 
   return (
@@ -86,7 +87,7 @@ export default function GameRoom() {
         />
 
         <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
-          <QuestionTimer timer={timer} />
+          <QuestionTimer timer={timer} points={questionElement.points}/>
           <Question questionElement={questionElement} />
           <AnswerList
             reveal={reveal}
