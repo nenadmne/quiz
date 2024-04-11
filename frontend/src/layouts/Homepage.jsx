@@ -37,10 +37,6 @@ function Homepage() {
         navigate("lobby");
         setPlay(false);
       }, 2800);
-
-      return () => {
-        socket.disconnect();
-      };
     }
   };
 

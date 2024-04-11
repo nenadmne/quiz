@@ -4,6 +4,7 @@ export default function AnswerList({
   reveal,
   handleAnswerSelection,
 }) {
+  
   return (
     <ul className="grid grid-cols-2 gap-8">
       {questionElement.answers.map((answer, index) => (

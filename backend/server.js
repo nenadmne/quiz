@@ -38,6 +38,7 @@ const playerRooms = new Map();
 let room;
 
 io.on("connection", (socket) => {
+  console.log(`Contected`);
   socket.on("join", (playerName) => {
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
@@ -89,8 +90,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chatMessage", (message) => {
-    console.log("Received message:", message);
     io.emit("chatMessage", message);
+  });
+
+  socket.on("connectedUsers", () => {
+    const connectedUsers = io.engine.clientsCount;
+    console.log(connectedUsers);
+    io.emit("connectedUsers", connectedUsers);
   });
 
   socket.on("disconnect", () => {

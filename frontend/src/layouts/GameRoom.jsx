@@ -65,7 +65,6 @@ export default function GameRoom() {
   // Listen for updateScore events
   useEffect(() => {
     socket.on("updateScore", ({ players }) => {
-      console.log(players);
       addPlayer(players);
     });
   }, [socket]);

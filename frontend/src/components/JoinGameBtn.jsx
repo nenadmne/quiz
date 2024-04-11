@@ -12,6 +12,7 @@ export default function JoinGameBtn({ handleJoinGame }) {
       setMessage("Login to play");
     }
   }, [token]);
+  
   return (
     <div className="voltage-button">
       <button onClick={handleJoinGame}>{message}</button>
