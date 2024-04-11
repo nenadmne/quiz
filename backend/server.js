@@ -39,6 +39,7 @@ let room;
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
+    console.log(`player joined ${playerName}`)
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -49,7 +50,10 @@ io.on("connection", (socket) => {
     if (!room) {
       room = socket.id; // Use socket ID as room ID
       playerRooms.set(room, []);
-    }
+    } else if (playerRooms.get(room).length >= 2) {
+      room = socket.id; // If room is full, create new room
+      playerRooms.set(room, []);
+  }
 
     playerRooms.get(room).push(player);
 
