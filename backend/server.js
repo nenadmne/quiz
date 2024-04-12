@@ -39,7 +39,7 @@ let room;
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
-    console.log(`player joined ${playerName}`)
+    console.log(`${playerName} joined`)
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -49,9 +49,11 @@ io.on("connection", (socket) => {
     }
     if (!room) {
       room = socket.id; // Use socket ID as room ID
+      console.log(`New room created: ${room}`)
       playerRooms.set(room, []);
     } else if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
+      console.log(`New room created: ${room}`)
       playerRooms.set(room, []);
   }
 
@@ -63,7 +65,7 @@ io.on("connection", (socket) => {
 
   socket.on("getQuestion", async () => {
     try {
-      const randomQuestion = await getRandomQuestion();
+      const randomQuestion = await getRandomQuestion(room);
       io.to(room).emit("question", randomQuestion);
     } catch (error) {
       console.error("Error fetching question:", error);
