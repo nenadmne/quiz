@@ -6,9 +6,12 @@ const dbName = process.env.MONGODB_NAME;
 const collectionName = process.env.MONGODB_COLLECTION;
 
 let usedQuestionId = [];
+let client = null;
 
 async function connectToMongoDB() {
-  const client = new MongoClient(uri);
+  if (!client) {
+    client = new MongoClient(uri);
+  }
   try {
     await client.connect();
     return client.db(dbName);
@@ -28,21 +31,12 @@ async function getRandomQuestion() {
     );
     const randomIndex = Math.floor(Math.random() * newCollection.length);
     const randomQuestion = newCollection[randomIndex];
+    await client.close();
     usedQuestionId.push(randomQuestion._id);
     return randomQuestion;
   } catch (error) {
     console.error("Error fetching random question from MongoDB:", error);
     throw error;
-  } finally {
-    // Close the MongoDB client after fetching the question
-    if (client) {
-      try {
-        await client.close();
-      } catch (error) {
-        console.error("Error closing MongoDB client:", error);
-        throw error;
-      }
-    }
   }
 }
 
