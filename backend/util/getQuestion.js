@@ -5,7 +5,7 @@ const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_NAME;
 const collectionName = process.env.MONGODB_COLLECTION;
 
-let usedQuestionId=[]
+let usedQuestionId = [];
 
 async function connectToMongoDB() {
   const client = new MongoClient(uri);
@@ -22,22 +22,35 @@ async function getRandomQuestion() {
   try {
     const db = await connectToMongoDB();
     const collection = await db.collection(collectionName).find({}).toArray();
-    const newCollection = collection.filter(item => !usedQuestionId.map(id => id.toString()).includes(item._id.toString()));
+    const newCollection = collection.filter(
+      (item) =>
+        !usedQuestionId.map((id) => id.toString()).includes(item._id.toString())
+    );
     const randomIndex = Math.floor(Math.random() * newCollection.length);
     const randomQuestion = newCollection[randomIndex];
-    usedQuestionId.push(randomQuestion._id)
+    usedQuestionId.push(randomQuestion._id);
     return randomQuestion;
   } catch (error) {
     console.error("Error fetching random question from MongoDB:", error);
     throw error;
+  } finally {
+    // Close the MongoDB client after fetching the question
+    if (client) {
+      try {
+        await client.close();
+      } catch (error) {
+        console.error("Error closing MongoDB client:", error);
+        throw error;
+      }
+    }
   }
 }
 
 function updateUsedQuestions() {
-  usedQuestionId = []
+  usedQuestionId = [];
 }
 
 module.exports = {
   getRandomQuestion,
-  updateUsedQuestions
+  updateUsedQuestions,
 };

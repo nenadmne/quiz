@@ -11,7 +11,10 @@ export default {
         greyGrad:
           "linear-gradient(99.6deg, rgb(112, 128, 152) 10.6%, rgb(242, 227, 234) 32.9%, rgb(234, 202, 213) 52.7%, rgb(220, 227, 239) 72.8%, rgb(185, 205, 227) 81.1%, rgb(154, 180, 212) 102.4%);",
         blackGrad: "linear-gradient(to right, #434343 0%, black 100%);",
-        redGrad: "radial-gradient(circle at 10% 20%, rgb(221, 49, 49) 0%, rgb(119, 0, 0) 90%);"
+        redGrad:
+          "radial-gradient(circle at 10% 20%, rgb(221, 49, 49) 0%, rgb(119, 0, 0) 90%);",
+        mixedGrad:
+          "linear-gradient(109.6deg, rgb(14, 11, 56) 11.2%, rgb(239, 37, 37) 91.1%);",
       },
       animation: {
         blurIn: "blurIn 1s ease-out forwards",
