@@ -17,6 +17,7 @@ export default function GameRoom() {
   const [timer, setTimer] = useState(10);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
+  const [questionNumber, setQuestionNumber] = useState(null);
 
   const username = localStorage.getItem("username");
 
@@ -39,8 +40,9 @@ export default function GameRoom() {
       if (username === players[0].name) {
         socket.emit("getQuestion");
       }
-      socket.on("question", (receivedQuestion) => {
+      socket.on("question", (receivedQuestion, numberOfQuestions) => {
         setQuestionElement(receivedQuestion);
+        setQuestionNumber(numberOfQuestions)
         if (questionElement) {
           setTimer(5);
         }
@@ -68,8 +70,9 @@ export default function GameRoom() {
     if (username === players[0].name) {
       socket.emit("getQuestion");
     }
-    socket.on("question", (receivedQuestion) => {
+    socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
+      setQuestionNumber(numberOfQuestions)
     });
   }, []);
 
@@ -86,6 +89,7 @@ export default function GameRoom() {
     setSelectedAnswer(answer);
   };
 
+  console.log(questionNumber)
   return (
     <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
       {questionElement ? (

@@ -6,12 +6,9 @@ const dbName = process.env.MONGODB_NAME;
 const collectionName = process.env.MONGODB_COLLECTION;
 
 let usedQuestionId = [];
-let client = null;
 
 async function connectToMongoDB() {
-  if (!client) {
-    client = new MongoClient(uri);
-  }
+  const client = new MongoClient(uri);
   try {
     await client.connect();
     return client.db(dbName);
@@ -31,7 +28,6 @@ async function getRandomQuestion() {
     );
     const randomIndex = Math.floor(Math.random() * newCollection.length);
     const randomQuestion = newCollection[randomIndex];
-    await client.close();
     usedQuestionId.push(randomQuestion._id);
     return randomQuestion;
   } catch (error) {

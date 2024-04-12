@@ -11,6 +11,7 @@ const {
   getRandomQuestion,
   updateUsedQuestions,
 } = require("./util/getQuestion");
+
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(addQuestion);
 const playerRooms = new Map();
 let room;
 let answers = [];
+let numberOfQuestions = 0;
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
@@ -70,7 +72,8 @@ io.on("connection", (socket) => {
   socket.on("getQuestion", async () => {
     try {
       const randomQuestion = await getRandomQuestion(room);
-      io.to(room).emit("question", randomQuestion);
+      numberOfQuestions++
+      io.to(room).emit("question", randomQuestion, numberOfQuestions);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -118,6 +121,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("A user disconnected");
     updateUsedQuestions();
+    numberOfQuestions=0;
 
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
