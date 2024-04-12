@@ -2,12 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import useSocket from "../hooks/useSocket";
 import GameContext from "../store/context";
 
-import CircularProgress from "@mui/material/CircularProgress";
-
 import ScoreSheetTable from "../components/ScoreSheetTable";
 import AnswerList from "../components/AnswerList";
 import QuestionTimer from "../components/QuestionTimer";
 import Question from "../components/Question";
+import Loading from "../components/Loading";
 
 export default function GameRoom() {
   const socket = useSocket();
@@ -110,10 +109,7 @@ export default function GameRoom() {
           </div>
         </>
       ) : (
-        <>
-          <CircularProgress disableShrink />
-          <span className="text-xl text-white">Loading...</span>
-        </>
+        <Loading />
       )}
     </div>
   );

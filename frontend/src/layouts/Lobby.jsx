@@ -3,6 +3,7 @@ import GameContext from "../store/context";
 
 import OnePlayerLobby from "../components/OnePlayerLobby";
 import TwoPlayerLobby from "../components/TwoPlayerLobby";
+import Loading from "../components/Loading";
 
 function Lobby() {
   const [countdown, setCountdown] = useState(5);
@@ -35,6 +36,12 @@ function Lobby() {
   } else if (players.length === 2) {
     return <TwoPlayerLobby countdown={countdown} players={players} />;
   }
+
+  return (
+    <div className="w-full h-full bg-blackGrad flex flex-col gap-4 justify-center items-center">
+      <Loading />
+    </div>
+  );
 }
 
 export default Lobby;
