@@ -12,12 +12,13 @@ import Question from "../components/Question";
 export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
-  const { players, addPlayer } = gameCtx;
+  const { players, addPlayer, addAnswers } = gameCtx;
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(10);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
+
   const username = localStorage.getItem("username");
 
   // Countdown timer effect
@@ -53,7 +54,12 @@ export default function GameRoom() {
       setReveal(true);
       const isCorrectAnswer = selectedAnswer === questionElement.correctAnswer;
       const points = questionElement.points;
-      socket.emit("submitAnswer", { username, isCorrectAnswer, points });
+      socket.emit("submitAnswer", {
+        selectedAnswer,
+        username,
+        isCorrectAnswer,
+        points,
+      });
       setTimeout(fetchQuestion, 3500);
     }
   }, [timer]);
@@ -70,8 +76,9 @@ export default function GameRoom() {
 
   // Listen for updateScore events
   useEffect(() => {
-    socket.on("updateScore", ({ players }) => {
+    socket.on("updateScore", ({ players, answers }) => {
       addPlayer(players);
+      addAnswers(answers);
     });
   }, [socket]);
 

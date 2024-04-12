@@ -7,7 +7,10 @@ const cors = require("cors");
 
 const users = require("./routes/users");
 const addQuestion = require("./routes/addQuestion");
-const { getRandomQuestion, updateUsedQuestions } = require("./util/getQuestion");
+const {
+  getRandomQuestion,
+  updateUsedQuestions,
+} = require("./util/getQuestion");
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -36,10 +39,11 @@ app.use(addQuestion);
 // Store the mapping of players to rooms
 const playerRooms = new Map();
 let room;
+let answers = [];
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
-    console.log(`${playerName} joined`)
+    console.log(`${playerName} joined`);
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -49,13 +53,13 @@ io.on("connection", (socket) => {
     }
     if (!room) {
       room = socket.id; // Use socket ID as room ID
-      console.log(`New room created: ${room}`)
+      console.log(`New room created: ${room}`);
       playerRooms.set(room, []);
     } else if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
-      console.log(`New room created: ${room}`)
+      console.log(`New room created: ${room}`);
       playerRooms.set(room, []);
-  }
+    }
 
     playerRooms.get(room).push(player);
 
@@ -72,27 +76,34 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("submitAnswer", ({ username, isCorrectAnswer, points }) => {
-    let playerToUpdate;
-    if (isCorrectAnswer) {
+  socket.on(
+    "submitAnswer",
+    ({ selectedAnswer, username, isCorrectAnswer, points }) => {
+      let playerToUpdate;
+      let updatedPlayers;
+      answers.push({ username: username, selectedAnswer: selectedAnswer });
+
       for (const [roomId, players] of playerRooms.entries()) {
         playerToUpdate = players.find((player) => player.name === username);
         if (playerToUpdate) {
           break;
         }
       }
-    }
-    if (playerToUpdate) {
-      playerToUpdate.score = +playerToUpdate.score + +points; // Increment score
-      let updatedPlayers;
+      if (isCorrectAnswer) {
+        playerToUpdate.score = +playerToUpdate.score + +points; // Increment score
+      }
       for (const [roomId, players] of playerRooms.entries()) {
         updatedPlayers = players;
       }
       io.to(room).emit("updateScore", {
         players: updatedPlayers,
+        answers: answers,
       });
+      if (answers.length === 2) {
+        answers = [];
+      }
     }
-  });
+  );
 
   socket.on("chatMessage", (message) => {
     io.emit("chatMessage", message);
@@ -106,7 +117,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
-    updateUsedQuestions()
+    updateUsedQuestions();
 
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
