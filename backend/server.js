@@ -73,7 +73,9 @@ io.on("connection", (socket) => {
     try {
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++
-      io.to(room).emit("question", randomQuestion, numberOfQuestions);
+      if(numberOfQuestions < 6){
+        io.to(room).emit("question", randomQuestion, numberOfQuestions);
+      }
     } catch (error) {
       console.error("Error fetching question:", error);
     }

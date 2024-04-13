@@ -18,7 +18,7 @@ export default function GameRoom() {
   const [timer, setTimer] = useState(10);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
-  const [questionNumber, setQuestionNumber] = useState(null);
+  const [questionNumber, setQuestionNumber] = useState(0);
 
   const username = localStorage.getItem("username");
 
@@ -38,10 +38,8 @@ export default function GameRoom() {
   // Switching questions function
   useEffect(() => {
     const fetchQuestion = () => {
-      if (questionNumber <= 5) {
-        if (username === players[0].name) {
-          socket.emit("getQuestion");
-        }
+      if (username === players[0].name) {
+        socket.emit("getQuestion");
       }
 
       socket.on("question", (receivedQuestion, numberOfQuestions) => {
@@ -65,9 +63,10 @@ export default function GameRoom() {
         isCorrectAnswer,
         points,
       });
+
       setTimeout(fetchQuestion, 3500);
     }
-  }, [timer, questionNumber]);
+  }, [timer]);
 
   // Function for providing 1 question object from database
   useEffect(() => {
@@ -93,8 +92,6 @@ export default function GameRoom() {
     setSelectedAnswer(answer);
   };
 
-  console.log(players);
-  console.log(questionNumber);
   if (questionNumber === 5) {
     return <GameOver players={players} />;
   }
