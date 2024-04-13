@@ -83,7 +83,7 @@ export default function Confetti() {
       onComplete() {
         animateParticles(button, 100, -4, 6, -80, -50);
         gsap.to(button, {
-          duration: 1.5,
+          duration: 1,
           ease: "elastic.out(1, .5)",
           onComplete() {
             containerRef.classList.remove("success");
@@ -99,9 +99,9 @@ export default function Confetti() {
   };
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="confetti-wrapper p-2 flex flex-row gap-2">
       <button
-        className="button"
+        className="button bg-darkPurple rounded-lg"
         onClick={() => handleClick(0)}
         ref={containerRefs.current[0]}
       >
@@ -122,11 +122,11 @@ export default function Confetti() {
             <div className="emitter" ref={emitterRefs.current[0]}></div>
           </div>
         </div>
-        <span>Confirm</span>
+        <span> Celebrate! </span>
       </button>
 
       <button
-        className="button white"
+        className="button bg-darkPurple rounded-lg"
         onClick={() => handleClick(1)}
         ref={containerRefs.current[1]}
       >
@@ -147,11 +147,11 @@ export default function Confetti() {
             <div className="emitter" ref={emitterRefs.current[1]}></div>
           </div>
         </div>
-        <span>Confirm</span>
+        <span> Celebrate! </span>
       </button>
 
       <button
-        className="button grey"
+        className="button bg-darkPurple rounded-lg"
         onClick={() => handleClick(2)}
         ref={containerRefs.current[2]}
       >
@@ -172,7 +172,7 @@ export default function Confetti() {
             <div className="emitter" ref={emitterRefs.current[2]}></div>
           </div>
         </div>
-        <span>Confirm</span>
+        <span> Celebrate! </span>
       </button>
     </div>
   );
