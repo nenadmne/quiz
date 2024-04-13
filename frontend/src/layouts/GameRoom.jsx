@@ -38,9 +38,12 @@ export default function GameRoom() {
   // Switching questions function
   useEffect(() => {
     const fetchQuestion = () => {
-      if (username === players[0].name) {
-        socket.emit("getQuestion");
+      if (questionNumber <= 5) {
+        if (username === players[0].name) {
+          socket.emit("getQuestion");
+        }
       }
+
       socket.on("question", (receivedQuestion, numberOfQuestions) => {
         setQuestionElement(receivedQuestion);
         setQuestionNumber(numberOfQuestions);
@@ -64,7 +67,7 @@ export default function GameRoom() {
       });
       setTimeout(fetchQuestion, 3500);
     }
-  }, [timer]);
+  }, [timer, questionNumber]);
 
   // Function for providing 1 question object from database
   useEffect(() => {
