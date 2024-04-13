@@ -4,13 +4,18 @@ import { Physics2DPlugin } from "gsap-trial/Physics2DPlugin";
 import "./Confetti.css";
 
 gsap.registerPlugin(Physics2DPlugin);
-gsap.config({trialWarn: false})
+gsap.config({ trialWarn: false });
 
 export default function Confetti() {
   const emitterRefs = useRef([
     React.createRef(),
     React.createRef(),
     React.createRef(),
+  ]);
+  const containerRefs = useRef([
+    React.createRef(null),
+    React.createRef(null),
+    React.createRef(null),
   ]);
 
   const animateParticles = (parent, quantity, x, y, minAngle, maxAngle) => {
@@ -68,29 +73,25 @@ export default function Confetti() {
 
   const handleClick = (index) => {
     const button = emitterRefs.current[index].current;
-    button.classList.add("success");
-    gsap.to(button, {
+    const containerRef = containerRefs.current[index].current;
+    containerRef.classList.add("success");
+    gsap.to(containerRef, {
       "--icon-x": -3,
       "--icon-y": 3,
       "--z-before": 0,
       duration: 0.2,
       onComplete() {
-        animateParticles(
-          emitterRefs.current[index].current,
-          100,
-          -4,
-          6,
-          -80,
-          -50
-        );
+        animateParticles(button, 100, -4, 6, -80, -50);
         gsap.to(button, {
-          "--icon-x": 0,
-          "--icon-y": 0,
-          "--z-before": -6,
-          duration: 1,
+          duration: 1.5,
           ease: "elastic.out(1, .5)",
           onComplete() {
-            button.classList.remove("success");
+            containerRef.classList.remove("success");
+            gsap.to(containerRef, {
+              "--icon-x": 0,
+              "--icon-y": 0,
+              "--z-before": -6,
+            });
           },
         });
       },
@@ -99,7 +100,11 @@ export default function Confetti() {
 
   return (
     <div className="flex flex-row gap-2">
-      <button className="button" onClick={() => handleClick(0)}>
+      <button
+        className="button"
+        onClick={() => handleClick(0)}
+        ref={containerRefs.current[0]}
+      >
         <div className="icon">
           <div className="cannon"></div>
           <div className="confetti">
@@ -120,7 +125,11 @@ export default function Confetti() {
         <span>Confirm</span>
       </button>
 
-      <button className="button white" onClick={() => handleClick(1)}>
+      <button
+        className="button white"
+        onClick={() => handleClick(1)}
+        ref={containerRefs.current[1]}
+      >
         <div className="icon">
           <div className="cannon"></div>
           <div className="confetti">
@@ -141,7 +150,11 @@ export default function Confetti() {
         <span>Confirm</span>
       </button>
 
-      <button className="button grey" onClick={() => handleClick(2)}>
+      <button
+        className="button grey"
+        onClick={() => handleClick(2)}
+        ref={containerRefs.current[2]}
+      >
         <div className="icon">
           <div className="cannon"></div>
           <div className="confetti">
