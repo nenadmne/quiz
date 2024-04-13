@@ -92,9 +92,9 @@ export default function GameRoom() {
 
   console.log(players);
   console.log(questionNumber);
-  // if (questionNumber === 5) {
-  //   return <GameOver questionNumber={questionNumber} players={players} />;
-  // }
+  if (questionNumber === 5) {
+    return <GameOver players={players} />;
+  }
 
   return (
     <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
