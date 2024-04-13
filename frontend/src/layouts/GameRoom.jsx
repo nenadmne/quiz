@@ -7,6 +7,7 @@ import AnswerList from "../components/AnswerList";
 import QuestionTimer from "../components/QuestionTimer";
 import Question from "../components/Question";
 import Loading from "../components/Loading";
+import GameOver from "./GameOver";
 
 export default function GameRoom() {
   const socket = useSocket();
@@ -42,7 +43,7 @@ export default function GameRoom() {
       }
       socket.on("question", (receivedQuestion, numberOfQuestions) => {
         setQuestionElement(receivedQuestion);
-        setQuestionNumber(numberOfQuestions)
+        setQuestionNumber(numberOfQuestions);
         if (questionElement) {
           setTimer(5);
         }
@@ -72,7 +73,7 @@ export default function GameRoom() {
     }
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
-      setQuestionNumber(numberOfQuestions)
+      setQuestionNumber(numberOfQuestions);
     });
   }, []);
 
@@ -89,7 +90,12 @@ export default function GameRoom() {
     setSelectedAnswer(answer);
   };
 
-  console.log(questionNumber)
+  console.log(players);
+  console.log(questionNumber);
+  // if (questionNumber === 5) {
+  //   return <GameOver questionNumber={questionNumber} players={players} />;
+  // }
+
   return (
     <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
       {questionElement ? (

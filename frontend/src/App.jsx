@@ -5,6 +5,7 @@ import NavigationBar from "./layouts/NavigationBar";
 import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
 import Lobby from "./layouts/Lobby";
 import "react-toastify/dist/ReactToastify.css";
+import GameOver from "./layouts/GameOver";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,10 @@ function App() {
           path: "/admin",
           element: <AdminPage />,
           action: addQuestionAction,
+        },
+        {
+          path: "/gameover",
+          element: <GameOver />,
         },
       ],
     },
