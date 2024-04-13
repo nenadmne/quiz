@@ -35,7 +35,9 @@ export default function Background({ play }) {
           <div className="panel"></div>
           <div className="panel"></div>
           <div className="panel"></div>
-          <div className="panel"></div>
+          <div className="panel">
+            <span></span>
+          </div>
         </div>
       </div>
     </div>
