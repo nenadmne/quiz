@@ -30,10 +30,6 @@ function App() {
           element: <AdminPage />,
           action: addQuestionAction,
         },
-        {
-          path: "/gameover",
-          element: <GameOver />,
-        },
       ],
     },
   ]);

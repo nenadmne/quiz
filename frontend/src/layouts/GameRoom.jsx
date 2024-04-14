@@ -85,7 +85,7 @@ export default function GameRoom() {
       addPlayer(players);
       addAnswers(answers);
     });
-  }, [socket]);
+  }, [socket, questionNumber]);
 
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
@@ -93,7 +93,7 @@ export default function GameRoom() {
   };
 
   if (questionNumber === 5) {
-    return <GameOver players={players} />;
+    return <GameOver players={players}/>;
   }
 
   return (

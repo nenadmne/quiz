@@ -116,7 +116,6 @@ io.on("connection", (socket) => {
 
   socket.on("connectedUsers", () => {
     const connectedUsers = io.engine.clientsCount;
-    console.log(connectedUsers);
     io.emit("connectedUsers", connectedUsers);
   });
 
@@ -143,8 +142,9 @@ io.on("connection", (socket) => {
       );
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }
-  });
+  });console.log(numberOfQuestions)
 });
+
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

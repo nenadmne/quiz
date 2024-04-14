@@ -101,7 +101,7 @@ export default function Confetti() {
   return (
     <div className="confetti-wrapper p-2 flex flex-row gap-2">
       <button
-        className="button bg-darkPurple rounded-lg"
+        className="button bg-blueGrad rounded-lg"
         onClick={() => handleClick(0)}
         ref={containerRefs.current[0]}
       >
@@ -126,7 +126,7 @@ export default function Confetti() {
       </button>
 
       <button
-        className="button bg-darkPurple rounded-lg"
+        className="button bg-blueGrad rounded-lg"
         onClick={() => handleClick(1)}
         ref={containerRefs.current[1]}
       >
@@ -151,7 +151,7 @@ export default function Confetti() {
       </button>
 
       <button
-        className="button bg-darkPurple rounded-lg"
+        className="button bg-blueGrad rounded-lg"
         onClick={() => handleClick(2)}
         ref={containerRefs.current[2]}
       >
