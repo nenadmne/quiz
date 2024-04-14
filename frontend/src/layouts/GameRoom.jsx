@@ -101,10 +101,10 @@ export default function GameRoom() {
       {questionElement ? (
         <>
           <ScoreSheetTable
-            playerOneName={players[0]?.name ? players[0].name : "User left"}
-            playerOneScore={players[0]?.score ? players[0].score : 0}
-            playerTwoName={players[1]?.name ? players[1].name : "User left"}
-            playerTwoScore={players[1]?.score ? players[1].score : 0}
+            playerOneName={players[0].name}
+            playerOneScore={players[0].score}
+            playerTwoName={players[1].name}
+            playerTwoScore={players[1].score}
           />
 
           <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">

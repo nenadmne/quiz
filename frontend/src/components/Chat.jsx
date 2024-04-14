@@ -16,6 +16,7 @@ export default function ChatComponent() {
 
   const socket = useSocket();
   const username = localStorage.getItem("username");
+  console.log(username)
 
   // Chat users name --> Either username or anonymous
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function ChatComponent() {
   // Message data that stores message and its user --> emited to socket
   const messageData = {
     message: sentMessage,
-    user: username !== "0" ? username : anon,
+    user: username !== null ? username : anon,
   };
 
   // Function for sending message button

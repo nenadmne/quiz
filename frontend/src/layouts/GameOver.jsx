@@ -35,20 +35,20 @@ export default function GameOver({ players }) {
 
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
-      <div className="h-fit flex flex-col bg-greyGrad pb-4 px-4 rounded justify-center items-center">
+      <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center">
         <img
           src={Logo}
           alt="logo image"
           className="w-[10rem] bg-darkBlue rounded-xl"
         />
         {winner && !draw && (
-          <div className="w-[80%] border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
+          <div className="border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
             <span> The winner is </span>
             <strong>{winner.name}</strong>
           </div>
         )}
         {draw && (
-          <div className="w-[80%] border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
+          <div className="border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
             Draw!
           </div>
         )}

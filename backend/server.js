@@ -64,9 +64,9 @@ io.on("connection", (socket) => {
     }
 
     playerRooms.get(room).push(player);
-
     socket.join(room); // Join the room here
     io.to(room).emit("updatePlayers", playerRooms.get(room));
+    numberOfQuestions = 0;
   });
 
   socket.on("getQuestion", async () => {
@@ -76,6 +76,7 @@ io.on("connection", (socket) => {
       if (numberOfQuestions < 6) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
+      console.log(numberOfQuestions);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -123,10 +124,6 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
     updateUsedQuestions();
 
-    if (playerRooms.entries() === []) {
-      numberOfQuestions = 0;
-    }
-
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
 
@@ -146,7 +143,6 @@ io.on("connection", (socket) => {
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }
   });
-  console.log(numberOfQuestions);
 });
 
 server.listen(PORT, () => {
