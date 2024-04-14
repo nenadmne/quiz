@@ -7,6 +7,10 @@ import Button from "@mui/material/Button";
 export default function GameOver({ players }) {
   const [winner, setWinner] = useState(null);
   const [draw, setDraw] = useState(false);
+  const [player1Name, setPlayer1Name] = useState(null);
+  const [player2Name, setPlayer2Name] = useState(null);
+  const [player1Score, setPlayer1Score] = useState(null);
+  const [player2Score, setPlayer2Score] = useState(null);
 
   const handleButton = () => {
     window.location.href = "/";
@@ -18,12 +22,15 @@ export default function GameOver({ players }) {
         ? currentPlayer
         : prevPlayer;
     });
-
     const draw =
       players.filter((player) => player.score === winner.score).length === 2;
 
     setDraw(draw);
     setWinner(winner);
+    setPlayer1Name(players[0].name)
+    setPlayer1Score(players[0].score)
+    setPlayer2Name(players[1].name)
+    setPlayer2Score(players[1].score)
   }, []);
 
   return (
@@ -48,18 +55,18 @@ export default function GameOver({ players }) {
         <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
             <p className="text-[1.5rem]">
-              {players[0]?.name ? players[0].name : "User left"}
+              {player1Name}
             </p>
             <strong className="text-[3rem]">
-              {players[0]?.score ? players[0].score : 0}
+              {player1Score}
             </strong>
           </div>
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
             <p className="text-[1.5rem]">
-              {players[1]?.name ? players[1].name : "User left"}
+              {player2Name}
             </p>
             <strong className="text-[3rem]">
-              {players[1]?.score ? players[1].score : 0}
+              {player2Score}
             </strong>
           </div>
         </div>
