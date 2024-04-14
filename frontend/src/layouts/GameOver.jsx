@@ -1,19 +1,30 @@
+import { useEffect, useState } from "react";
 import Logo from "../assets/logo.png";
 import Confetti from "../components/Confetti/Confetti";
 
 import Button from "@mui/material/Button";
 
 export default function GameOver({ players }) {
-  const winner = players.reduce((prevPlayer, currentPlayer) => {
-    return currentPlayer.score > prevPlayer.score ? currentPlayer : prevPlayer;
-  });
-
-  const draw =
-    players.filter((player) => player.score === winner.score).length === 2;
+  const [winner, setWinner] = useState(null);
+  const [draw, setDraw] = useState(false);
 
   const handleButton = () => {
     window.location.href = "/";
   };
+
+  useEffect(() => {
+    const winner = players.reduce((prevPlayer, currentPlayer) => {
+      return currentPlayer.score > prevPlayer.score
+        ? currentPlayer
+        : prevPlayer;
+    });
+
+    const draw =
+      players.filter((player) => player.score === winner.score).length === 2;
+
+    setDraw(draw);
+    setWinner(winner);
+  }, []);
 
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
@@ -36,12 +47,20 @@ export default function GameOver({ players }) {
         )}
         <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">{players[0].name || "User left"}</p>
-            <strong className="text-[3rem]">{players[0].score || ""}</strong>
+            <p className="text-[1.5rem]">
+              {players[0]?.name ? players[0].name : "User left"}
+            </p>
+            <strong className="text-[3rem]">
+              {players[0]?.score ? players[0].score : 0}
+            </strong>
           </div>
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">{players[1].name || "User left"}</p>
-            <strong className="text-[3rem]">{players[1].score || ""}</strong>
+            <p className="text-[1.5rem]">
+              {players[1]?.name ? players[1].name : "User left"}
+            </p>
+            <strong className="text-[3rem]">
+              {players[1]?.score ? players[1].score : 0}
+            </strong>
           </div>
         </div>
         {!draw && (

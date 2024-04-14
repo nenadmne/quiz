@@ -72,8 +72,8 @@ io.on("connection", (socket) => {
   socket.on("getQuestion", async () => {
     try {
       const randomQuestion = await getRandomQuestion(room);
-      numberOfQuestions++
-      if(numberOfQuestions < 6){
+      numberOfQuestions++;
+      if (numberOfQuestions < 6) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
     } catch (error) {
@@ -122,7 +122,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("A user disconnected");
     updateUsedQuestions();
-    numberOfQuestions=0;
+
+    if (playerRooms.entries() === []) {
+      numberOfQuestions = 0;
+    }
 
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
@@ -142,9 +145,9 @@ io.on("connection", (socket) => {
       );
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }
-  });console.log(numberOfQuestions)
+  });
+  console.log(numberOfQuestions);
 });
-
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
