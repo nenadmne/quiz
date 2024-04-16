@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import Lottie from "lottie-react";
+import Fireworks from "../assets/Fireworks.json";
 import Logo from "../assets/logo.png";
-import Confetti from "../components/Confetti/Confetti";
 
 import Button from "@mui/material/Button";
 
@@ -16,6 +17,8 @@ export default function GameOver({ players }) {
     window.location.href = "/";
   };
 
+  const username = localStorage.getItem("username")
+
   useEffect(() => {
     const winner = players.reduce((prevPlayer, currentPlayer) => {
       return currentPlayer.score > prevPlayer.score
@@ -27,10 +30,10 @@ export default function GameOver({ players }) {
 
     setDraw(draw);
     setWinner(winner);
-    setPlayer1Name(players[0].name)
-    setPlayer1Score(players[0].score)
-    setPlayer2Name(players[1].name)
-    setPlayer2Score(players[1].score)
+    setPlayer1Name(players[0].name);
+    setPlayer1Score(players[0].score);
+    setPlayer2Name(players[1].name);
+    setPlayer2Score(players[1].score);
   }, []);
 
   return (
@@ -54,25 +57,17 @@ export default function GameOver({ players }) {
         )}
         <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">
-              {player1Name}
-            </p>
-            <strong className="text-[3rem]">
-              {player1Score}
-            </strong>
+            <p className="text-[1.5rem]">{player1Name}</p>
+            <strong className="text-[3rem]">{player1Score}</strong>
           </div>
           <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">
-              {player2Name}
-            </p>
-            <strong className="text-[3rem]">
-              {player2Score}
-            </strong>
+            <p className="text-[1.5rem]">{player2Name}</p>
+            <strong className="text-[3rem]">{player2Score}</strong>
           </div>
         </div>
-        {!draw && (
-          <div>
-            <Confetti />
+        {winner.name === username && (
+          <div className="absolute">
+            <Lottie animationData={Fireworks} loop={true} />
           </div>
         )}
         <div>
