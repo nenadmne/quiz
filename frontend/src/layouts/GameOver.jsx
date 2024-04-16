@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
+
 import Fireworks from "../assets/Fireworks.json";
 import Loser from "../assets/Loser.json";
 import Logo from "../assets/logo.png";

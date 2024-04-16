@@ -105,8 +105,11 @@ export default function GameRoom() {
             playerOneScore={players[0].score}
             playerTwoName={players[1].name}
             playerTwoScore={players[1].score}
+            questionElement={questionElement}
+            answers={answers}
+            reveal={reveal}
           />
-
+          
           <div className="p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
             <QuestionTimer timer={timer} points={questionElement.points} />
             <Question questionElement={questionElement} />

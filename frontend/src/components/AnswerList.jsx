@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import GameContext from "../store/context";
+import { useEffect, useState } from "react";
 
 export default function AnswerList({
   questionElement,
   selectedAnswer,
   reveal,
   handleAnswerSelection,
-  answers
+  answers,
 }) {
   const username = localStorage.getItem("username");
   const [playerAnswers, setPlayerAnswers] = useState();
@@ -16,8 +15,6 @@ export default function AnswerList({
       setPlayerAnswers(answers);
     }
   }, [answers]);
-
-
 
   return (
     <ul className="grid grid-cols-2 gap-8">
@@ -40,22 +37,15 @@ export default function AnswerList({
                 selectedAnswer !== null &&
                 "disabled bg-darkPurple hover:bg-darkPurple"
               } text-white bg-blueGrad font-bold py-2 px-4 rounded w-full ${
-                reveal &&
-                answer === questionElement.correctAnswer
+                reveal && answer === questionElement.correctAnswer
                   ? "animate-pulse"
                   : ""
               }
+              ${isOtherPlayerAnswer && !bothSelectedSameAnswer && "bg-redGrad"}
+              ${reveal && bothSelectedSameAnswer && "bg-mixedGrad"}
               ${
-                isOtherPlayerAnswer && !bothSelectedSameAnswer
-                  && "bg-redGrad"
-              }
-              ${
-                reveal && bothSelectedSameAnswer
-                  && "bg-mixedGrad"
-              }
-              ${
-                selectedAnswer === null
-                  && "bg-blueGrad hover:bg-darkPurple hover:scale-105"
+                selectedAnswer === null &&
+                "bg-blueGrad hover:bg-darkPurple hover:scale-105"
               }
               `}
               onClick={() => handleAnswerSelection(answer)}
