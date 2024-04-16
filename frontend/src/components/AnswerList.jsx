@@ -6,17 +6,18 @@ export default function AnswerList({
   selectedAnswer,
   reveal,
   handleAnswerSelection,
+  answers
 }) {
   const username = localStorage.getItem("username");
   const [playerAnswers, setPlayerAnswers] = useState();
-  const gameCtx = useContext(GameContext);
-  const { answers } = gameCtx;
 
   useEffect(() => {
     if (answers.length === 2) {
       setPlayerAnswers(answers);
     }
   }, [answers]);
+
+
 
   return (
     <ul className="grid grid-cols-2 gap-8">

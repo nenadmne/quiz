@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import Fireworks from "../assets/Fireworks.json";
-import Loser from "../assets/Loser.json"
+import Loser from "../assets/Loser.json";
 import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
@@ -18,7 +18,7 @@ export default function GameOver({ players }) {
     window.location.href = "/";
   };
 
-  const username = localStorage.getItem("username")
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     const winner = players.reduce((prevPlayer, currentPlayer) => {
@@ -71,7 +71,7 @@ export default function GameOver({ players }) {
             <Lottie animationData={Fireworks} loop={true} />
           </div>
         )}
-          {winner && winner.name !== username && (
+        {winner && winner.name !== username && (
           <div className="absolute top-[1rem] right-[1rem] w-[5rem] z-99">
             <Lottie animationData={Loser} loop={true} />
           </div>

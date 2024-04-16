@@ -12,7 +12,7 @@ import GameOver from "./GameOver";
 export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
-  const { players, addPlayer, addAnswers } = gameCtx;
+  const { players, addPlayer, answers, addAnswers } = gameCtx;
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(10);
@@ -115,6 +115,7 @@ export default function GameRoom() {
               selectedAnswer={selectedAnswer}
               questionElement={questionElement}
               handleAnswerSelection={handleAnswerSelection}
+              answers={answers}
             />
           </div>
         </>
