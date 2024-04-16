@@ -3,6 +3,7 @@ import ScoreSheet from "./ScoreSheet";
 import Lottie from "lottie-react";
 
 import WrongAnswer from "../assets/WrongAnswer.json";
+import CorrectAnswer from "../assets/CorrectAnswer.json";
 import NoAnswer from "../assets/NoAnswer.json";
 
 export default function ScoreSheetTable({
@@ -19,29 +20,46 @@ export default function ScoreSheetTable({
     const noAnswerPlayerTwo = answers[1].selectedAnswer === null;
 
     const isWrongAnswerPlayerOne =
-      questionElement.correctAnswer !== answers[0].selectedAnswer && !noAnswerPlayerOne;
+      questionElement.correctAnswer !== answers[0].selectedAnswer &&
+      !noAnswerPlayerOne;
     const isWrongAnswerPlayerTwo =
-      questionElement.correctAnswer !== answers[1].selectedAnswer && !noAnswerPlayerTwo;
+      questionElement.correctAnswer !== answers[1].selectedAnswer &&
+      !noAnswerPlayerTwo;
+
+    const isCorrectAnswerPlayerOne =
+      questionElement.correctAnswer === answers[0].selectedAnswer;
+    const isCorrectAnswerPlayerTwo =
+      questionElement.correctAnswer === answers[1].selectedAnswer;
 
     return (
       <>
         {isWrongAnswerPlayerOne && reveal && (
-          <div className="absolute w-[4rem] top-0 left-0">
+          <div className="absolute w-[5rem] top-0 left-0">
             <Lottie animationData={WrongAnswer} loop={true} />
           </div>
         )}
+        {isCorrectAnswerPlayerOne && reveal && (
+          <div className="absolute w-[5rem] top-0 left-0">
+            <Lottie animationData={CorrectAnswer} loop={true} />
+          </div>
+        )}
         {noAnswerPlayerOne && reveal && (
-          <div className="absolute w-[4rem] top-0 left-0">
+          <div className="absolute w-[5rem] top-0 left-0">
             <Lottie animationData={NoAnswer} loop={true} />
           </div>
         )}
         {isWrongAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[4rem] right-0 top-0">
+          <div className="absolute w-[5rem] right-0 top-0">
             <Lottie animationData={WrongAnswer} loop={true} />
           </div>
         )}
+        {isCorrectAnswerPlayerTwo && reveal && (
+          <div className="absolute w-[5rem] right-0 top-0">
+            <Lottie animationData={CorrectAnswer} loop={true} />
+          </div>
+        )}
         {noAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[4rem] right-0 top-0">
+          <div className="absolute w-[5rem] right-0 top-0">
             <Lottie animationData={NoAnswer} loop={true} />
           </div>
         )}
