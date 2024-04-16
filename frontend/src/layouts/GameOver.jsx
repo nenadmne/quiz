@@ -67,12 +67,12 @@ export default function GameOver({ players }) {
             <strong className="text-[3rem]">{player2Score}</strong>
           </div>
         </div>
-        {winner && winner.name === username && (
+        {winner && winner.name === username && !draw &&  (
           <div className="absolute">
             <Lottie animationData={Fireworks} loop={true} />
           </div>
         )}
-        {winner && winner.name !== username && (
+        {winner && winner.name !== username && !draw && (
           <div className="absolute top-[1rem] right-[1rem] w-[5rem] z-99">
             <Lottie animationData={Loser} loop={true} />
           </div>
