@@ -17,7 +17,7 @@ export default function AnswerList({
   }, [answers]);
 
   return (
-    <ul className="grid grid-cols-2 gap-8">
+    <ul className="w-full grid grid-cols-2 gap-8">
       {questionElement.answers.map((answer, index) => {
         const otherPlayerAnswer =
           playerAnswers &&
@@ -30,7 +30,7 @@ export default function AnswerList({
           playerAnswers[1].selectedAnswer === answer;
 
         return (
-          <li key={index} className="w-[22rem]">
+          <li key={index} className="w-full">
             <button
               className={`${
                 selectedAnswer === answer &&
