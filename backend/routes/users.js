@@ -68,42 +68,43 @@ router.post("/login", async (req, res) => {
   const password = req.body.password;
 
   try {
-    let [existingUser] = await db.query(
-      "SELECT id FROM players WHERE username = ?",
-      [username]
-    );
+    // Find the user by username in the MongoDB collection
+    const existingUser = await collection.findOne({ username: username });
 
-    if (existingUser.length === 0) {
+    // If user doesn't exist
+    if (!existingUser) {
       return res.status(422).json({
         success: false,
-        message: "Entered user doesnt exist.",
+        message: "Entered user doesn't exist.",
       });
     }
 
-    const [storedPassword] = await db.query(
-      "SELECT password FROM players WHERE username = ?",
-      [username]
+    // Compare hashed password
+    const passwordValidation = await bcrypt.compare(
+      password,
+      existingUser.password
     );
-    const hashedPassword = storedPassword[0].password;
 
-    const passwordValidation = await bcrypt.compare(password, hashedPassword);
-
+    // If password is invalid
     if (!passwordValidation) {
       return res.status(422).json({
         message: "Invalid password.",
         errors: { credentials: "Entered password doesn't match." },
       });
     }
+
+    // Generate JWT token
     const KEY = "supersecret";
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
+
     return res.status(200).json({
       success: true,
       message: "Login successful.",
       token: token,
     });
   } catch (error) {
-    console.error("Error during signup:", error);
-    res.status(500).json({ success: false, message: "Signup failed." });
+    console.error("Error during login:", error);
+    res.status(500).json({ success: false, message: "Login failed." });
   }
 });
 
