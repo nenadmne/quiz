@@ -9,7 +9,7 @@ export default function PrivateRoute({ element }) {
     if (!token) {
       navigate("/");
     }
-  }, []);
+  }, [token]);
 
   return element;
 }
