@@ -5,6 +5,7 @@ import NavigationBar from "./layouts/NavigationBar";
 import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
 import Lobby from "./layouts/Lobby";
 import NotFound from "./layouts/NotFound";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -19,15 +20,15 @@ function App() {
         },
         {
           path: "/lobby",
-          element: <Lobby />,
+          element: <PrivateRoute element={<Lobby />} />,
         },
         {
           path: "/gameroom",
-          element: <GameRoom />,
+          element: <PrivateRoute element={<GameRoom />} />,
         },
         {
           path: "/admin",
-          element: <AdminPage />,
+          element: <PrivateRoute element={<AdminPage />} />,
           action: addQuestionAction,
         },
         {
