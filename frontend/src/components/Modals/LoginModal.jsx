@@ -137,6 +137,7 @@ export default function LoginModal({ open, handleClose }) {
               variant="contained"
               disabled={disabled}
               onClick={handleSubmit}
+              type="submit"
             >
               Confirm
             </Button>
