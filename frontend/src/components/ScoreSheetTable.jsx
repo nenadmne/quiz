@@ -39,7 +39,7 @@ export default function ScoreSheetTable({
           </div>
         )}
         {isCorrectAnswerPlayerOne && reveal && (
-          <div className="absolute w-[5rem] top-0 left-0">
+          <div className="absolute w-[5.5rem] top-0 left-0">
             <Lottie animationData={CorrectAnswer} loop={true} />
           </div>
         )}
@@ -54,7 +54,7 @@ export default function ScoreSheetTable({
           </div>
         )}
         {isCorrectAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[5rem] right-0 top-0">
+          <div className="absolute w-[5.5rem] right-0 top-0">
             <Lottie animationData={CorrectAnswer} loop={true} />
           </div>
         )}
