@@ -122,11 +122,14 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("A user disconnected");
+    // Reseting questions on user disconnection
     updateUsedQuestions();
-
+  
+    // Updating online users count in chat on every user disconection
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
 
+    // Updating players after user left the game
     let room;
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.some((player) => player.id === socket.id)) {

@@ -5,9 +5,9 @@ import GameProvider from "./store/contextProvider.jsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <GameProvider>
-      <App />
-    </GameProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <GameProvider>
+    <App />
+  </GameProvider>
+  // </React.StrictMode>
 );

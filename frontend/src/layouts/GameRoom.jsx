@@ -13,14 +13,15 @@ export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
   const { players, addPlayer, answers, addAnswers } = gameCtx;
+  
+  const username = localStorage.getItem("username");
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(10);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(0);
-
-  const username = localStorage.getItem("username");
+  const [playersJoined, setPlayersJoined] = useState(null);
 
   // Countdown timer effect
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function GameRoom() {
     return () => clearInterval(interval);
   }, [timer]);
 
-  // Switching questions function
+  // Switching questions function when time is up
   useEffect(() => {
     const fetchQuestion = () => {
       if (username === players[0].name) {
@@ -68,8 +69,9 @@ export default function GameRoom() {
     }
   }, [timer]);
 
-  // Function for providing 1 question object from database
+  // Function for providing 1 question object from database and setting data for joined players
   useEffect(() => {
+    setPlayersJoined(players);
     if (username === players[0].name) {
       socket.emit("getQuestion");
     }
@@ -96,6 +98,10 @@ export default function GameRoom() {
     return <GameOver players={players} />;
   }
 
+  if (players.length === 1) {
+    return <GameOver players={players} playersJoined={playersJoined} />;
+  }
+
   return (
     <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
       {questionElement ? (
@@ -109,7 +115,7 @@ export default function GameRoom() {
             answers={answers}
             reveal={reveal}
           />
-          
+
           <div className="w-[800px] p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
             <QuestionTimer timer={timer} points={questionElement.points} />
             <Question questionElement={questionElement} />

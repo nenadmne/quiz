@@ -7,35 +7,52 @@ import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
 
-export default function GameOver({ players }) {
+export default function GameOver({ players, playersJoined }) {
   const [winner, setWinner] = useState(null);
   const [draw, setDraw] = useState(false);
+
+  const username = localStorage.getItem("username");
+
+  // Storing players stats into state so the track of their stats is not lost after they leave
   const [player1Name, setPlayer1Name] = useState(null);
   const [player2Name, setPlayer2Name] = useState(null);
   const [player1Score, setPlayer1Score] = useState(null);
   const [player2Score, setPlayer2Score] = useState(null);
 
+  // Return to homepage button
   const handleButton = () => {
     window.location.href = "/";
   };
 
-  const username = localStorage.getItem("username");
-
   useEffect(() => {
-    const winner = players.reduce((prevPlayer, currentPlayer) => {
-      return currentPlayer.score > prevPlayer.score
-        ? currentPlayer
-        : prevPlayer;
-    });
-    const draw =
-      players.filter((player) => player.score === winner.score).length === 2;
+    // Defining state values, winner and draw logic when there was not a leaver during game
+    if (players.length === 2) {
+      const winner = players.reduce((prevPlayer, currentPlayer) => {
+        return currentPlayer.score > prevPlayer.score
+          ? currentPlayer
+          : prevPlayer;
+      });
 
-    setDraw(draw);
-    setWinner(winner);
-    setPlayer1Name(players[0].name);
-    setPlayer1Score(players[0].score);
-    setPlayer2Name(players[1].name);
-    setPlayer2Score(players[1].score);
+      const draw =
+        players.filter((player) => player.score === winner.score).length === 2;
+
+      setDraw(draw);
+      setWinner(winner);
+      setPlayer1Name(players[0].name);
+      setPlayer1Score(players[0].score);
+      setPlayer2Name(players[1].name);
+      setPlayer2Score(players[1].score);
+    }
+
+    // Defining state values, winner and draw logic when there was a leaver during game. Leaver get instant loss
+    if (players.length === 1) {
+      const winner = players[0];
+      setWinner(winner);
+      setPlayer1Name(playersJoined[0].name);
+      setPlayer1Score(playersJoined[0].score);
+      setPlayer2Name(playersJoined[1].name);
+      setPlayer2Score(playersJoined[1].score);
+    }
   }, []);
 
   return (
@@ -67,7 +84,7 @@ export default function GameOver({ players }) {
             <strong className="text-[3rem]">{player2Score}</strong>
           </div>
         </div>
-        {winner && winner.name === username && !draw &&  (
+        {winner && winner.name === username && !draw && (
           <div className="absolute">
             <Lottie animationData={Fireworks} loop={true} />
           </div>
