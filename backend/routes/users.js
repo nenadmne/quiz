@@ -1,32 +1,57 @@
 const express = require("express");
 const { sign } = require("jsonwebtoken");
 const router = express.Router();
-const db = require("../data/store");
 const bcrypt = require("bcryptjs");
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri);
+
+// Connect to MongoDB
+client.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MongoDB:", err);
+    return;
+  }
+  console.log("Connected to MongoDB");
+});
+
+// Database and collection names
+const dbName = "quiz";
+const collectionName = "users";
+
+const db = client.db(dbName);
+const collection = db.collection(collectionName);
+
+// Route for user signup
 router.post("/signup", async (req, res) => {
   const username = req.body.username;
-  const hashedPassword = await bcrypt.hash(req.body.password, 12);
-
-  const data = [username, hashedPassword];
+  const password = req.body.password;
 
   try {
-    let [existingUser] = await db.query(
-      "SELECT id FROM players WHERE username = ?",
-      [username]
-    );
-
-    if (existingUser.length > 0) {
+    // Check if username already exists
+    const existingUser = await collection.findOne({ username: username });
+    if (existingUser) {
       return res.status(422).json({
         success: false,
         message: "Username already exists. Please choose a different username.",
       });
     }
-    await db.query("INSERT INTO players (username, password) VALUES (?)", [
-      data,
-    ]);
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Insert new user into the collection
+    const result = await collection.insertOne({
+      username: username,
+      password: hashedPassword,
+    });
+
+    // Generate JWT token
     const KEY = "supersecret";
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
+
     return res.status(200).json({
       success: true,
       message: "Signup successful.",
