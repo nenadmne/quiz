@@ -27,6 +27,7 @@ const collection = db.collection(collectionName);
 // Route for user signup
 router.post("/signup", async (req, res) => {
   const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
 
   try {
@@ -45,6 +46,7 @@ router.post("/signup", async (req, res) => {
     // Insert new user into the collection
     const result = await collection.insertOne({
       username: username,
+      email: email,
       password: hashedPassword,
     });
 

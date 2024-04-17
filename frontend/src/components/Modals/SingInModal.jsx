@@ -37,6 +37,18 @@ export default function SinginModal({ open, handleClose }) {
       enteredName.trim().length > 2 && enteredName.trim().length < 13
   );
 
+  // Custom hook for email input
+  const {
+    enteredValue: enteredEmail,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    onChangeHandler: emailChangeHandler,
+    onBlurHandler: emailBlurHandler,
+  } = useInput(
+    (enteredEmail) =>
+      enteredEmail.trim().length > 0 && enteredEmail.includes("@")
+  );
+
   // Custom hook for password input
   const {
     enteredValue: enteredPassword,
@@ -61,6 +73,7 @@ export default function SinginModal({ open, handleClose }) {
   useEffect(() => {
     if (
       nameIsValid &&
+      emailIsValid &&
       passwordIsValid &&
       confirmedPasswordIsValid &&
       enteredPassword === enteredConfirmedPassword
@@ -69,7 +82,7 @@ export default function SinginModal({ open, handleClose }) {
     } else {
       setDisabled(true);
     }
-  }, [enteredName, enteredPassword, enteredConfirmedPassword]);
+  }, [enteredName, enteredPassword, enteredConfirmedPassword, enteredEmail]);
 
   // Submit Sign up function
   const handleSubmit = async (event) => {
@@ -83,6 +96,7 @@ export default function SinginModal({ open, handleClose }) {
         },
         body: JSON.stringify({
           username: enteredName,
+          email: enteredEmail,
           password: enteredPassword,
         }),
       });
@@ -135,6 +149,16 @@ export default function SinginModal({ open, handleClose }) {
             onBlur={nameBlurHandler}
           />
           <TextField
+            error={emailHasError}
+            id={emailHasError ? "outlined-error-helper-text" : "outlined-basic"}
+            helperText={emailHasError ? "Please enter a valid email" : ""}
+            label="Email"
+            variant="outlined"
+            value={enteredEmail}
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+          />
+          <TextField
             error={passwordHasError}
             id={
               passwordHasError ? "outlined-error-helper-text" : "outlined-basic"
@@ -175,6 +199,7 @@ export default function SinginModal({ open, handleClose }) {
               variant="contained"
               disabled={disabled}
               onClick={handleSubmit}
+              type="submit"
             >
               Confirm
             </Button>
