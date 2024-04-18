@@ -1,7 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useSocket from "../hooks/useSocket";
-import GameContext from "../store/context";
 
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Backgrounds/Background";
@@ -15,10 +13,6 @@ function Homepage() {
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
-  const socket = useSocket();
-  const gameCtx = useContext(GameContext);
-  const { addPlayer } = gameCtx;
-
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
@@ -29,12 +23,8 @@ function Homepage() {
     if (username) {
       setPlay(true);
       setTimeout(() => {
-        socket.emit("join", username);
-        socket.on("updatePlayers", (updatedPlayers) => {
-          addPlayer(updatedPlayers);
-        });
         setGameStarted(true);
-        navigate("lobby");
+        navigate("/lobby");
         setPlay(false);
       }, 2800);
     }

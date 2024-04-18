@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import GameContext from "../store/context";
+import useSocket from "../hooks/useSocket";
 
 import OnePlayerLobby from "../components/OnePlayerLobby";
 import TwoPlayerLobby from "../components/TwoPlayerLobby";
@@ -10,7 +11,16 @@ function Lobby() {
   const [queue, setQueue] = useState(0);
 
   const gameCtx = useContext(GameContext);
-  const { players } = gameCtx;
+  const { players, addPlayer } = gameCtx;
+  const socket = useSocket();
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    socket.emit("join", username);
+    socket.on("updatePlayers", (updatedPlayers) => {
+      addPlayer(updatedPlayers);
+    });
+  }, [socket]);
 
   // Function for different messages depending on player count
   useEffect(() => {
