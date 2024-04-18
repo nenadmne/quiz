@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { unstable_usePrompt } from "react-router-dom";
 import useSocket from "../hooks/useSocket";
 import GameContext from "../store/context";
 
@@ -13,7 +14,7 @@ export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
   const { players, addPlayer, answers, addAnswers } = gameCtx;
-  
+
   const username = localStorage.getItem("username");
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -22,6 +23,30 @@ export default function GameRoom() {
   const [questionElement, setQuestionElement] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [playersJoined, setPlayersJoined] = useState(null);
+
+  // Function preventing users from leaving the game, changing the url, without confirming
+  useEffect(() => {
+    if (questionNumber < 5) {
+      const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = ""; // Required for legacy browsers
+        return "Are you sure?";
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [questionNumber]);
+
+  // Function preventing users from leaving the game, using back and foreward button
+  unstable_usePrompt({
+    message: "Are you sure?",
+    when: ({ currentLocation, nextLocation }) =>
+      questionNumber < 5 && currentLocation.pathname !== nextLocation.pathname,
+  });
 
   // Countdown timer effect
   useEffect(() => {
