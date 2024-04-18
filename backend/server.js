@@ -71,9 +71,10 @@ io.on("connection", (socket) => {
 
   socket.on("getQuestion", async () => {
     try {
+      const players = playerRooms.get(room)
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++;
-      if (numberOfQuestions < 6) {
+      if (numberOfQuestions < 6 && players.length === 2) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
       console.log(numberOfQuestions);
