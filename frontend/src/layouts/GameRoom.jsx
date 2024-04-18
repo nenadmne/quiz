@@ -26,7 +26,7 @@ export default function GameRoom() {
 
   // Function preventing users from leaving the game, changing the url, without confirming
   useEffect(() => {
-    if (questionNumber < 5) {
+    if (questionNumber < 5 && players.length === 2) {
       const handleBeforeUnload = (event) => {
         event.preventDefault();
         event.returnValue = ""; // Required for legacy browsers
@@ -45,7 +45,9 @@ export default function GameRoom() {
   unstable_usePrompt({
     message: "Are you sure?",
     when: ({ currentLocation, nextLocation }) =>
-      questionNumber < 5 && currentLocation.pathname !== nextLocation.pathname,
+      questionNumber < 5 &&
+      players.length === 2 &&
+      currentLocation.pathname !== nextLocation.pathname,
   });
 
   // Countdown timer effect
