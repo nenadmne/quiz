@@ -119,6 +119,13 @@ export default function GameRoom() {
     setSelectedAnswer(answer);
   };
 
+  // Logic for disconnecting users from socket when they leave gameroom
+  useEffect(() => {
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
+
   if (questionNumber === 5) {
     return <GameOver players={players} />;
   }
