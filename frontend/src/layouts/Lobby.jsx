@@ -9,18 +9,21 @@ import Loading from "../components/Loading";
 function Lobby() {
   const [countdown, setCountdown] = useState(5);
   const [queue, setQueue] = useState(0);
+  const socket = useSocket();
 
   const gameCtx = useContext(GameContext);
   const { players, addPlayer } = gameCtx;
-  const socket = useSocket();
   const username = localStorage.getItem("username");
 
+  // Connecting with socket and storing connected players in context
   useEffect(() => {
-    socket.emit("join", username);
-    socket.on("updatePlayers", (updatedPlayers) => {
-      addPlayer(updatedPlayers);
-    });
-  }, [socket]);
+    setTimeout(() => {
+      socket.emit("join", username);
+      socket.on("updatePlayers", (updatedPlayers) => {
+        addPlayer(updatedPlayers);
+      });
+    }, 500);
+  }, []);
 
   // Function for different messages depending on player count
   useEffect(() => {
@@ -41,12 +44,14 @@ function Lobby() {
     }
   }, [countdown, players]);
 
-  if (players.length === 1) {
+  // Statement that returns player to homepage if he types in url lobby route
+  if (!socket && players.length === 0) {
+    window.location.href = "/";
+  } else if (players.length === 1) {
     return <OnePlayerLobby queue={queue} players={players} />;
   } else if (players.length === 2) {
     return <TwoPlayerLobby countdown={countdown} players={players} />;
   }
-
   return (
     <div className="w-full h-full bg-blackGrad flex flex-col gap-4 justify-center items-center">
       <Loading />
