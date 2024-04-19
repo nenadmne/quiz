@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Backgrounds/Background";
 import ChatComponent from "../components/Chat";
+import useSocket from "../hooks/useSocket";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -11,6 +12,8 @@ function Homepage() {
   const [gameStarted, setGameStarted] = useState(false);
 
   const username = localStorage.getItem("username");
+  const gameroom = localStorage.getItem("gameroom");
+  const socket = useSocket();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +21,16 @@ function Homepage() {
       setLoaded(true);
     }, 2800);
   }, []);
+
+  useEffect(() => {
+    if (gameroom) {
+      window.location.href = "/";
+      localStorage.removeItem("gameroom");
+      if (socket) {
+        socket.disconnect();
+      }
+    }
+  }, [gameroom, socket]);
 
   const handleJoinGame = () => {
     if (username) {

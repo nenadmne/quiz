@@ -45,7 +45,8 @@ export default function GameRoom() {
   unstable_usePrompt({
     message: "Are you sure?",
     when: ({ currentLocation, nextLocation }) =>
-      (questionNumber < 5 && players.length === 2) &&
+      questionNumber < 5 &&
+      players.length === 2 &&
       currentLocation.pathname !== nextLocation.pathname,
   });
 
@@ -97,6 +98,7 @@ export default function GameRoom() {
 
   // Function for providing 1 question object from database and setting data for joined players
   useEffect(() => {
+    localStorage.setItem("gameroom", "gameroom"); // important for socket disconnect logic when back button is clicked and navigated to lobby
     setPlayersJoined(players);
     if (username === players[0].name) {
       socket.emit("getQuestion");
@@ -119,18 +121,6 @@ export default function GameRoom() {
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);
   };
-
-  // Logic for disconnecting users from socket when they leave gameroom
-  useEffect(() => {
-    return () => {
-      socket.disconnect();
-      socket.on("updatePlayers", (updatedPlayers) => {
-        addPlayer(updatedPlayers);
-      });
-    };
-  }, [socket]);
-
-  console.log(players);
 
   if (questionNumber === 5) {
     return <GameOver players={players} />;

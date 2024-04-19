@@ -14,17 +14,22 @@ function Lobby() {
   const gameCtx = useContext(GameContext);
   const { players, addPlayer } = gameCtx;
   const username = localStorage.getItem("username");
+  const gameroom = localStorage.getItem("gameroom");
 
   // Connecting with socket and storing connected players in context
   useEffect(() => {
-    setTimeout(() => {
-      socket.emit("join", username);
-      socket.on("updatePlayers", (updatedPlayers) => {
-        addPlayer(updatedPlayers);
-      });
-    }, 500);
+    if (gameroom) {
+      socket.disconnect();
+      localStorage.removeItem("gameroom");
+      window.location.href = "/";
+    }
+    socket.emit("join", username);
+    socket.on("updatePlayers", (updatedPlayers) => {
+      addPlayer(updatedPlayers);
+    });
   }, []);
 
+  console.log(players);
   // Function for different messages depending on player count
   useEffect(() => {
     if (players.length === 1) {

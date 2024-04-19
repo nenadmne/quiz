@@ -6,11 +6,13 @@ import Loser from "../assets/Loser.json";
 import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
+import useSocket from "../hooks/useSocket";
 
 export default function GameOver({ players, playersJoined }) {
   const [winner, setWinner] = useState(null);
   const [draw, setDraw] = useState(false);
 
+  const socket = useSocket();
   const username = localStorage.getItem("username");
 
   // Storing players stats into state so the track of their stats is not lost after they leave
@@ -23,6 +25,12 @@ export default function GameOver({ players, playersJoined }) {
   const handleButton = () => {
     window.location.href = "/";
   };
+
+  useEffect(() => {
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
 
   useEffect(() => {
     // Defining state values, winner and draw logic when there was not a leaver during game
