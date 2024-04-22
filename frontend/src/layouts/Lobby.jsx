@@ -29,7 +29,6 @@ function Lobby() {
     });
   }, []);
 
-  console.log(players);
   // Function for different messages depending on player count
   useEffect(() => {
     if (players.length === 1) {
@@ -48,6 +47,15 @@ function Lobby() {
       return () => clearInterval(interval);
     }
   }, [countdown, players]);
+
+  useEffect(() => {
+    const handleBackButton = (e) => {
+      e.preventDefault();
+      socket.disconnect();
+      window.location.reload()
+    };
+    window.addEventListener("popstate", handleBackButton);
+  }, []);
 
   // Statement that returns player to homepage if he types in url lobby route
   if (!socket && players.length === 0) {

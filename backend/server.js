@@ -53,11 +53,12 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    if (!room) {
+    if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
       console.log(`New room created: ${room}`);
       playerRooms.set(room, []);
-    } else if (playerRooms.get(room).length >= 2) {
+    }
+    if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
       console.log(`New room created: ${room}`);
       playerRooms.set(room, []);
@@ -71,10 +72,10 @@ io.on("connection", (socket) => {
 
   socket.on("getQuestion", async () => {
     try {
-      const players = playerRooms.get(room)
+      const players = playerRooms.get(room);
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++;
-      if (numberOfQuestions < 6 && players.length === 2) {
+      if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
       console.log(numberOfQuestions);
@@ -121,11 +122,16 @@ io.on("connection", (socket) => {
     io.emit("connectedUsers", connectedUsers);
   });
 
+  socket.on("gameOver", () => {
+    playerRooms.delete(room);
+    console.log(`Deleted Room ${room}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected");
     // Reseting questions on user disconnection
     updateUsedQuestions();
-  
+
     // Updating online users count in chat on every user disconection
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
@@ -144,6 +150,10 @@ io.on("connection", (socket) => {
         room,
         playerRooms.get(room).filter((player) => player.id !== socket.id)
       );
+      if (playerRooms.get(room).length === 0) {
+        playerRooms.delete(room);
+        console.log(`Deleted room ${room}`);
+      }
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }
   });

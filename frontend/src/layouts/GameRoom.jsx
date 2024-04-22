@@ -26,7 +26,7 @@ export default function GameRoom() {
 
   // Function preventing users from leaving the game, changing the url, without confirming
   useEffect(() => {
-    if (questionNumber < 5 && players.length === 2) {
+    if (questionNumber < 5 && players !== undefined && players.length === 2) {
       const handleBeforeUnload = (event) => {
         event.preventDefault();
         event.returnValue = ""; // Required for legacy browsers
@@ -47,6 +47,7 @@ export default function GameRoom() {
     when: ({ currentLocation, nextLocation }) =>
       questionNumber < 5 &&
       players.length === 2 &&
+      players !== undefined &&
       currentLocation.pathname !== nextLocation.pathname,
   });
 
@@ -111,11 +112,13 @@ export default function GameRoom() {
 
   // Listen for updateScore events
   useEffect(() => {
-    socket.on("updateScore", ({ players, answers }) => {
-      addPlayer(players);
-      addAnswers(answers);
-    });
-  }, [socket, questionNumber]);
+    if (players !== undefined && players.length === 2) {
+      socket.on("updateScore", ({ players, answers }) => {
+        addPlayer(players);
+        addAnswers(answers);
+      });
+    }
+  }, [socket, questionNumber, players]);
 
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
@@ -126,13 +129,17 @@ export default function GameRoom() {
     return <GameOver players={players} />;
   }
 
-  if (players.length === 1) {
+  if (players !== undefined && players.length === 1) {
     return <GameOver players={players} playersJoined={playersJoined} />;
+  }
+
+  if (players === undefined) {
+    return <GameOver players={[]} playersJoined={playersJoined} />;
   }
 
   return (
     <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
-      {questionElement ? (
+      {questionElement && players !== undefined ? (
         <>
           <ScoreSheetTable
             playerOneName={players[0].name}
