@@ -26,6 +26,7 @@ export default function GameOver({ players, playersJoined }) {
     window.location.href = "/";
   };
 
+  // Socket clean up function
   useEffect(() => {
     return () => {
       socket.disconnect();

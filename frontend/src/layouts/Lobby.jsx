@@ -48,11 +48,10 @@ function Lobby() {
     }
   }, [countdown, players]);
 
+  // Handling back button logic in lobby
   useEffect(() => {
-    const handleBackButton = (e) => {
-      e.preventDefault();
+    const handleBackButton = () => {
       socket.disconnect();
-      window.location.reload()
     };
     window.addEventListener("popstate", handleBackButton);
   }, []);
