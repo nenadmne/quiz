@@ -55,17 +55,17 @@ export default function GameOver({ players, playersJoined }) {
 
     // Defining state values, winner and draw logic when there was a leaver during game. Leaver get instant loss
     if (players.length < 2) {
-      const winner = players[0];
-      setWinner(winner);
+      const winner = playersJoined.filter((player) => player.name === username);
+      setWinner(winner[0]);
       setPlayer1Name(playersJoined[0].name);
       setPlayer1Score(playersJoined[0].score);
       setPlayer2Name(playersJoined[1].name);
       setPlayer2Score(playersJoined[1].score);
     }
-
-      socket.emit("gameOver");
+    socket.emit("gameOver");
   }, []);
 
+  console.log(winner)
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
       <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center">
