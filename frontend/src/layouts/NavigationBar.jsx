@@ -15,6 +15,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 import LoginModal from "../components/Modals/LoginModal";
 import SinginModal from "../components/Modals/SingInModal";
+import ProfileModal from "../components/Modals/ProfileModal";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -24,6 +25,10 @@ export default function NavigationBar() {
   const [signinOpen, setSinginOpen] = useState(false);
   const handleSigninOpen = () => setSinginOpen(true);
   const handleSigninClose = () => setSinginOpen(false);
+
+  const [profileOpen, setProfileOpen] = useState(false);
+  const handleProfileOpen = () => setProfileOpen(true);
+  const handleProfileClose = () => setProfileOpen(false);
 
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
@@ -92,7 +97,7 @@ export default function NavigationBar() {
               </>
             ) : (
               <div className="h-full flex flex-row gap-4 justify-center items-center px-4 pt-4 pb-2">
-                <button>
+                <button onClick={handleProfileOpen}>
                   <Typography className="flex flex-row gap-2 px-4 py-2 border border-black rounded-xl bg-white text-black">
                     <EmojiEventsIcon />
                     <strong className="italic">{username}</strong>
@@ -136,6 +141,9 @@ export default function NavigationBar() {
         )}
         {signinOpen && (
           <SinginModal open={signinOpen} handleClose={handleSigninClose} />
+        )}
+        {profileOpen && (
+          <ProfileModal open={profileOpen} handleClose={handleProfileClose} />
         )}
       </Box>
       <Outlet />
