@@ -6,11 +6,12 @@ const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
+  maxHeight: "250px",
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 2,
+  py: 2,
+  px: 4,
   borderRadius: 4,
   display: "flex",
   flexDirection: "column",
@@ -39,7 +40,8 @@ export default function ProfileModal({ open, handleClose }) {
         }
 
         const data = await response.json();
-        setUserInfo(data);
+        setUserInfo(data.user);
+        setHistory(data.matches);
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
@@ -50,15 +52,22 @@ export default function ProfileModal({ open, handleClose }) {
     }
   }, [open]);
 
-  console.log(userInfo);
+  console.log(history);
+  console.log(
+    history &&
+      history.map((item) => {
+        return item.player1;
+      })
+  );
   return (
     <Modal
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      className="overflow-hidden"
     >
-      <Box sx={style}>
+      <Box sx={style} className="overflow-y-scroll">
         <div className="flex justify-center items-center">
           <strong className="text-[2rem] uppercase">{username}</strong>
         </div>
@@ -72,6 +81,52 @@ export default function ProfileModal({ open, handleClose }) {
         <div className="flex justify-center items-center">
           <span className="text-[2rem]">Match History</span>
         </div>
+        {history !== null && (
+          <div className="flex flex-row g-2">
+            <ul className="text-[1.25rem] flex flex-col w-[300px]">
+              {history.map((item) => (
+                <li key={item._id} className="flex flex-row gap-1">
+                  <span
+                    className={`${
+                      username === item.player1 ? "font-bold" : ""
+                    }`}
+                  >
+                    {item.player1}
+                  </span>
+                  <span>-</span>
+                  <span
+                    className={`${
+                      username === item.player2 ? "font-bold" : ""
+                    }`}
+                  >
+                    {item.player2}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <ul className="text-[1.25rem] flex flex-col w-[100px] items-end">
+              {history.map((item) => (
+                <li key={item._id} className="flex flex-row gap-1">
+                  <span
+                    className={
+                      item.result !== "Draw"
+                        ? item.result.includes(username)
+                          ? "text-[green]"
+                          : "text-[red]"
+                        : ""
+                    }
+                  >
+                    {item.result !== "Draw"
+                      ? item.result.includes(username)
+                        ? "Won"
+                        : "Loss"
+                      : "Draw"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </Box>
     </Modal>
   );

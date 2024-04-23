@@ -14,12 +14,17 @@ router.get("/userInfo", verifyToken, async (req, res) => {
     const client = await MongoClient.connect(uri);
     const db = client.db();
     const usersCollection = db.collection("users");
+    const matchCollection = db.collection("match_history");
 
     const user = await usersCollection.findOne({ username: username });
 
+    const matches = await matchCollection.find({
+      $or: [{ player1: username }, { player2: username }],
+    }).toArray(); // Convert cursor to array
+
     await client.close();
 
-    res.json(user);
+    res.json({user, matches});
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });
