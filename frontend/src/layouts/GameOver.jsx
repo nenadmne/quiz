@@ -45,12 +45,20 @@ export default function GameOver({ players, playersJoined }) {
       const draw =
         players.filter((player) => player.score === winner.score).length === 2;
 
-      setDraw(draw);
-      setWinner(winner);
+      if (draw) {
+        setDraw(draw);
+      } else {
+        setWinner(winner);
+      }
       setPlayer1Name(players[0].name);
       setPlayer1Score(players[0].score);
       setPlayer2Name(players[1].name);
       setPlayer2Score(players[1].score);
+
+    // To emit only once 
+      if (username === players[0].name) {
+        socket.emit("gameOver");
+      }
     }
 
     // Defining state values, winner and draw logic when there was a leaver during game. Leaver get instant loss
@@ -61,11 +69,69 @@ export default function GameOver({ players, playersJoined }) {
       setPlayer1Score(playersJoined[0].score);
       setPlayer2Name(playersJoined[1].name);
       setPlayer2Score(playersJoined[1].score);
+
+      socket.emit("gameOver");
     }
-    socket.emit("gameOver");
   }, []);
 
-  console.log(winner)
+  useEffect(() => {
+    // Securing to call socket only once, handling the Win/Draw/Loss count
+    if (username === players[0].name) {
+      socket.on("gameOver", async (room) => {
+        if (winner !== null && !draw) {
+          const roomId = room;
+          const winnerPlayer = winner;
+
+          try {
+            const response = await fetch("http://localhost:4000/gameOver", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                room: roomId,
+                winner: winnerPlayer,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+            console.log(data);
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        } else if (draw) {
+          console.log("here i am");
+          const drawedGame = draw;
+          const roomId = room;
+          try {
+            const response = await fetch("http://localhost:4000/gameOver", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                draw: drawedGame,
+                room: roomId,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            console.log(data);
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        }
+      });
+    }
+  }, [winner, draw]);
+
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
       <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center">

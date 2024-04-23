@@ -17,7 +17,6 @@ async function connectToMongoDB() {
 }
 
 async function addMatch({ players }, room) {
-  console.log(players);
   try {
     const db = await connectToMongoDB();
     const collection = db.collection(collectionName);

@@ -6,6 +6,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const cors = require("cors");
 
 const users = require("./routes/users");
+const gameOver = require("./routes/gameOver");
 const { addMatch } = require("./util/addMatch");
 const addQuestion = require("./routes/addQuestion");
 const {
@@ -36,6 +37,7 @@ instrument(io, {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(users);
+app.use(gameOver);
 app.use(addQuestion);
 
 // Store the mapping of players to rooms
@@ -46,7 +48,7 @@ let numberOfQuestions = 0;
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
-    console.log(`${playerName} joined`);
+    console.log(`51: ${playerName} joined`);
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -56,12 +58,12 @@ io.on("connection", (socket) => {
     }
     if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
-      console.log(`New room created: ${room}`);
+      console.log(`61: New room created: ${room}`);
       playerRooms.set(room, []);
     }
     if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
-      console.log(`New room created: ${room}`);
+      console.log(`66: New room created: ${room}`);
       playerRooms.set(room, []);
     }
 
@@ -79,7 +81,7 @@ io.on("connection", (socket) => {
       if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
-      console.log(`Question number ${numberOfQuestions}`);
+      console.log(`84: Question number ${numberOfQuestions}`);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -124,17 +126,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("gameStart", async (players) => {
-    console.log(`Game started`);
+    console.log(`129: Game started`);
     await addMatch(players, room);
   });
 
   socket.on("gameOver", () => {
+    io.to(room).emit("gameOver", room);
     playerRooms.delete(room);
-    console.log(`Deleted Room ${room}`);
+    console.log(`136: Deleted Room ${room}`);
   });
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log("140: A user disconnected");
     // Reseting questions on user disconnection
     updateUsedQuestions();
 
@@ -150,7 +153,6 @@ io.on("connection", (socket) => {
         break;
       }
     }
-
     if (room) {
       playerRooms.set(
         room,
@@ -158,7 +160,7 @@ io.on("connection", (socket) => {
       );
       if (playerRooms.get(room).length === 0) {
         playerRooms.delete(room);
-        console.log(`Deleted room ${room}`);
+        console.log(`163: Deleted room ${room}`);
       }
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }
