@@ -97,12 +97,13 @@ export default function GameRoom() {
     }
   }, [timer]);
 
-  // Function for providing 1 question object from database and setting data for joined players
+  // Function for providing 1 question object from database, setting joinedPlayers, emiting gameStart event
   useEffect(() => {
     localStorage.setItem("gameroom", "gameroom"); // important for socket disconnect logic when back button is clicked and navigated to lobby
     setPlayersJoined(players);
     if (username === players[0].name) {
       socket.emit("getQuestion");
+      socket.emit("gameStart", { players });
     }
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);

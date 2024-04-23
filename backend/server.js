@@ -6,6 +6,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const cors = require("cors");
 
 const users = require("./routes/users");
+const { addMatch } = require("./util/addMatch");
 const addQuestion = require("./routes/addQuestion");
 const {
   getRandomQuestion,
@@ -78,7 +79,7 @@ io.on("connection", (socket) => {
       if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
       }
-      console.log(numberOfQuestions);
+      console.log(`Question number ${numberOfQuestions}`);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -120,6 +121,11 @@ io.on("connection", (socket) => {
   socket.on("connectedUsers", () => {
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
+  });
+
+  socket.on("gameStart", async (players) => {
+    console.log(`Game started`);
+    await addMatch(players, room);
   });
 
   socket.on("gameOver", () => {
