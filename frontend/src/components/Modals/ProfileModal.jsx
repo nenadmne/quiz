@@ -10,14 +10,18 @@ const style = {
   width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 4,
+  p: 2,
   borderRadius: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: 2,
 };
 
 export default function ProfileModal({ open, handleClose }) {
   const username = localStorage.getItem("username");
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   const [userInfo, setUserInfo] = useState(null);
+  const [history, setHistory] = useState(null);
 
   useEffect(() => {
     async function fetchUserInfo() {
@@ -46,7 +50,7 @@ export default function ProfileModal({ open, handleClose }) {
     }
   }, [open]);
 
-  console.log(userInfo)
+  console.log(userInfo);
   return (
     <Modal
       open={open}
@@ -56,7 +60,17 @@ export default function ProfileModal({ open, handleClose }) {
     >
       <Box sx={style}>
         <div className="flex justify-center items-center">
-          <strong className="text-[2rem]">{username}</strong>
+          <strong className="text-[2rem] uppercase">{username}</strong>
+        </div>
+        <div>
+          <ul className="text-[1.5rem] flex flex-row justify-between">
+            <li className="text-[green]">{`Win: ${userInfo?.win || "0"}`}</li>
+            <li className="text-[black]">{`Draw: ${userInfo?.draw || "0"}`}</li>
+            <li className="text-[red]">{`Lost: ${userInfo?.loss || "0"}`}</li>
+          </ul>
+        </div>
+        <div className="flex justify-center items-center">
+          <span className="text-[2rem]">Match History</span>
         </div>
       </Box>
     </Modal>
