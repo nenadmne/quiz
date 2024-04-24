@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import Loading from "../Loading";
 
 const style = {
   position: "absolute",
@@ -52,13 +53,6 @@ export default function ProfileModal({ open, handleClose }) {
     }
   }, [open]);
 
-  console.log(history);
-  console.log(
-    history &&
-      history.map((item) => {
-        return item.player1;
-      })
-  );
   return (
     <Modal
       open={open}
@@ -67,25 +61,31 @@ export default function ProfileModal({ open, handleClose }) {
       aria-describedby="modal-modal-description"
       className="overflow-hidden"
     >
-      <Box sx={style} className="overflow-y-scroll">
-        <div className="flex justify-center items-center">
-          <strong className="text-[2rem] uppercase">{username}</strong>
-        </div>
-        <div>
-          <ul className="text-[1.5rem] flex flex-row justify-between">
-            <li className="text-[green]">{`Win: ${userInfo?.win || "0"}`}</li>
-            <li className="text-[black]">{`Draw: ${userInfo?.draw || "0"}`}</li>
-            <li className="text-[red]">{`Lost: ${userInfo?.loss || "0"}`}</li>
-          </ul>
-        </div>
-        <div className="flex justify-center items-center">
-          <span className="text-[2rem]">Match History</span>
-        </div>
-        {history !== null && (
+      {history !== null ? (
+        <Box sx={style} className="overflow-y-scroll">
+          <div className="flex justify-center items-center">
+            <strong className="text-[2rem] uppercase">{username}</strong>
+          </div>
+          <div>
+            <ul className="text-[1.5rem] flex flex-row justify-between">
+              <li className="text-[green]">{`Win: ${userInfo?.win || "0"}`}</li>
+              <li className="text-[black]">{`Draw: ${
+                userInfo?.draw || "0"
+              }`}</li>
+              <li className="text-[red]">{`Lost: ${userInfo?.loss || "0"}`}</li>
+            </ul>
+          </div>
+          <div className="flex justify-center items-center">
+            <span className="text-[2rem]">Match History</span>
+          </div>
+
           <div className="flex flex-row g-2">
             <ul className="text-[1.25rem] flex flex-col w-[300px]">
               {history.map((item) => (
-                <li key={item._id} className="flex flex-row gap-1">
+                <li
+                  key={item._id}
+                  className="flex flex-row gap-1 py-1 border-black border-b"
+                >
                   <span
                     className={`${
                       username === item.player1 ? "font-bold" : ""
@@ -104,9 +104,12 @@ export default function ProfileModal({ open, handleClose }) {
                 </li>
               ))}
             </ul>
-            <ul className="text-[1.25rem] flex flex-col w-[100px] items-end">
+            <ul className="text-[1.25rem] flex flex-col w-[100px]">
               {history.map((item) => (
-                <li key={item._id} className="flex flex-row gap-1">
+                <li
+                  key={item._id}
+                  className="flex flex-row gap-1 py-1 border-black border-b w-full justify-end"
+                >
                   <span
                     className={
                       item.result !== "Draw"
@@ -126,8 +129,12 @@ export default function ProfileModal({ open, handleClose }) {
               ))}
             </ul>
           </div>
-        )}
-      </Box>
+        </Box>
+      ) : (
+        <div className="w-full h-full flex justify-center items-center bg-black opacity-60 flex-col gap-4">
+          <Loading />
+        </div>
+      )}
     </Modal>
   );
 }
