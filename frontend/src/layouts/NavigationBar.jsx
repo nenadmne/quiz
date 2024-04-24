@@ -34,6 +34,7 @@ export default function NavigationBar() {
   const username = localStorage.getItem("username");
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [hamburger, setHamburger] = useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,6 +49,14 @@ export default function NavigationBar() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     window.location.href = "/";
+  };
+
+  const handleHamburgerOpen = (event) => {
+    setHamburger(event.currentTarget);
+  };
+
+  const handleHamburgerClose = () => {
+    setHamburger(null);
   };
 
   return (
@@ -68,9 +77,32 @@ export default function NavigationBar() {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              onClick={handleHamburgerOpen}
             >
               <MenuIcon />
             </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={hamburger}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(hamburger)}
+              onClose={handleHamburgerClose}
+              style={{ top: "3.5rem" }}
+            >
+              <MenuItem> Leaderboards </MenuItem>
+              <MenuItem> Questions </MenuItem>
+              <MenuItem> Donate </MenuItem>
+              <MenuItem> About </MenuItem>
+            </Menu>
+
             <Typography
               variant="h6"
               component="div"
