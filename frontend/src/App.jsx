@@ -7,6 +7,7 @@ import Lobby from "./layouts/Lobby";
 import NotFound from "./layouts/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import "react-toastify/dist/ReactToastify.css";
+import Leaderboards, { leaderboardsLoader } from "./layouts/Leaderboards";
 
 function App() {
   const router = createBrowserRouter([
@@ -17,6 +18,11 @@ function App() {
         {
           path: "/",
           element: <Homepage />,
+        },
+        {
+          path: "/leaderboards",
+          element: <Leaderboards />,
+          loader: leaderboardsLoader,
         },
         {
           path: "/lobby",
