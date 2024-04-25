@@ -17,6 +17,7 @@ router.post("/addQuestion", async (req, res) => {
 
     // Insert the question data into the questions collection
     await questionCollection.insertOne(questionData);
+    res.status(200).json({ message: "Question added successfully" });
     await client.close();
   } catch (error) {
     console.error("Error:", error);
@@ -35,6 +36,7 @@ router.post("/suggestQuestion", async (req, res) => {
     // Insert the question data into the questions collection
     await questionCollection.insertOne(questionData);
     await client.close();
+    res.status(200).json({ message: "Question suggested successfully" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });

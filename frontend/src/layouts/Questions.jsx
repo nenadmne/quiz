@@ -14,11 +14,18 @@ export default function Questions() {
     setAnswerValues(newAnswerValues);
   };
 
+  const submitHandler = () => {
+    setTimeout(() => {
+      window.location.href = "/questions";
+    }, 1000);
+  };
+
   return (
     <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-12">
       <Form
         method="POST"
         className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
+        onSubmit={submitHandler}
       >
         <h1 className="uppercase text-xl">
           <strong>Submit question</strong>
@@ -56,7 +63,13 @@ export default function Questions() {
               />
             )}
           />
-          <TextField label="Points" variant="outlined" name="points" required />
+          <TextField
+            label="Points"
+            variant="outlined"
+            name="points"
+            required
+            type="number"
+          />
         </div>
 
         <Button type="submit" variant="contained">
