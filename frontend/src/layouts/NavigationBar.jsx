@@ -97,16 +97,12 @@ export default function NavigationBar() {
               onClose={handleHamburgerClose}
               style={{ top: "3.5rem" }}
             >
-              <MenuItem
-                onClick={() => (window.location.href = "/leaderboards")}
-              >
-                Leaderboards
-              </MenuItem>
-              <MenuItem> Questions </MenuItem>
+              <MenuItem onClick={() => (window.location.href = "/")}> Home </MenuItem>
+              <MenuItem onClick={() => (window.location.href = "/leaderboards")}> Leaderboards </MenuItem>
+              <MenuItem onClick={() => (window.location.href = "/questions")}> Questions </MenuItem>
               <MenuItem> Donate </MenuItem>
               <MenuItem> About </MenuItem>
             </Menu>
-
             <Typography
               variant="h6"
               component="div"

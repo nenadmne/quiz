@@ -37,11 +37,6 @@ router.post("/gameOver", async (req, res) => {
         username: playerLost,
       });
 
-      const { drawPlayerWon, winPlayerWon } = playerWon;
-      const { drawPlayerLoss, winPlayerLoss } = playerLoss;
-      const totalPointsPlayerWon = +drawPlayerWon * 1 + +winPlayerWon * 3;
-      const totalPointsPlayerLoss = +drawPlayerLoss * 1 + +winPlayerLoss * 3;
-
       await usersCollection.updateOne(
         { username: playerWon.username, win: { $exists: false } }, // Check if 'win' property doesn't exist
         { $set: { win: 0 } } // Set 'win' to 1 if it doesn't exist
@@ -76,10 +71,6 @@ router.post("/gameOver", async (req, res) => {
       const playerTwo = await usersCollection.findOne({
         username: player2,
       });
-      const { drawPlayerOne, winPlayerOne } = playerOne;
-      const { drawPlayerTwo, winPlayerTwo } = playerTwo;
-      const totalPointsPlayerOne = +drawPlayerOne * 1 + +winPlayerOne * 3;
-      const totalPointsPlayerTwo = +drawPlayerTwo * 1 + +winPlayerTwo * 3;
 
       await usersCollection.updateOne(
         { username: playerOne.username, draw: { $exists: false } },
