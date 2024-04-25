@@ -22,7 +22,7 @@ export default function Leaderboards() {
 
   return data !== null ? (
     <div className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
-      <div className="w-[500px] bg-darkPurple rounded p-4 flex flex-col items-center justify-center gap-8">
+      <div className="w-[500px] max-h-[800px] overflow-y-scroll bg-darkPurple rounded-xl p-6 flex flex-col items-center justify-center gap-8">
         <div className="flex flex-row gap-2 justify-center items-center">
           <MilitaryTechIcon style={{ fontSize: "2.5rem" }} />
           <h1 className="text-[2rem] font-bold uppercase">Leaderboard</h1>
@@ -48,7 +48,7 @@ export default function Leaderboards() {
                     style={{ color: "brown", fontSize: "1.75rem" }}
                   />
                 )}
-                <span>{index + 1}</span>
+                <span>{`${index + 1}.`}</span>
                 <span>{item.username}</span>
               </div>
               <span className="font-bold">{item.totalPoints}</span>
