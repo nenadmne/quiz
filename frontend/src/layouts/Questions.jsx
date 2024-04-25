@@ -28,6 +28,7 @@ export default function Questions() {
           variant="outlined"
           className="w-full"
           name="question"
+          required
         />
         <div className="grid grid-cols-2 gap-4 w-full">
           {[1, 2, 3, 4].map((item, index) => (
@@ -37,6 +38,7 @@ export default function Questions() {
               variant="outlined"
               name={`answer${item}`}
               onChange={(event) => handleAnswerChange(event, index)}
+              required
             />
           ))}
         </div>
@@ -48,12 +50,13 @@ export default function Questions() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="CorrectAnswer"
+                label="Correct Answer"
                 name="correctAnswer"
+                required
               />
             )}
           />
-          <TextField label="Points" variant="outlined" name="points" />
+          <TextField label="Points" variant="outlined" name="points" required />
         </div>
 
         <Button type="submit" variant="contained">
@@ -63,3 +66,38 @@ export default function Questions() {
     </section>
   );
 }
+
+export const suggestQuestionAction = async ({ request }) => {
+  const data = await request.formData();
+  const questionData = {
+    question: data.get("question"),
+    answers: [
+      data.get("answer1"),
+      data.get("answer2"),
+      data.get("answer3"),
+      data.get("answer4"),
+    ],
+    correctAnswer: data.get("correctAnswer"),
+    points: data.get("points"),
+  };
+
+  try {
+    const response = await fetch("http://localhost:4000/suggestQuestion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ questionData }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add question");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw new Error("An error occurred");
+  }
+};

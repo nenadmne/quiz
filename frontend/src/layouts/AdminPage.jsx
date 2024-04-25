@@ -48,7 +48,7 @@ export default function AdminPage() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="CorrectAnswer"
+                label="Correct Answer"
                 name="correctAnswer"
               />
             )}

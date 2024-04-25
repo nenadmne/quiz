@@ -8,7 +8,7 @@ import NotFound from "./layouts/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import "react-toastify/dist/ReactToastify.css";
 import Leaderboards, { leaderboardsLoader } from "./layouts/Leaderboards";
-import Questions from "./layouts/Questions";
+import Questions, { suggestQuestionAction } from "./layouts/Questions";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +28,7 @@ function App() {
         {
           path: "/questions",
           element: <Questions />,
+          action: suggestQuestionAction,
         },
         {
           path: "/lobby",
