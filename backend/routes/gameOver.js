@@ -37,6 +37,11 @@ router.post("/gameOver", async (req, res) => {
         username: playerLost,
       });
 
+      const { drawPlayerWon, winPlayerWon } = playerWon;
+      const { drawPlayerLoss, winPlayerLoss } = playerLoss;
+      const totalPointsPlayerWon = +drawPlayerWon * 1 + +winPlayerWon * 3;
+      const totalPointsPlayerLoss = +drawPlayerLoss * 1 + +winPlayerLoss * 3;
+
       await usersCollection.updateOne(
         { username: playerWon.username, win: { $exists: false } }, // Check if 'win' property doesn't exist
         { $set: { win: 0 } } // Set 'win' to 1 if it doesn't exist
@@ -45,7 +50,7 @@ router.post("/gameOver", async (req, res) => {
       // Increment 'win' property if it already exists
       await usersCollection.updateOne(
         { username: playerWon.username, win: { $exists: true } }, // Check if 'win' property exists
-        { $inc: { win: 1 } } // Increment 'win' property
+        { $inc: { win: 1 }, $set: { totalPoints: totalPointsPlayerWon } }
       );
 
       await usersCollection.updateOne(
@@ -55,12 +60,11 @@ router.post("/gameOver", async (req, res) => {
 
       await usersCollection.updateOne(
         { username: playerLoss.username, loss: { $exists: true } },
-        { $inc: { loss: 1 } }
+        { $inc: { loss: 1 }, $set: { totalPoints: totalPointsPlayerLoss } }
       );
       await client.close();
     } else if (draw) {
       const resultMessage = `Draw`;
-      console.log(resultMessage)
       await matchCollection.updateOne(
         { room: room },
         { $set: { result: resultMessage } }
@@ -72,6 +76,10 @@ router.post("/gameOver", async (req, res) => {
       const playerTwo = await usersCollection.findOne({
         username: player2,
       });
+      const { drawPlayerOne, winPlayerOne } = playerOne;
+      const { drawPlayerTwo, winPlayerTwo } = playerTwo;
+      const totalPointsPlayerOne = +drawPlayerOne * 1 + +winPlayerOne * 3;
+      const totalPointsPlayerTwo = +drawPlayerTwo * 1 + +winPlayerTwo * 3;
 
       await usersCollection.updateOne(
         { username: playerOne.username, draw: { $exists: false } },
@@ -79,7 +87,7 @@ router.post("/gameOver", async (req, res) => {
       );
       await usersCollection.updateOne(
         { username: playerOne.username, draw: { $exists: true } },
-        { $inc: { draw: 1 } }
+        { $inc: { draw: 1 }, $set: { totalPoints: totalPointsPlayerOne } }
       );
 
       await usersCollection.updateOne(
@@ -88,7 +96,7 @@ router.post("/gameOver", async (req, res) => {
       );
       await usersCollection.updateOne(
         { username: playerTwo.username, draw: { $exists: true } },
-        { $inc: { draw: 1 } }
+        { $inc: { draw: 1 }, $set: { totalPoints: totalPointsPlayerTwo } }
       );
       await client.close();
     }
