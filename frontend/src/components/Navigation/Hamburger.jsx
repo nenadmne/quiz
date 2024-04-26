@@ -20,6 +20,7 @@ export default function Hamburger() {
     { label: "Home", link: "/" },
     { label: "Leaderboards", link: "/leaderboards" },
     { label: "Questions", link: "/questions" },
+    { label: "Admin", link: "/administrator" },
   ];
 
   return (

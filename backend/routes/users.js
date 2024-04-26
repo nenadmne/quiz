@@ -48,6 +48,7 @@ router.post("/signup", async (req, res) => {
       username: username,
       email: email,
       password: hashedPassword,
+      role: "user",
     });
 
     // Generate JWT token
@@ -103,6 +104,7 @@ router.post("/login", async (req, res) => {
       success: true,
       message: "Login successful.",
       token: token,
+      role: existingUser.role
     });
   } catch (error) {
     console.error("Error during login:", error);

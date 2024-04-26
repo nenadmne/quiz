@@ -71,15 +71,20 @@ export default function LoginModal({ open, handleClose }) {
       });
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("token", data.token);
-        // Decode the token
-        const decodedToken = jwtDecode(data.token);
-        localStorage.setItem("username", decodedToken.username);
-        toast.success("Login successful!");
-        setTimeout(() => {
-          handleClose();
-          window.location.href = "/";
-        }, 2000);
+        if (data.role === "user") {
+          localStorage.setItem("token", data.token);
+          // Decode the token
+          const decodedToken = jwtDecode(data.token);
+          localStorage.setItem("username", decodedToken.username);
+          toast.success("Login successful!");
+
+          setTimeout(() => {
+            handleClose();
+            window.location.href = "/";
+          }, 2000);
+        } else {
+          toast.error("Invalid user role");
+        }
       } else {
         const errorData = await response.json(); // Parse error response body
         toast.error(errorData.message || "Login failed."); // Display error message from server if available

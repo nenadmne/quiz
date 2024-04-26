@@ -39,8 +39,8 @@ function App() {
           element: <PrivateRoute element={<GameRoom />} />,
         },
         {
-          path: "/admin",
-          element: <PrivateRoute element={<AdminPage />} />,
+          path: "/administrator",
+          element: <AdminPage />,
           action: addQuestionAction,
         },
         {
