@@ -4,9 +4,9 @@ import useSocket from "../hooks/useSocket";
 import GameContext from "../store/context";
 
 import ScoreSheetTable from "../components/Gameroom/ScoreSheetTable";
-import AnswerList from "../components/AnswerList";
-import QuestionTimer from "../components/QuestionTimer";
-import Question from "../components/Question";
+import AnswerList from "../components/Gameroom/AnswerList";
+import QuestionTimer from "../components/Gameroom/QuestionTimer";
+import Question from "../components/Gameroom/Question";
 import Loading from "../components/Loading";
 import GameOver from "./GameOver";
 
@@ -143,10 +143,7 @@ export default function GameRoom() {
       {questionElement && players !== undefined ? (
         <>
           <ScoreSheetTable
-            playerOneName={players[0].name}
-            playerOneScore={players[0].score}
-            playerTwoName={players[1].name}
-            playerTwoScore={players[1].score}
+            players={players}
             questionElement={questionElement}
             answers={answers}
             reveal={reveal}

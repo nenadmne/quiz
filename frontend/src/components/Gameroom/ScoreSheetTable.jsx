@@ -1,4 +1,4 @@
-import Logo from "../assets/logo.png";
+import Logo from "../../assets/logo.png";
 import ScoreSheet from "./ScoreSheet";
 import Lottie from "lottie-react";
 
@@ -7,15 +7,17 @@ import CorrectAnswer from "../../assets/CorrectAnswer.json";
 import NoAnswer from "../../assets/NoAnswer.json";
 
 export default function ScoreSheetTable({
-  playerOneName,
-  playerOneScore,
-  playerTwoName,
-  playerTwoScore,
+  players,
   questionElement,
   reveal,
   answers,
 }) {
-  const angryAnimation = () => {
+  const playerOneName = players[0].name;
+  const playerOneScore = players[0].score;
+  const playerTwoName = players[1].name;
+  const playerTwoScore = players[1].score;
+
+  const animations = () => {
     const noAnswerPlayerOne = answers[0].selectedAnswer === null;
     const noAnswerPlayerTwo = answers[1].selectedAnswer === null;
 
@@ -25,7 +27,6 @@ export default function ScoreSheetTable({
     const isWrongAnswerPlayerTwo =
       questionElement.correctAnswer !== answers[1].selectedAnswer &&
       !noAnswerPlayerTwo;
-
     const isCorrectAnswerPlayerOne =
       questionElement.correctAnswer === answers[0].selectedAnswer;
     const isCorrectAnswerPlayerTwo =
@@ -69,7 +70,7 @@ export default function ScoreSheetTable({
 
   return (
     <div className="w-[52rem] gap-8 flex flex-row justify-between items-end">
-      {answers && answers.length === 2 && angryAnimation()}
+      {answers && answers.length === 2 && animations()}
       <ScoreSheet playerName={playerOneName} playerScore={playerOneScore} />
       <img
         src={Logo}
