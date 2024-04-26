@@ -5,7 +5,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +14,7 @@ import LoginModal from "../components/Modals/LoginModal";
 import SinginModal from "../components/Modals/SingInModal";
 import ProfileModal from "../components/Modals/ProfileModal";
 import LoggedState from "../components/Navigation/LoggedState";
+import Buttons from "../components/Navigation/Buttons";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -100,24 +100,10 @@ export default function NavigationBar() {
               sx={{ flexGrow: 1 }}
             ></Typography>
             {!token ? (
-              <>
-                <Button
-                  sx={{ marginRight: 2 }}
-                  color="inherit"
-                  variant="outlined"
-                  onClick={handleLoginOpen}
-                >
-                  Login
-                </Button>
-                <Button
-                  sx={{ marginRight: 2 }}
-                  color="inherit"
-                  variant="outlined"
-                  onClick={handleSigninOpen}
-                >
-                  Sign up
-                </Button>
-              </>
+              <Buttons
+                handleLoginOpen={handleLoginOpen}
+                handleSigninOpen={handleSigninOpen}
+              />
             ) : (
               <LoggedState handleProfileOpen={handleProfileOpen} />
             )}
