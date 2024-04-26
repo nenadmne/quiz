@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import LobbyBackground from "./Backgrounds/LobbyBackground";
-import vsImage from "../assets/vs.png";
+import LobbyBackground from "../Backgrounds/LobbyBackground";
+import vsImage from "../../assets/vs.png";
 
 const style = "text-3xl w-[400px] flex justify-center items-center p-2";
 

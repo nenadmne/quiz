@@ -2,8 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import GameContext from "../store/context";
 import useSocket from "../hooks/useSocket";
 
-import OnePlayerLobby from "../components/OnePlayerLobby";
-import TwoPlayerLobby from "../components/TwoPlayerLobby";
+import OnePlayerLobby from "../components/Lobby/OnePlayerLobby";
+import TwoPlayerLobby from "../components/Lobby/TwoPlayerLobby";
 import Loading from "../components/Loading";
 
 function Lobby() {
