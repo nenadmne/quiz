@@ -76,10 +76,10 @@ export default function ChatComponent() {
         </Button>
       </Tooltip>
       {open && (
-        <div className="absolute w-[350px] h-[400px] bg-blueGrad left-0 bottom-[5rem] rounded-[1rem] flex flex-col justify-end p-4 gap-4">
+        <div className="absolute w-[350px] h-[400px] bg-blueGrad left-0 bottom-[5rem] rounded-[1rem] flex flex-col justify-end p-4 gap-4 hover:cursor-default">
           <div className="w-full flex flex-row items-center justify-center gap-2">
             <CircleIcon sx={{ color: "green", fontSize: "1.25rem" }} />
-            <p className="text-white">{`Number of users online: ${users}`}</p>
+            <p className="text-white">{`Users online: ${users}`}</p>
           </div>
           <div
             className="flex rounded-lg overflow-hidden gap-2 bg-white grow flex flex-col w-full h-full p-1 overflow-y-scroll break-words"
