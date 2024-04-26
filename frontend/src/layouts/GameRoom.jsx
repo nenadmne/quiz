@@ -3,7 +3,7 @@ import { unstable_usePrompt } from "react-router-dom";
 import useSocket from "../hooks/useSocket";
 import GameContext from "../store/context";
 
-import ScoreSheetTable from "../components/ScoreSheetTable";
+import ScoreSheetTable from "../components/Gameroom/ScoreSheetTable";
 import AnswerList from "../components/AnswerList";
 import QuestionTimer from "../components/QuestionTimer";
 import Question from "../components/Question";

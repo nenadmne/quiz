@@ -2,9 +2,9 @@ import Logo from "../assets/logo.png";
 import ScoreSheet from "./ScoreSheet";
 import Lottie from "lottie-react";
 
-import WrongAnswer from "../assets/WrongAnswer.json";
-import CorrectAnswer from "../assets/CorrectAnswer.json";
-import NoAnswer from "../assets/NoAnswer.json";
+import WrongAnswer from "../../assets/WrongAnswer.json";
+import CorrectAnswer from "../../assets/CorrectAnswer.json";
+import NoAnswer from "../../assets/NoAnswer.json";
 
 export default function ScoreSheetTable({
   playerOneName,
