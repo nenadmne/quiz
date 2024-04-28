@@ -1,12 +1,18 @@
-import { useState } from "react";
-import { Form } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Form, Link } from "react-router-dom";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 
+const tabs = [
+  { to: "/administrator?addQuestion", text: "ADD QUESTION" },
+  { to: "/administrator?recievedQuestions", text: "RECIEVED QUESTIONS" },
+];
+
 export default function AdminPage() {
   const [answerValues, setAnswerValues] = useState([]); // State to store answer values
+  const [location, setLocation] = useState(null);
 
   const handleAnswerChange = (event, index) => {
     const newAnswerValues = [...answerValues];
@@ -14,8 +20,26 @@ export default function AdminPage() {
     setAnswerValues(newAnswerValues);
   };
 
+  const linkHandler = () => {
+    setLocation(window.location.href);
+  }
+
   return (
     <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-12">
+      <div className="flex flex-row">
+        {tabs.map((tab, index) => (
+          <Link
+            onClick={linkHandler}
+            key={index}
+            to={tab.to}
+            className={`px-8 py-4 rounded-xl hover:bg-darkPurple cursor-pointer text-white ${
+              location && location.includes(tab.to) ? "bg-darkPurple" : ""
+            }`}
+          >
+            {tab.text}
+          </Link>
+        ))}
+      </div>
       <Form
         method="POST"
         className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
