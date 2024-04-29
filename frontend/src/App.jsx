@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import "react-toastify/dist/ReactToastify.css";
 import Leaderboards, { leaderboardsLoader } from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
+import AdminHome from "./layouts/AdminHome";
 
 function App() {
   const router = createBrowserRouter([
@@ -40,8 +41,14 @@ function App() {
         },
         {
           path: "/administrator",
-          element: <AdminPage />,
-          action: addQuestionAction,
+          element: <AdminHome />,
+          children: [
+            {
+              path: "/administrator/addQuestion",
+              element: <AdminPage />,
+              action: addQuestionAction,
+            },
+          ],
         },
         {
           path: "*",
