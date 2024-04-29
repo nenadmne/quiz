@@ -2,14 +2,19 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./layouts/Homepage";
 import GameRoom from "./layouts/GameRoom";
 import NavigationBar from "./layouts/NavigationBar";
-import AdminPage, { addQuestionAction } from "./layouts/AdminPage";
+import AdminQuestionForm, {
+  addQuestionAction,
+} from "./layouts/AdminQuestionForm";
 import Lobby from "./layouts/Lobby";
 import NotFound from "./layouts/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import "react-toastify/dist/ReactToastify.css";
 import Leaderboards, { leaderboardsLoader } from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
-import AdminHome from "./layouts/AdminHome";
+import Admin from "./layouts/Admin";
+import "react-toastify/dist/ReactToastify.css";
+import RecievedQuestions, {
+  recievedQuestionsLoader,
+} from "./layouts/RecievedQuestions";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,12 +46,17 @@ function App() {
         },
         {
           path: "/administrator",
-          element: <AdminHome />,
+          element: <Admin />,
           children: [
             {
               path: "/administrator/addQuestion",
-              element: <AdminPage />,
+              element: <AdminQuestionForm />,
               action: addQuestionAction,
+            },
+            {
+              path: "/administrator/recievedQuestions",
+              element: <RecievedQuestions />,
+              loader: recievedQuestionsLoader,
             },
           ],
         },

@@ -36,7 +36,24 @@ router.post("/suggestQuestion", async (req, res) => {
     // Insert the question data into the questions collection
     await questionCollection.insertOne(questionData);
     await client.close();
-    res.status(200).json({ message: "Question suggested successfully" });
+    res
+      .status(200)
+      .json({ message: "Question suggested successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.get("/recievedQuestions", async (req, res) => {
+  try {
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const questionCollection = db.collection("suggested_questions");
+    const questions = await questionCollection.find({}).toArray();
+
+    await client.close();
+    res.status(200).json({ message: "Question suggested successfully", questions });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });

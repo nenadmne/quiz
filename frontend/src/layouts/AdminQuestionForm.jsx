@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 
-export default function AdminPage() {
+export default function AdminQuestionForm() {
   const [answerValues, setAnswerValues] = useState([]); // State to store answer values
 
   const handleAnswerChange = (event, index) => {

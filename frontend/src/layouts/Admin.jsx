@@ -5,7 +5,7 @@ const tabs = [
   { to: "/administrator/recievedQuestions", text: "RECIEVED QUESTIONS" },
 ];
 
-export default function AdminHome() {
+export default function Admin() {
   const background =
     "linear-gradient(179.4deg, rgb(12, 20, 69) -16.9%, rgb(71, 30, 84) 119.9%)";
 
