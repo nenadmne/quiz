@@ -11,14 +11,14 @@ const style = {
   fontSize: "1.75rem",
 };
 
-export default function ActionButtons({ deleteHandler }) {
+export default function ActionButtons({ deleteHandler, addHandler }) {
   return (
     <div className="flex flex-row gap-2">
       <Tooltip title="Edit question">
         <CreateIcon style={style} />
       </Tooltip>
       <Tooltip title="Accept question">
-        <CheckCircleIcon style={style} />
+        <CheckCircleIcon style={style} onClick={addHandler} />
       </Tooltip>
       <Tooltip title="Remove question">
         <DeleteIcon style={style} onClick={deleteHandler} />

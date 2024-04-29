@@ -42,6 +42,27 @@ export default function RecievedQuestions() {
     }
   };
 
+  const addHandler = async (questionData, itemId) => {
+    try {
+      const response = await fetch("http://localhost:4000/addQuestion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ questionData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add question");
+      }
+      await deleteHandler(itemId)
+      await recievedQuestions();
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("Add question: An error occurred");
+    }
+  };
+
   useEffect(() => {
     recievedQuestions();
   }, []);
@@ -62,6 +83,7 @@ export default function RecievedQuestions() {
                 item={item}
                 key={item._id}
                 deleteHandler={deleteHandler}
+                addHandler={addHandler}
               />
             ))}
           </ul>
