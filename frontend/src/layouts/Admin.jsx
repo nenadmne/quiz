@@ -11,7 +11,7 @@ export default function Admin() {
 
   return (
     <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-8">
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-2">
         {tabs.map((tab, index) => (
           <NavLink
             key={index}
@@ -22,6 +22,7 @@ export default function Admin() {
                 ? { background: background, border: "1px solid white" }
                 : {};
             }}
+            end
           >
             {tab.text}
           </NavLink>
