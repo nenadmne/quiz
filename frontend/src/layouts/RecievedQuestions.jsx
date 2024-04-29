@@ -21,6 +21,27 @@ export default function RecievedQuestions() {
     }
   };
 
+  const deleteHandler = async (itemId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/deleteQuestion/${itemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete question");
+      }
+      await recievedQuestions();
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("deleteHandler: An error occurred");
+    }
+  };
+
   useEffect(() => {
     recievedQuestions();
   }, []);
@@ -37,7 +58,11 @@ export default function RecievedQuestions() {
         <section className="w-[1000px] max-h-[500px] overflow-y-scroll overflow-hidden">
           <ul className="bg-greyGrad flex flex-col p-4 gap-4 rounded text-white">
             {questions.map((item) => (
-              <QuestionItem item={item} key={item._id} />
+              <QuestionItem
+                item={item}
+                key={item._id}
+                deleteHandler={deleteHandler}
+              />
             ))}
           </ul>
         </section>
