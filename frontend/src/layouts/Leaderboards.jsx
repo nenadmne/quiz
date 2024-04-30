@@ -72,7 +72,7 @@ export default function Leaderboards() {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col justify-center items-center w-full h-full gap-4 bg-black opacity-60">
+    <div className="flex flex-col justify-center items-center w-full h-full gap-4 bg-blackGrad">
       <Loading />
     </div>
   );

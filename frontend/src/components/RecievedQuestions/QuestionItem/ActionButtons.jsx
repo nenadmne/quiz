@@ -7,13 +7,13 @@ const style = {
   cursor: "pointer",
   borderRadius: "50%",
   border: "1px solid white",
-  padding: "0.25rem",
-  fontSize: "1.75rem",
+  padding: "0.5rem",
+  fontSize: "2.25rem",
 };
 
 export default function ActionButtons({ deleteHandler, addHandler }) {
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-col justify-between gap-3">
       <Tooltip title="Edit question">
         <CreateIcon style={style} />
       </Tooltip>
