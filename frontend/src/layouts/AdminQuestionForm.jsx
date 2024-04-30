@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -14,51 +15,73 @@ export default function AdminQuestionForm() {
     setAnswerValues(newAnswerValues);
   };
 
-  return (
-    <Form
-      method="POST"
-      className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
-    >
-      <h1 className="uppercase text-xl">
-        <strong>Add question</strong>
-      </h1>
-      <TextField
-        label="Question"
-        variant="outlined"
-        className="w-full"
-        name="question"
-      />
-      <div className="grid grid-cols-2 gap-4 w-full">
-        {[1, 2, 3, 4].map((item, index) => (
-          <TextField
-            key={index}
-            label={`Answer ${item}`}
-            variant="outlined"
-            name={`answer${item}`}
-            onChange={(event) => handleAnswerChange(event, index)}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Autocomplete
-          disablePortal
-          options={answerValues}
-          sx={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Correct Answer"
-              name="correctAnswer"
-            />
-          )}
-        />
-        <TextField label="Points" variant="outlined" name="points" />
-      </div>
+  const submitHandler = () => {
+    toast.success("Question submitted!");
+    setTimeout(() => {
+      window.location.href = "/administrator/addQuestion";
+    }, 2000);
+  };
 
-      <Button type="submit" variant="contained">
-        Submit question
-      </Button>
-    </Form>
+  return (
+    <>
+      <div className="absolute w-full h-fit top-0 right-0 z-10">
+        <ToastContainer
+          style={{
+            fontSize: "0.75rem",
+            width: "fit-content",
+            height: "fit-content",
+          }}
+        />
+      </div>
+      <Form
+        method="POST"
+        className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
+        onSubmit={submitHandler}
+      >
+        <h1 className="uppercase text-xl">
+          <strong>Add question</strong>
+        </h1>
+        <TextField
+          label="Question"
+          variant="outlined"
+          className="w-full"
+          name="question"
+          required
+        />
+        <div className="grid grid-cols-2 gap-4 w-full">
+          {[1, 2, 3, 4].map((item, index) => (
+            <TextField
+              key={index}
+              label={`Answer ${item}`}
+              variant="outlined"
+              name={`answer${item}`}
+              onChange={(event) => handleAnswerChange(event, index)}
+              required
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Autocomplete
+            disablePortal
+            options={answerValues}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Correct Answer"
+                name="correctAnswer"
+                required
+              />
+            )}
+          />
+          <TextField label="Points" variant="outlined" name="points" required />
+        </div>
+
+        <Button type="submit" variant="contained">
+          Submit question
+        </Button>
+      </Form>
+    </>
   );
 }
 
