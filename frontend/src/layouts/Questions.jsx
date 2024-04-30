@@ -16,20 +16,26 @@ export default function Questions() {
   };
 
   const submitHandler = () => {
-    toast.success("Question submitted!")
+    toast.success("Question submitted!");
     setTimeout(() => {
       window.location.href = "/questions";
-    }, 1000);
+    }, 2000);
   };
 
   return (
-    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-12">
-      <div className="absolute w-full h-full items-right">
-        <ToastContainer/>
+    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad">
+      <div className="absolute w-full h-fit top-0 right-0 z-10">
+        <ToastContainer
+          style={{
+            fontSize: "0.75rem",
+            width: "fit-content",
+            height: "fit-content",
+          }}
+        />
       </div>
       <Form
         method="POST"
-        className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
+        className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl mt-12"
         onSubmit={submitHandler}
       >
         <h1 className="uppercase text-xl">
