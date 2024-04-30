@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -15,6 +16,7 @@ export default function Questions() {
   };
 
   const submitHandler = () => {
+    toast.success("Question submitted!")
     setTimeout(() => {
       window.location.href = "/questions";
     }, 1000);
@@ -22,6 +24,9 @@ export default function Questions() {
 
   return (
     <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-12">
+      <div className="absolute w-full h-full items-right">
+        <ToastContainer/>
+      </div>
       <Form
         method="POST"
         className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"

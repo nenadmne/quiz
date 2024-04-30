@@ -10,8 +10,8 @@ export default function Admin() {
     "linear-gradient(179.4deg, rgb(12, 20, 69) -16.9%, rgb(71, 30, 84) 119.9%)";
 
   return (
-    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-8">
-      <div className="flex flex-row gap-2">
+    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad">
+      <div className="flex flex-row gap-2 mt-8">
         {tabs.map((tab, index) => (
           <NavLink
             key={index}
