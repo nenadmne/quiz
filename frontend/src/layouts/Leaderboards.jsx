@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import Loading from "../components/Loading";
 
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
@@ -7,18 +6,33 @@ import { EmojiEvents } from "@mui/icons-material";
 
 export default function Leaderboards() {
   const [data, setData] = useState(null);
-  const loaderData = useLoaderData();
+
+  const leaderboardsLoader = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/leaderboards");
+
+      if (!response.ok) {
+        throw new Error("Failed to add question");
+      }
+      const leaderboardData = await response.json();
+      setData(leaderboardData)
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("An error occurred");
+    }
+  };
 
   useEffect(() => {
-    if (loaderData) {
-      const sortedData = loaderData.sort(
+    leaderboardsLoader()
+    if (data) {
+      const sortedData = data.sort(
         (a, b) => b.totalPoints - a.totalPoints
       );
       setTimeout(() => {
         setData(sortedData);
       }, 300);
     }
-  }, [loaderData]);
+  }, [data]);
 
   return data !== null ? (
     <div className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
@@ -63,19 +77,3 @@ export default function Leaderboards() {
     </div>
   );
 }
-
-export const leaderboardsLoader = async () => {
-  try {
-    const response = await fetch("http://localhost:4000/leaderboards");
-
-    if (!response.ok) {
-      throw new Error("Failed to add question");
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error:", error);
-    throw new Error("An error occurred");
-  }
-};

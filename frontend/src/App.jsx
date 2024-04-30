@@ -8,7 +8,7 @@ import AdminQuestionForm, {
 import Lobby from "./layouts/Lobby";
 import NotFound from "./layouts/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import Leaderboards, { leaderboardsLoader } from "./layouts/Leaderboards";
+import Leaderboards from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
 import Admin from "./layouts/Admin";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +27,6 @@ function App() {
         {
           path: "/leaderboards",
           element: <Leaderboards />,
-          loader: leaderboardsLoader,
         },
         {
           path: "/questions",
@@ -53,7 +52,7 @@ function App() {
             },
             {
               path: "/administrator/recievedQuestions",
-              element: <RecievedQuestions />
+              element: <RecievedQuestions />,
             },
           ],
         },
