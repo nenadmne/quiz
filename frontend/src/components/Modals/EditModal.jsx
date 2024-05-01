@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import Loading from "../Loading";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
-
-import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -20,6 +20,8 @@ const style = {
 };
 
 export default function EditModal({ open, handleClose, item }) {
+  const [loading, setLoading] = useState(false);
+
   const [questionValue, setQuestionValue] = useState(item.question);
   const [answerValues, setAnswerValues] = useState(item.answers);
   const [correctValue, setCorrectValue] = useState(item.correctAnswer);
@@ -33,6 +35,7 @@ export default function EditModal({ open, handleClose, item }) {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     const questionData = {
       question: questionValue,
@@ -51,12 +54,15 @@ export default function EditModal({ open, handleClose, item }) {
       });
 
       if (!response.ok) {
+        setLoading(false);
         throw new Error("Failed to add question");
       }
+      setLoading(false);
       toast.success("Successfully editted!");
       const responseData = await response.json();
       handleClose();
     } catch (error) {
+      toast.error(error);
       console.error("Error:", error);
       throw new Error("An error occurred");
     }
@@ -131,6 +137,11 @@ export default function EditModal({ open, handleClose, item }) {
               Submit
             </Button>
           </form>
+          {loading && (
+            <div className="absolute top-0 w-full h-full rounded-xl flex items-center justify-center flex-col gap-8 bg-black opacity-60 z-999">
+              <Loading />
+            </div>
+          )}
         </Box>
       </Modal>
     </>
