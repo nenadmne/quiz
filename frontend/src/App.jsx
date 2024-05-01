@@ -11,8 +11,9 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Leaderboards from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
 import Admin from "./layouts/Admin";
-import "react-toastify/dist/ReactToastify.css";
 import RecievedQuestions from "./layouts/RecievedQuestions";
+import AdminHome from "./layouts/AdminHome";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const router = createBrowserRouter([
@@ -45,6 +46,10 @@ function App() {
           path: "/administrator",
           element: <Admin />,
           children: [
+            {
+              path: "/administrator",
+              element: <AdminHome />,
+            },
             {
               path: "/administrator/addQuestion",
               element: <AdminQuestionForm />,
