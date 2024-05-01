@@ -15,7 +15,7 @@ export default function Leaderboards() {
         throw new Error("Failed to add question");
       }
       const leaderboardData = await response.json();
-      setData(leaderboardData)
+      setData(leaderboardData.users)
     } catch (error) {
       console.error("Error:", error);
       throw new Error("An error occurred");
