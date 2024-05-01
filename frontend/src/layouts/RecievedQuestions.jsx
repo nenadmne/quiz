@@ -104,7 +104,7 @@ export default function RecievedQuestions() {
     return (
       <>
         {questions && questions.length > 0 && (
-          <section className="w-[1000px] max-h-[400px] overflow-y-scroll">
+          <section className="w-[1000px] max-h-[450px] overflow-y-scroll">
             <ul className="bg-greyGrad flex flex-col p-8 gap-8 rounded-[1rem] text-white">
               {questions.map((item) => (
                 <QuestionItem

@@ -65,7 +65,7 @@ export default function AdminDashboard() {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={5}
           />
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function AdminDashboard() {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={5}
           />
         </div>
       </div>
