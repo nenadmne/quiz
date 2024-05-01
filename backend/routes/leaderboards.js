@@ -26,7 +26,11 @@ router.get("/leaderboards", async (req, res) => {
 
     await client.close();
 
-    res.json(users);
+    res.status(200).json({
+      success: true,
+      message: "Users fetched successfully!",
+      users,
+    });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });

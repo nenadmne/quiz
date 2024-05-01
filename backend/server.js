@@ -6,6 +6,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const cors = require("cors");
 
 const users = require("./routes/users");
+const games = require("./routes/games");
 const leaderboards = require("./routes/leaderboards");
 const userInfo = require("./routes/userInfo");
 const gameOver = require("./routes/gameOver");
@@ -38,7 +39,9 @@ instrument(io, {
 
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use(users);
+app.use(games)
 app.use(leaderboards);
 app.use(userInfo);
 app.use(gameOver);

@@ -10,27 +10,17 @@ const columns = [
 ];
 
 const columns2 = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "Game ID", width: 70 },
   { field: "player1", headerName: "Player 1", width: 130 },
   { field: "player2", headerName: "Player 2", width: 130 },
-  { field: "winner", headerName: "Winner", width: 130 },
-];
-
-const rows2 = [
-  { id: 1, player1: "Snow", player2: "Snow", winner: "Jon" },
-  { id: 2, player1: "Lannister", player2: "Snow", winner: "Cersei" },
-  { id: 3, player1: "Lannister", player2: "Snow", winner: "Jaime" },
-  { id: 4, player1: "Stark", player2: "Snow", winner: "Arya" },
-  { id: 5, player1: "Targaryen", player2: "Snow", winner: "Daenerys" },
-  { id: 6, player1: "Melisandre", player2: "Snow", winner: "null" },
-  { id: 7, player1: "Clifford", player2: "Snow", winner: "Ferrara" },
-  { id: 8, player1: "Frances", player2: "Snow", winner: "Rossini" },
-  { id: 9, player1: "Roxie", player2: "Snow", winner: "Harvey" },
+  { field: "result", headerName: "Result", width: 200 },
 ];
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState(null);
   const [rows, setRows] = useState([]);
+  const [games, setGames] = useState(null);
+  const [rows2, setRows2] = useState([]);
 
   const fetchUsers = async () => {
     try {
@@ -46,7 +36,22 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchGames = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/matchHistory");
+      if (!response.ok) {
+        throw new Error("Failed to fetch users!");
+      }
+      const games = await response.json();
+      setGames(games.matches);
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("An error occurred");
+    }
+  };
+
   useEffect(() => {
+    fetchGames();
     fetchUsers();
     if (users) {
       setRows(
@@ -57,11 +62,24 @@ export default function AdminDashboard() {
         }))
       );
     }
-  }, [users]);
+    if (games) {
+      setRows2(
+        games.map((item) => ({
+          id: item._id,
+          player1: item.player1,
+          player2: item.player2,
+          result: item.result,
+        }))
+      );
+    }
+  }, [users, games]);
+
+  const drawGames = games && games.filter((item) => item.result === "Draw").length;
+  const totalGames = games && games.length;
 
   return (
     <section className="flex flex-col gap-16 bg-white rounded-[1rem] p-8 max-h-[450px] overflow-y-scroll">
-      <div className="flex flex-row gap-8 items-center justify-center">
+      <div className="flex flex-row gap-16 items-center justify-center">
         <div className="flex items-center justify-center">
           <PieChart
             series={[
@@ -95,27 +113,45 @@ export default function AdminDashboard() {
           )}
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center gap-8">
-        <PieChart
-          series={[
-            {
-              data: [{ id: 1, value: 200, label: "Total games" }],
-            },
-          ]}
-          width={425}
-          height={175}
-        />
-        <div className="flex-grow">
-          <DataGrid
-            rows={rows2}
-            columns={columns2}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+      <div className="flex flex-row items-center justify-center gap-16">
+        {games && (
+          <PieChart
+            series={[
+              {
+                data: [
+                  { id: 1, value: totalGames, label: `Games: ${totalGames}` },
+                  {
+                    id: 2,
+                    value: drawGames,
+                    label: `Draws: ${drawGames}`,
+                  },
+                  {
+                    id: 3,
+                    value: totalGames - drawGames,
+                    label: `Vicotries: ${totalGames - drawGames}`,
+                  },
+                ],
               },
-            }}
-            pageSizeOptions={[5]}
+            ]}
+            width={425}
+            height={175}
           />
+        )}
+        <div className="flex items-center justify-center flex-grow w-[500px]">
+          {games ? (
+            <DataGrid
+              rows={rows2}
+              columns={columns2}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5]}
+            />
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
     </section>
