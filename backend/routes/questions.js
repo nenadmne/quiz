@@ -14,8 +14,6 @@ router.post("/addQuestion", async (req, res) => {
     const client = await MongoClient.connect(uri);
     const db = client.db();
     const questionCollection = db.collection(collection);
-
-    // Insert the question data into the questions collection
     await questionCollection.insertOne(questionData);
     res.status(200).json({ message: "Question added successfully" });
     await client.close();
@@ -54,6 +52,35 @@ router.get("/recievedQuestions", async (req, res) => {
     res
       .status(200)
       .json({ message: "Question suggested successfully", questions });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.put("/recievedQuestion", async (req, res) => {
+  const questionData = req.body.questionData;
+  const id = req.body.id;
+  const questionId = new ObjectId(id);
+  try {
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const questionCollection = db.collection("suggested_questions");
+    const questionUpdate = await questionCollection.updateOne(
+      { _id: questionId },
+      {
+        $set: {
+          question: questionData.question,
+          answers: questionData.answers,
+          correctAnswer: questionData.correctAnswer,
+          points: questionData.points,
+        },
+      }
+    );
+    await client.close();
+    res
+      .status(200)
+      .json({ message: "Question eddited successfully" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });

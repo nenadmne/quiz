@@ -125,7 +125,7 @@ export default function RecievedQuestions() {
             <EngineeringIcon style={{ fontSize: "10rem" }} />
           </div>
         )}
-        <div className="absolute w-full h-full top-0 right-0 z-[-1]">
+        <div className="absolute w-full h-fit top-0 right-0 z-10">
           <ToastContainer
             style={{
               fontSize: "0.75rem",
