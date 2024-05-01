@@ -132,6 +132,12 @@ io.on("connection", (socket) => {
     io.emit("connectedUsers", connectedUsers);
   });
 
+  socket.on("activeRooms", () => {
+    const activeRoomsCount = Array.from(playerRooms.keys()).length;
+    console.log(`137: Active rooms = ${activeRoomsCount}`)
+    io.emit("activeRooms", activeRoomsCount);
+  });
+
   socket.on("gameStart", async (players) => {
     console.log(`129: Game started`);
     await addMatch(players, room);

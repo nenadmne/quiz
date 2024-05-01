@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+
+import useSocket from "../hooks/useSocket";
 import Loading from "../components/Loading";
 
 const columns = [
@@ -21,6 +23,10 @@ export default function AdminDashboard() {
   const [rows, setRows] = useState([]);
   const [games, setGames] = useState(null);
   const [rows2, setRows2] = useState([]);
+  const [usersOnline, setUsersOnline] = useState(0);
+  const [activeRooms, setActiveRooms] = useState(0);
+
+  const socket = useSocket();
 
   const fetchUsers = async () => {
     try {
@@ -74,7 +80,22 @@ export default function AdminDashboard() {
     }
   }, [users, games]);
 
-  const drawGames = games && games.filter((item) => item.result === "Draw").length;
+  // Handling users and active games count
+  useEffect(() => {
+    if (socket) {
+      socket.emit("connectedUsers");
+      socket.on("connectedUsers", (connectedUsers) => {
+        setUsersOnline(connectedUsers);
+      });
+      socket.emit("activeRooms");
+      socket.on("activeRooms", (activeRoomsCount) => {
+        setActiveRooms(activeRoomsCount);
+      });
+    }
+  }, [socket]);
+
+  const drawGames =
+    games && games.filter((item) => item.result === "Draw").length;
   const totalGames = games && games.length;
 
   return (
@@ -85,8 +106,16 @@ export default function AdminDashboard() {
             series={[
               {
                 data: [
-                  { id: 1, value: 40, label: "Players Online" },
-                  { id: 2, value: 12, label: "Active Games " },
+                  {
+                    id: 1,
+                    value: usersOnline,
+                    label: `Users online: ${usersOnline}`,
+                  },
+                  {
+                    id: 2,
+                    value: activeRooms,
+                    label: `In-game: ${activeRooms}`,
+                  },
                 ],
               },
             ]}
