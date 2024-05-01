@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import EditModal from "../../Modals/EditModal";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/Done";
 import CreateIcon from "@mui/icons-material/ModeEdit";
@@ -12,10 +16,13 @@ const style = {
 };
 
 export default function ActionButtons({ deleteHandler, addHandler }) {
+  const [editOpen, setEditOpen] = useState(false);
+  const handleEditOpen = () => setEditOpen(true);
+  const handleEditClose = () => setEditOpen(false);
   return (
     <div className="flex flex-col justify-between gap-3">
       <Tooltip title="Edit question">
-        <CreateIcon style={style} />
+        <CreateIcon style={style} onClick={handleEditOpen} />
       </Tooltip>
       <Tooltip title="Accept question">
         <CheckCircleIcon style={style} onClick={addHandler} />
@@ -23,6 +30,7 @@ export default function ActionButtons({ deleteHandler, addHandler }) {
       <Tooltip title="Remove question">
         <DeleteIcon style={style} onClick={deleteHandler} />
       </Tooltip>
+      {editOpen && <EditModal open={editOpen} handleClose={handleEditClose} />}
     </div>
   );
 }
