@@ -6,23 +6,6 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
-// Connect to MongoDB
-client.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MongoDB:", err);
-    return;
-  }
-  console.log("Connected to MongoDB");
-});
-
-// Database and collection names
-const dbName = "quiz";
-const collectionName = "users";
-
-const db = client.db(dbName);
-const collection = db.collection(collectionName);
 
 // Route for user signup
 router.post("/signup", async (req, res) => {
@@ -32,7 +15,10 @@ router.post("/signup", async (req, res) => {
 
   try {
     // Check if username already exists
-    const existingUser = await collection.findOne({ username: username });
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const usersCollection = db.collection("users");
+    const existingUser = await usersCollection.findOne({ username: username });
     if (existingUser) {
       return res.status(422).json({
         success: false,
@@ -55,6 +41,7 @@ router.post("/signup", async (req, res) => {
     const KEY = "supersecret";
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
 
+    client.close();
     return res.status(200).json({
       success: true,
       message: "Signup successful.",
@@ -72,7 +59,10 @@ router.post("/login", async (req, res) => {
 
   try {
     // Find the user by username in the MongoDB collection
-    const existingUser = await collection.findOne({ username: username });
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const usersCollection = db.collection("users");
+    const existingUser = await usersCollection.findOne({ username: username });
 
     // If user doesn't exist
     if (!existingUser) {
@@ -100,11 +90,38 @@ router.post("/login", async (req, res) => {
     const KEY = "supersecret";
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
 
+    client.close();
     return res.status(200).json({
       success: true,
       message: "Login successful.",
       token: token,
-      role: existingUser.role
+      role: existingUser.role,
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ success: false, message: "Login failed." });
+  }
+});
+
+router.get("/users", async (req, res) => {
+  try {
+    // Extract users from mongoDb collection
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const usersCollection = db.collection("users");
+    const users = await usersCollection.find({}).toArray();
+    // If users doesn't exist
+    if (!users) {
+      return res.status(422).json({
+        success: false,
+        message: "Entered user doesn't exist.",
+      });
+    }
+    await client.close();
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched!",
+      users,
     });
   } catch (error) {
     console.error("Error during login:", error);

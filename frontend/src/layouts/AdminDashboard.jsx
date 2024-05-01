@@ -1,22 +1,12 @@
 import { PieChart } from "@mui/x-charts/PieChart";
 import { DataGrid } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "username", headerName: "Username", width: 130 },
-  { field: "email", headerName: "Email address", width: 230 },
-];
-
-const rows = [
-  { id: 1, username: "Snow", email: "Jon" },
-  { id: 2, username: "Lannister", email: "Cersei" },
-  { id: 3, username: "Lannister", email: "Jaime" },
-  { id: 4, username: "Stark", email: "Arya" },
-  { id: 5, username: "Targaryen", email: "Daenerys" },
-  { id: 6, username: "Melisandre", email: "null" },
-  { id: 7, username: "Clifford", email: "Ferrara" },
-  { id: 8, username: "Frances", email: "Rossini" },
-  { id: 9, username: "Roxie", email: "Harvey" },
+  { field: "id", headerName: "User ID", width: 120 },
+  { field: "username", headerName: "Username", width: 150 },
+  { field: "email", headerName: "Email address", width: 200 },
 ];
 
 const columns2 = [
@@ -39,6 +29,36 @@ const rows2 = [
 ];
 
 export default function AdminDashboard() {
+  const [users, setUsers] = useState(null);
+  const [rows, setRows] = useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/users");
+      if (!response.ok) {
+        throw new Error("Failed to fetch users!");
+      }
+      const usersData = await response.json();
+      setUsers(usersData.users);
+    } catch (error) {
+      console.error("Error:", error);
+      throw new Error("An error occurred");
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+    if (users) {
+      setRows(
+        users.map((item) => ({
+          id: item._id,
+          username: item.username,
+          email: item.email,
+        }))
+      );
+    }
+  }, [users]);
+
   return (
     <section className="flex flex-col gap-16 bg-white rounded-[1rem] p-8 max-h-[450px] overflow-y-scroll">
       <div className="flex flex-row gap-8 items-center justify-center">
@@ -56,17 +76,23 @@ export default function AdminDashboard() {
             height={175}
           />
         </div>
-        <div className="flex-grow">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={5}
-          />
+
+        <div className="flex items-center justify-center flex-grow w-[500px]">
+          {users ? (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5]}
+              className="w-full"
+            />
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
       <div className="flex flex-row items-center justify-center gap-8">
@@ -88,7 +114,7 @@ export default function AdminDashboard() {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            pageSizeOptions={5}
+            pageSizeOptions={[5]}
           />
         </div>
       </div>
