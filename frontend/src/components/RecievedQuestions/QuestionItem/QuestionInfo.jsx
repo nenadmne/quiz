@@ -32,7 +32,7 @@ export default function QuestionInfo({ item }) {
         </div>
         <div className="flex items-end justify-center">
           <Tooltip title="Correct Answer" className="cursor-pointer">
-            <p className="flex flex-col w-[150px] bg-white p-1 rounded text-center text-black bg-green-200">
+            <p className="flex flex-col w-[150px] bg-white p-1 rounded text-center text-black bg-green-100">
               <span className="italic text-sm">Correct answer </span>
               <span className="font-bold">{item.correctAnswer}</span>
             </p>

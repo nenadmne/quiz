@@ -4,15 +4,11 @@ import ActionButtons from "./QuestionItem/ActionButtons";
 export default function QuestionItem({ item, deleteHandler, addHandler }) {
   const question = {
     question: item.question,
-    answers: [
-      item.answers[0],
-      item.answers[1],
-      item.answers[2],
-      item.answers[3],
-    ],
+    answers: item.answers,
     correctAnswer: item.correctAnswer,
     points: item.points,
   };
+  
   return (
     <li className="flex flex-col gap-4 border p-4 bg-darkPurple rounded-xl">
       <div className="flex flex-row justify-between items-center">
