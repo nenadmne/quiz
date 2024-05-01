@@ -15,7 +15,7 @@ const style = {
   fontSize: "2.25rem",
 };
 
-export default function ActionButtons({ deleteHandler, addHandler }) {
+export default function ActionButtons({ item, deleteHandler, addHandler }) {
   const [editOpen, setEditOpen] = useState(false);
   const handleEditOpen = () => setEditOpen(true);
   const handleEditClose = () => setEditOpen(false);
@@ -30,7 +30,9 @@ export default function ActionButtons({ deleteHandler, addHandler }) {
       <Tooltip title="Remove question">
         <DeleteIcon style={style} onClick={deleteHandler} />
       </Tooltip>
-      {editOpen && <EditModal open={editOpen} handleClose={handleEditClose} />}
+      {editOpen && (
+        <EditModal open={editOpen} handleClose={handleEditClose} item={item} />
+      )}
     </div>
   );
 }

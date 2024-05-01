@@ -20,14 +20,17 @@ const style = {
   borderRadius: 4,
 };
 
-export default function EditModal({ open, handleClose }) {
-  const [answerValues, setAnswerValues] = useState([]); // State to store answer values
+export default function EditModal({ open, handleClose, item }) {
+  const [questionValue, setQuestionValue] = useState(item.question);
+  const [answerValues, setAnswerValues] = useState(item.answers);
+  const [pointsValue, setPointsValue] = useState(item.points);
 
   const handleAnswerChange = (event, index) => {
     const newAnswerValues = [...answerValues];
     newAnswerValues[index] = event.target.value;
     setAnswerValues(newAnswerValues);
   };
+
   return (
     <Modal
       open={open}
@@ -48,16 +51,19 @@ export default function EditModal({ open, handleClose }) {
             variant="outlined"
             className="w-full"
             name="question"
+            value={questionValue}
+            onChange={(event) => setQuestionValue(event.target.value)}
             required
           />
           <div className="grid grid-cols-2 gap-4 w-full">
-            {[1, 2, 3, 4].map((item, index) => (
+            {answerValues.map((item, index) => (
               <TextField
                 key={index}
-                label={`Answer ${item}`}
+                label={`Answer ${index + 1}`}
                 variant="outlined"
-                name={`answer${item}`}
+                name={`answer${index + 1}`}
                 onChange={(event) => handleAnswerChange(event, index)}
+                value={item}
                 required
               />
             ))}
@@ -66,6 +72,7 @@ export default function EditModal({ open, handleClose }) {
             <Autocomplete
               disablePortal
               options={answerValues}
+              value={item.correctAnswer}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -79,6 +86,8 @@ export default function EditModal({ open, handleClose }) {
               label="Points"
               variant="outlined"
               name="points"
+              value={pointsValue}
+              onChange={(event) => setPointsValue(event.target.value)}
               required
             />
           </div>

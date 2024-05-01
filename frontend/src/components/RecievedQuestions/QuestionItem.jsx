@@ -18,6 +18,7 @@ export default function QuestionItem({ item, deleteHandler, addHandler }) {
       <div className="flex flex-row justify-between items-center">
         <QuestionInfo item={item} />
         <ActionButtons
+          item={item}
           deleteHandler={() => deleteHandler(item._id)}
           addHandler={() => addHandler(question, item._id)}
         />
