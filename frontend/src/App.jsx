@@ -12,7 +12,8 @@ import Leaderboards from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
 import Admin from "./layouts/Admin";
 import RecievedQuestions from "./layouts/RecievedQuestions";
-import AdminHome from "./layouts/AdminHome";
+import AdminDashboard from "./layouts/AdminDashboard";
+
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
           children: [
             {
               path: "/administrator",
-              element: <AdminHome />,
+              element: <AdminDashboard />,
             },
             {
               path: "/administrator/addQuestion",
