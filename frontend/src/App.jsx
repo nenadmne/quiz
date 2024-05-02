@@ -16,6 +16,7 @@ import AdminDashboard from "./layouts/AdminDashboard";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
+import NonAdminRoute from "./components/PrivateRoute/NonAdminRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,15 +26,15 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Homepage />,
+          element: <NonAdminRoute element={<Homepage />} />,
         },
         {
           path: "/leaderboards",
-          element: <Leaderboards />,
+          element: <NonAdminRoute element={<Leaderboards />} />,
         },
         {
           path: "/questions",
-          element: <Questions />,
+          element: <NonAdminRoute element={<Questions />} />,
           action: suggestQuestionAction,
         },
         {

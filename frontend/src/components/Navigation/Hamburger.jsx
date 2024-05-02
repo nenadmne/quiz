@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Hamburger() {
   const [hamburger, setHamburger] = useState(null);
+  const adminToken = localStorage.getItem("admin");
 
   const handleHamburgerOpen = (event) => {
     setHamburger(event.currentTarget);
@@ -16,12 +17,14 @@ export default function Hamburger() {
     setHamburger(null);
   };
 
-  const menuItems = [
-    { label: "Home", link: "/" },
-    { label: "Leaderboards", link: "/leaderboards" },
-    { label: "Questions", link: "/questions" },
-    { label: "Admin", link: "/administrator" },
-  ];
+  const menuItems = adminToken
+    ? [{ label: "Admin", link: "/administrator" }]
+    : [
+        { label: "Home", link: "/" },
+        { label: "Leaderboards", link: "/leaderboards" },
+        { label: "Questions", link: "/questions" },
+        { label: "Admin", link: "/administrator" },
+      ];
 
   return (
     <>
