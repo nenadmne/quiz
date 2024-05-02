@@ -12,14 +12,15 @@ router.get("/leaderboards", async (req, res) => {
     const db = client.db();
     const usersCollection = db.collection("users");
     const users = await usersCollection.find({}).toArray();
+    const filteredUsers = users.filter((user) => user.role !== "administrator");
 
-    for (const user of users) {
+    for (const user of filteredUsers) {
       const { draw, win } = user;
       const totalPoints = draw * 1 + win * 3;
 
       // Update the user's document with the new totalPoints value
       await usersCollection.updateOne(
-        { _id: user._id }, // Assuming _id is the unique identifier for users
+        { _id: user._id },
         { $set: { totalPoints } }
       );
     }
@@ -29,7 +30,7 @@ router.get("/leaderboards", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Users fetched successfully!",
-      users,
+      filteredUsers,
     });
   } catch (error) {
     console.error("Error:", error);

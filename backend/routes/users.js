@@ -166,14 +166,15 @@ router.get("/users", async (req, res) => {
     const client = await MongoClient.connect(uri);
     const db = client.db();
     const usersCollection = db.collection("users");
-    const users = await usersCollection.find({}).toArray();
+    const mongoUsers = await usersCollection.find({}).toArray();
     // If users doesn't exist
-    if (!users) {
+    if (!mongoUsers) {
       return res.status(422).json({
         success: false,
         message: "Entered user doesn't exist.",
       });
     }
+    const users = mongoUsers.filter((user) => user.role !== "administrator");
     await client.close();
     return res.status(200).json({
       success: true,
