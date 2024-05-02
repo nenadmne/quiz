@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import useInput from "../../hooks/useInput";
+import Loading from "../Loading";
 
 const style = {
   position: "absolute",
@@ -24,6 +25,7 @@ const style = {
 export default function LoginModal({ open, handleClose }) {
   // Disabling Confirm button if inputs are not valid
   const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Custom hook for name input
   const {
@@ -57,7 +59,9 @@ export default function LoginModal({ open, handleClose }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     toast.dismiss();
+
     try {
       const response = await fetch("http://localhost:4000/login", {
         method: "POST",
@@ -71,6 +75,7 @@ export default function LoginModal({ open, handleClose }) {
       });
       if (response.ok) {
         const data = await response.json();
+        setLoading(false);
         if (data.role === "user") {
           localStorage.setItem("token", data.token);
           // Decode the token
@@ -83,9 +88,11 @@ export default function LoginModal({ open, handleClose }) {
             window.location.href = "/";
           }, 2000);
         } else {
+          setLoading(false);
           toast.error("Invalid user role");
         }
       } else {
+        setLoading(false);
         const errorData = await response.json(); // Parse error response body
         toast.error(errorData.message || "Login failed."); // Display error message from server if available
       }
@@ -152,6 +159,11 @@ export default function LoginModal({ open, handleClose }) {
           </Stack>
         </Box>
         <ToastContainer />
+        {loading && (
+          <div className="absolute w-full h-full left-0 top-0 bg-black opacity-40 flex flex-col items-center justify-center rounded-[1rem]">
+            <Loading />
+          </div>
+        )}
       </Box>
     </Modal>
   );
