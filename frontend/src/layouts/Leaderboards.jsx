@@ -15,7 +15,7 @@ export default function Leaderboards() {
         throw new Error("Failed to add question");
       }
       const leaderboardData = await response.json();
-      setData(leaderboardData.users)
+      setData(leaderboardData.users);
     } catch (error) {
       console.error("Error:", error);
       throw new Error("An error occurred");
@@ -23,11 +23,9 @@ export default function Leaderboards() {
   };
 
   useEffect(() => {
-    leaderboardsLoader()
+    leaderboardsLoader();
     if (data) {
-      const sortedData = data.sort(
-        (a, b) => b.totalPoints - a.totalPoints
-      );
+      const sortedData = data.sort((a, b) => b.totalPoints - a.totalPoints);
       setTimeout(() => {
         setData(sortedData);
       }, 300);
@@ -49,6 +47,8 @@ export default function Leaderboards() {
               className="w-full flex flex-row justify-between items-center"
             >
               <div className="flex flex-row gap-4 items-center justify-center uppercase italic">
+                <span>{`${index + 1}.`}</span>
+                <span>{item.username}</span>
                 {index === 0 && (
                   <EmojiEvents style={{ color: "gold", fontSize: "1.75rem" }} />
                 )}
@@ -59,13 +59,11 @@ export default function Leaderboards() {
                 )}
                 {index === 2 && (
                   <EmojiEvents
-                    style={{ color: "brown", fontSize: "1.75rem" }}
+                    style={{ color: "#D2691E", fontSize: "1.75rem" }}
                   />
                 )}
-                <span>{`${index + 1}.`}</span>
-                <span>{item.username}</span>
               </div>
-              <span className="font-bold">{item.totalPoints}</span>
+              <span className="font-bold">{item.totalPoints || 0}</span>
             </li>
           ))}
         </ul>

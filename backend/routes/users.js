@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Insert new user into the collection
-    const result = await collection.insertOne({
+    const result = await usersCollection.insertOne({
       username: username,
       email: email,
       password: hashedPassword,

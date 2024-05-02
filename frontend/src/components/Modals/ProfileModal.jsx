@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+
 import Loading from "../Loading";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 const style = {
   position: "absolute",
@@ -69,7 +72,7 @@ export default function ProfileModal({ open, handleClose }) {
               <div className="flex justify-center items-center">
                 <strong className="text-[2rem] uppercase">{username}</strong>
               </div>
-              <div>
+              {history.length > 0 ? (
                 <ul className="text-[1.5rem] flex flex-row justify-between">
                   <li className="text-[green]">{`Win: ${
                     userInfo?.win || "0"
@@ -81,10 +84,25 @@ export default function ProfileModal({ open, handleClose }) {
                     userInfo?.loss || "0"
                   }`}</li>
                 </ul>
-              </div>
-              <div className="flex justify-center items-center">
-                <span className="text-[2rem]">Match History</span>
-              </div>
+              ) : (
+                <p className="flex flex-col gap-4 items-center justify-center w-full italic">
+                  <span>No games to display...</span>
+                  <SmartToyIcon
+                    sx={{
+                      fontSize: "5rem",
+                      padding: "0.5rem",
+                      borderRadius: "50%",
+                      background: "black",
+                      color: "white",
+                    }}
+                  />
+                </p>
+              )}
+              {history.length > 0 && (
+                <div className="flex justify-center items-center">
+                  <span className="text-[2rem]">Match History</span>
+                </div>
+              )}
 
               <div className="flex flex-row g-2">
                 <ul className="text-[1.25rem] flex flex-col w-[300px]">
