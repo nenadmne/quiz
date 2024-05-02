@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Loading from "../components/Loading";
 
-import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import { EmojiEvents } from "@mui/icons-material";
+import Loading from "../components/Loading";
+import Heading from "../components/Leaderboard/Heading";
+import PlayerList from "../components/Leaderboard/PlayerList";
 
 export default function Leaderboards() {
   const [data, setData] = useState(null);
@@ -33,42 +33,12 @@ export default function Leaderboards() {
   }, [data]);
 
   return data !== null ? (
-    <div className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
+    <section className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
       <div className="w-[500px] max-h-[800px] overflow-y-scroll bg-darkPurple rounded-xl p-6 flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-row gap-2 justify-center items-center">
-          <MilitaryTechIcon style={{ fontSize: "2.5rem" }} />
-          <h1 className="text-[2rem] font-bold uppercase">Leaderboard</h1>
-          <MilitaryTechIcon style={{ fontSize: "2.5rem" }} />
-        </div>
-        <ul className="text-2xl flex flex-col justify-center items-center gap-4 w-[350px]">
-          {data.map((item, index) => (
-            <li
-              key={item._id}
-              className="w-full flex flex-row justify-between items-center"
-            >
-              <div className="flex flex-row gap-4 items-center justify-center uppercase italic">
-                <span>{`${index + 1}.`}</span>
-                <span>{item.username}</span>
-                {index === 0 && (
-                  <EmojiEvents style={{ color: "gold", fontSize: "1.75rem" }} />
-                )}
-                {index === 1 && (
-                  <EmojiEvents
-                    style={{ color: "silver", fontSize: "1.75rem" }}
-                  />
-                )}
-                {index === 2 && (
-                  <EmojiEvents
-                    style={{ color: "#D2691E", fontSize: "1.75rem" }}
-                  />
-                )}
-              </div>
-              <span className="font-bold">{item.totalPoints || 0}</span>
-            </li>
-          ))}
-        </ul>
+        <Heading />
+        <PlayerList data={data} />
       </div>
-    </div>
+    </section>
   ) : (
     <div className="flex flex-col justify-center items-center w-full h-full gap-4 bg-blackGrad">
       <Loading />
