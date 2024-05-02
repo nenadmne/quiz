@@ -13,6 +13,7 @@ import Questions, { suggestQuestionAction } from "./layouts/Questions";
 import Admin from "./layouts/Admin";
 import RecievedQuestions from "./layouts/RecievedQuestions";
 import AdminDashboard from "./layouts/AdminDashboard";
+import AdminRoute from "./components/PrivateRoute/AdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -49,16 +50,16 @@ function App() {
           children: [
             {
               path: "/administrator",
-              element: <AdminDashboard />,
+              element: <AdminRoute element={<AdminDashboard />} />,
             },
             {
               path: "/administrator/addQuestion",
-              element: <AdminQuestionForm />,
+              element: <AdminRoute element={<AdminQuestionForm />} />,
               action: addQuestionAction,
             },
             {
               path: "/administrator/recievedQuestions",
-              element: <RecievedQuestions />,
+              element: <AdminRoute element={<RecievedQuestions />} />,
             },
           ],
         },
