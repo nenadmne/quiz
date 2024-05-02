@@ -27,6 +27,7 @@ export default function NavigationBar() {
   const handleProfileClose = () => setProfileOpen(false);
 
   const token = localStorage.getItem("token");
+  const adminToken = localStorage.getItem("admin");
 
   return (
     <>
@@ -46,7 +47,7 @@ export default function NavigationBar() {
               component="div"
               sx={{ flexGrow: 1 }}
             ></Typography>
-            {!token ? (
+            {!token && !adminToken ? (
               <Buttons
                 handleLoginOpen={handleLoginOpen}
                 handleSigninOpen={handleSigninOpen}

@@ -103,6 +103,63 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/adminLogin", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  try {
+    // Find the user by username in the MongoDB collection
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+    const usersCollection = db.collection("users");
+    const existingUser = await usersCollection.findOne({ username: username });
+
+    // If user doesn't exist
+    if (!existingUser) {
+      return res.status(422).json({
+        success: false,
+        message: "Entered user doesn't exist.",
+      });
+    }
+
+    if (existingUser && existingUser.role !== "administrator") {
+      return res.status(422).json({
+        success: false,
+        message: "Invalid user role.",
+      });
+    }
+
+    // Compare hashed password
+    const passwordValidation = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+
+    // If password is invalid
+    if (!passwordValidation) {
+      return res.status(422).json({
+        message: "Invalid password.",
+        errors: { credentials: "Entered password doesn't match." },
+      });
+    }
+
+    // Generate JWT token
+    const KEY = "supersecret";
+    const token = sign({ username: username }, KEY, { expiresIn: "1h" });
+
+    client.close();
+    return res.status(200).json({
+      success: true,
+      message: "Login successful.",
+      token: token,
+      role: existingUser.role,
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ success: false, message: "Login failed." });
+  }
+});
+
 router.get("/users", async (req, res) => {
   try {
     // Extract users from mongoDb collection

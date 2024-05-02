@@ -11,6 +11,7 @@ export default function LoggedState({ handleProfileOpen }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const username = localStorage.getItem("username");
+  const adminToken = localStorage.getItem("admin");
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,15 +24,18 @@ export default function LoggedState({ handleProfileOpen }) {
     setAnchorEl(null);
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("admin");
     window.location.href = "/";
   };
 
   return (
     <div className="h-full flex flex-row gap-4 justify-center items-center px-4 pt-4 pb-2">
-      <button onClick={() => handleProfileOpen()}>
+      <button onClick={() => !adminToken && handleProfileOpen()}>
         <Typography className="flex flex-row gap-2 px-4 py-2 border border-black rounded-xl bg-white text-black">
-          <EmojiEventsIcon />
-          <strong className="italic">{username}</strong>
+          {!adminToken && <EmojiEventsIcon />}
+          <strong className="italic">
+            {adminToken ? "Administrator" : username}
+          </strong>
         </Typography>
       </button>
 
