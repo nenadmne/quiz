@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Loading from "../Loading";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const style = {
   position: "absolute",
@@ -54,87 +55,93 @@ export default function ProfileModal({ open, handleClose }) {
   }, [open]);
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      className="overflow-hidden"
-    >
-      {history !== null ? (
-        <Box sx={style} className="overflow-y-scroll">
-          <div className="flex justify-center items-center">
-            <strong className="text-[2rem] uppercase">{username}</strong>
-          </div>
-          <div>
-            <ul className="text-[1.5rem] flex flex-row justify-between">
-              <li className="text-[green]">{`Win: ${userInfo?.win || "0"}`}</li>
-              <li className="text-[black]">{`Draw: ${
-                userInfo?.draw || "0"
-              }`}</li>
-              <li className="text-[red]">{`Lost: ${userInfo?.loss || "0"}`}</li>
-            </ul>
-          </div>
-          <div className="flex justify-center items-center">
-            <span className="text-[2rem]">Match History</span>
-          </div>
+    <PrivateRoute>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="overflow-hidden"
+      >
+        {history !== null ? (
+          <Box sx={style} className="overflow-y-scroll">
+            <div className="flex justify-center items-center">
+              <strong className="text-[2rem] uppercase">{username}</strong>
+            </div>
+            <div>
+              <ul className="text-[1.5rem] flex flex-row justify-between">
+                <li className="text-[green]">{`Win: ${
+                  userInfo?.win || "0"
+                }`}</li>
+                <li className="text-[black]">{`Draw: ${
+                  userInfo?.draw || "0"
+                }`}</li>
+                <li className="text-[red]">{`Lost: ${
+                  userInfo?.loss || "0"
+                }`}</li>
+              </ul>
+            </div>
+            <div className="flex justify-center items-center">
+              <span className="text-[2rem]">Match History</span>
+            </div>
 
-          <div className="flex flex-row g-2">
-            <ul className="text-[1.25rem] flex flex-col w-[300px]">
-              {history.map((item) => (
-                <li
-                  key={item._id}
-                  className="flex flex-row gap-1 py-1 border-black border-b"
-                >
-                  <span
-                    className={`${
-                      username === item.player1 ? "font-bold" : ""
-                    }`}
+            <div className="flex flex-row g-2">
+              <ul className="text-[1.25rem] flex flex-col w-[300px]">
+                {history.map((item) => (
+                  <li
+                    key={item._id}
+                    className="flex flex-row gap-1 py-1 border-black border-b"
                   >
-                    {item.player1}
-                  </span>
-                  <span>-</span>
-                  <span
-                    className={`${
-                      username === item.player2 ? "font-bold" : ""
-                    }`}
+                    <span
+                      className={`${
+                        username === item.player1 ? "font-bold" : ""
+                      }`}
+                    >
+                      {item.player1}
+                    </span>
+                    <span>-</span>
+                    <span
+                      className={`${
+                        username === item.player2 ? "font-bold" : ""
+                      }`}
+                    >
+                      {item.player2}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="text-[1.25rem] flex flex-col w-[100px]">
+                {history.map((item) => (
+                  <li
+                    key={item._id}
+                    className="flex flex-row gap-1 py-1 border-black border-b w-full justify-end"
                   >
-                    {item.player2}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <ul className="text-[1.25rem] flex flex-col w-[100px]">
-              {history.map((item) => (
-                <li
-                  key={item._id}
-                  className="flex flex-row gap-1 py-1 border-black border-b w-full justify-end"
-                >
-                  <span
-                    className={
-                      item.result !== "Draw"
+                    <span
+                      className={
+                        item.result !== "Draw"
+                          ? item.result.includes(username)
+                            ? "text-[green]"
+                            : "text-[red]"
+                          : ""
+                      }
+                    >
+                      {item.result !== "Draw"
                         ? item.result.includes(username)
-                          ? "text-[green]"
-                          : "text-[red]"
-                        : ""
-                    }
-                  >
-                    {item.result !== "Draw"
-                      ? item.result.includes(username)
-                        ? "Won"
-                        : "Loss"
-                      : "Draw"}
-                  </span>
-                </li>
-              ))}
-            </ul>
+                          ? "Won"
+                          : "Loss"
+                        : "Draw"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Box>
+        ) : (
+          <div className="w-full h-full flex justify-center items-center bg-black opacity-60 flex-col gap-4">
+            <Loading />
           </div>
-        </Box>
-      ) : (
-        <div className="w-full h-full flex justify-center items-center bg-black opacity-60 flex-col gap-4">
-          <Loading />
-        </div>
-      )}
-    </Modal>
+        )}
+      </Modal>
+    </PrivateRoute>
   );
 }
