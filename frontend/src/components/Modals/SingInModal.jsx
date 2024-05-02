@@ -114,7 +114,7 @@ export default function SinginModal({ open, handleClose }) {
         setTimeout(() => {
           handleClose();
           window.location.href = "/";
-        }, 2000);
+        }, 1500);
       } else {
         setLoading(false);
         const errorData = await response.json(); // Parse error response body

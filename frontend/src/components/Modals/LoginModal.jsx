@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import useInput from "../../hooks/useInput";
 import Loading from "../Loading";
@@ -86,7 +86,7 @@ export default function LoginModal({ open, handleClose }) {
           setTimeout(() => {
             handleClose();
             window.location.href = "/";
-          }, 2000);
+          }, 1500);
         } else {
           setLoading(false);
           toast.error("Invalid user role");
@@ -158,6 +158,7 @@ export default function LoginModal({ open, handleClose }) {
             </Button>
           </Stack>
         </Box>
+        <ToastContainer />
         {loading && (
           <div className="absolute w-full h-full left-0 top-0 bg-black opacity-40 flex flex-col items-center justify-center rounded-[1rem]">
             <Loading />
