@@ -10,7 +10,6 @@ export default function PrivateRoute({ element }) {
     } else {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-      console.log(decodedToken);
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
