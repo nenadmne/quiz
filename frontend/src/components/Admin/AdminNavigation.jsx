@@ -2,8 +2,8 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const tabs = [
   { to: "/administrator", text: "HOME" },
-  { to: "/administrator/addQuestion", text: "ADD QUESTION" },
-  { to: "/administrator/recievedQuestions", text: "RECIEVED QUESTIONS" },
+  { to: "/administrator/add-question", text: "ADD QUESTION" },
+  { to: "/administrator/recieved-questions", text: "RECIEVED QUESTIONS" },
 ];
 
 export default function AdminNavigation() {

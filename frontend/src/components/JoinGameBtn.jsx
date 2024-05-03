@@ -1,18 +1,6 @@
-import { useEffect, useState } from "react";
-import { getUserToken } from "../util/getItem";
 import "./JoinGameBtn.css";
 
-export default function JoinGameBtn({ handleJoinGame }) {
-  const [message, setMessage] = useState("");
-  const token = getUserToken();
-
-  useEffect(() => {
-    if (token) {
-      setMessage("Play");
-    } else {
-      setMessage("Login");
-    }
-  }, [token]);
+export default function JoinGameBtn({ handleJoinGame, message }) {
 
   return (
     <div className="voltage-button">

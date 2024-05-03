@@ -18,7 +18,7 @@ export default function AdminQuestionForm() {
   const submitHandler = () => {
     toast.success("Question submitted!");
     setTimeout(() => {
-      window.location.href = "/administrator/addQuestion";
+      window.location.href = "/administrator/add-question";
     }, 2000);
   };
 

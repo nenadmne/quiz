@@ -1,15 +1,15 @@
 .voltage-button {
-  position: absolute;
   width: fit-content;
+  margin-top: 5rem;
   button {
     color: white;
     background: #0d1127;
-    padding: 1.6rem 5rem 1.8rem 5rem;
+    padding: 1.6rem 4rem 1.8rem 4rem;
     border-radius: 5rem;
     border: 5px solid #5978f3;
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 1em;
-    letter-spacing: 0.075em;
+    letter-spacing: 1px;
     transition: background 0.3s;
     &:hover {
       cursor: pointer;

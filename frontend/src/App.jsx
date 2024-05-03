@@ -54,12 +54,12 @@ function App() {
               element: <AdminRoute element={<AdminDashboard />} />,
             },
             {
-              path: "/administrator/addQuestion",
+              path: "/administrator/add-question",
               element: <AdminRoute element={<AdminQuestionForm />} />,
               action: addQuestionAction,
             },
             {
-              path: "/administrator/recievedQuestions",
+              path: "/administrator/recieved-questions",
               element: <AdminRoute element={<RecievedQuestions />} />,
             },
           ],
