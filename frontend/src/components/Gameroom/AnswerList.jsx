@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getUsername } from "../../util/getItem";
 
 export default function AnswerList({
   questionElement,
@@ -7,7 +8,7 @@ export default function AnswerList({
   handleAnswerSelection,
   answers,
 }) {
-  const username = localStorage.getItem("username");
+  const username = getUsername();
   const [playerAnswers, setPlayerAnswers] = useState();
 
   useEffect(() => {

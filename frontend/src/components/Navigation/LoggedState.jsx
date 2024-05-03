@@ -1,5 +1,5 @@
 import { useState } from "react";
-import removeUserToken from "../../util/removeUserToken";
+import { removeAdminToken, removeUserToken } from "../../util/removeItem";
 import reloadHome from "../../util/reloadHome";
 import { getAdminToken, getUsername } from "../../util/getItem";
 
@@ -26,7 +26,7 @@ export default function LoggedState({ handleProfileOpen }) {
   const handleLogout = () => {
     setAnchorEl(null);
     removeUserToken();
-    localStorage.removeItem("admin");
+    removeAdminToken();
     reloadHome();
   };
 

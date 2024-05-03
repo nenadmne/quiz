@@ -1,9 +1,10 @@
 import { ToastContainer } from "react-toastify";
 import AdminLogin from "../components/Admin/AdminLogin";
 import AdminNavigation from "../components/Admin/AdminNavigation";
+import { getAdminToken } from "../util/getItem";
 
 export default function Admin() {
-  const adminToken = localStorage.getItem("admin");
+  const adminToken = getAdminToken();
 
   return (
     <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad">

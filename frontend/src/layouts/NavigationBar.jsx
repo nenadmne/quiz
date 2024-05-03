@@ -12,7 +12,7 @@ import ProfileModal from "../components/Modals/ProfileModal";
 import LoggedState from "../components/Navigation/LoggedState";
 import Buttons from "../components/Navigation/Buttons";
 import Hamburger from "../components/Navigation/Hamburger";
-import { getUserToken } from "../util/getItem";
+import { getAdminToken, getUserToken } from "../util/getItem";
 
 export default function NavigationBar() {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function NavigationBar() {
   const handleProfileClose = () => setProfileOpen(false);
 
   const token = getUserToken();
-  const adminToken = localStorage.getItem("admin");
+  const adminToken = getAdminToken();
 
   return (
     <>

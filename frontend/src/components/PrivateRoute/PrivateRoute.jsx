@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import removeUserToken from "../../util/removeUserToken";
+import { removeUserToken } from "../../util/removeItem";
 import reloadHome from "../../util/reloadHome";
 import { getUserToken } from "../../util/getItem";
 

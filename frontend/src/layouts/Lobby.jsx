@@ -7,6 +7,7 @@ import OnePlayerLobby from "../components/Lobby/OnePlayerLobby";
 import TwoPlayerLobby from "../components/Lobby/TwoPlayerLobby";
 import Loading from "../components/Loading";
 import { getGameroom, getUsername } from "../util/getItem";
+import { removeGameroom } from "../util/removeItem";
 
 function Lobby() {
   const [countdown, setCountdown] = useState(5);
@@ -22,7 +23,7 @@ function Lobby() {
   useEffect(() => {
     if (gameroom) {
       socket.disconnect();
-      localStorage.removeItem("gameroom");
+      removeGameroom();
       reloadHome();
     }
     socket.emit("join", username);
