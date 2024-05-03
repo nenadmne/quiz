@@ -12,7 +12,6 @@ const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  maxHeight: "250px",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   boxShadow: 24,
@@ -20,8 +19,9 @@ const style = {
   px: 4,
   borderRadius: 4,
   display: "flex",
+  overflow:"hidden",
   flexDirection: "column",
-  gap: 2,
+  gap: 1,
 };
 
 export default function ProfileModal({ open, handleClose }) {
@@ -66,10 +66,9 @@ export default function ProfileModal({ open, handleClose }) {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          className="overflow-hidden"
         >
           {history !== null ? (
-            <Box sx={style} className="overflow-y-scroll">
+            <Box sx={style}>
               <div className="flex justify-center items-center">
                 <strong className="text-[2rem] uppercase">{username}</strong>
               </div>
@@ -105,7 +104,7 @@ export default function ProfileModal({ open, handleClose }) {
                 </div>
               )}
 
-              <div className="flex flex-row g-2">
+              <div className="flex flex-row g-2 overflow-y-scroll max-h-[400px] p-2">
                 <ul className="text-[1.25rem] flex flex-col w-[300px]">
                   {history.reverse().map((item) => (
                     <li
@@ -131,7 +130,7 @@ export default function ProfileModal({ open, handleClose }) {
                   ))}
                 </ul>
                 <ul className="text-[1.25rem] flex flex-col w-[100px]">
-                  {history.map((item) => (
+                  {history.reverse().map((item) => (
                     <li
                       key={item._id}
                       className="flex flex-row gap-1 py-1 border-black border-b w-full justify-end"
