@@ -107,7 +107,7 @@ export default function ProfileModal({ open, handleClose }) {
 
               <div className="flex flex-row g-2">
                 <ul className="text-[1.25rem] flex flex-col w-[300px]">
-                  {history.map((item) => (
+                  {history.reverse().map((item) => (
                     <li
                       key={item._id}
                       className="flex flex-row gap-1 py-1 border-black border-b"
@@ -139,14 +139,14 @@ export default function ProfileModal({ open, handleClose }) {
                       <span
                         className={
                           item.result !== "Draw"
-                            ? item.result.includes(username)
+                            ? item.result?.includes(username)
                               ? "text-[green]"
                               : "text-[red]"
                             : ""
                         }
                       >
                         {item.result !== "Draw"
-                          ? item.result.includes(username)
+                          ? item.result?.includes(username)
                             ? "Won"
                             : "Loss"
                           : "Draw"}

@@ -34,7 +34,7 @@ export default function Leaderboards() {
 
   return data !== null ? (
     <section className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
-      <div className="w-[500px] max-h-[800px] overflow-y-scroll bg-darkPurple rounded-xl p-6 flex flex-col items-center justify-center gap-8">
+      <div className="w-[500px] bg-darkPurple rounded-xl p-6 flex flex-col items-center justify-center gap-8">
         <Heading />
         <PlayerList data={data} />
       </div>
