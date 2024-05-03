@@ -69,13 +69,13 @@ export default function ScoreSheetTable({
   };
 
   return (
-    <div className="w-[52rem] gap-8 flex flex-row justify-between items-end">
+    <div className="w-[52rem] flex flex-row justify-between items-end">
       {answers && answers.length === 2 && animations()}
       <ScoreSheet playerName={playerOneName} playerScore={playerOneScore} />
       <img
         src={Logo}
         alt="logo image"
-        className="w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
+        className="w-[8rem] 2xl:w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
       />
       <ScoreSheet playerName={playerTwoName} playerScore={playerTwoScore} />
     </div>

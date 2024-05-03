@@ -3,6 +3,13 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        sm: "640px", // Small screens
+        md: "768px", // Medium screens
+        lg: "1024px", // Large screens
+        xl: "1280px", // Extra large screens
+        "2xl": "1600px",
+      },
       backgroundImage: {
         darkPurple:
           "linear-gradient(179.4deg, rgb(12, 20, 69) -16.9%, rgb(71, 30, 84) 119.9%);",

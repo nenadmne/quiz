@@ -7,7 +7,7 @@ export default function Background({ play }) {
       <img
         src={Logo}
         alt="logo image"
-        className="absolute w-[15rem] top-[-3rem] z-10"
+        className="absolute w-[12rem] 2xl:w-[15rem] top-[-2.8rem] 2xl:top-[-3rem] z-10"
       />
       <div className="content">
         <div className="tunnel">
