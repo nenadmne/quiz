@@ -7,6 +7,7 @@ import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
 import useSocket from "../hooks/useSocket";
+import reloadHome from "../util/reloadHome";
 
 export default function GameOver({ players, playersJoined }) {
   const [winner, setWinner] = useState(null);
@@ -23,7 +24,7 @@ export default function GameOver({ players, playersJoined }) {
 
   // Return to homepage button
   const handleButton = () => {
-    window.location.href = "/";
+    reloadHome();
   };
 
   // Socket clean up function
@@ -55,7 +56,7 @@ export default function GameOver({ players, playersJoined }) {
       setPlayer2Name(players[1].name);
       setPlayer2Score(players[1].score);
 
-    // To emit only once 
+      // To emit only once
       if (username === players[0].name) {
         socket.emit("gameOver");
       }

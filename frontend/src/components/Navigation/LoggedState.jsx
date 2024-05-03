@@ -1,5 +1,6 @@
 import { useState } from "react";
 import removeUserToken from "../../util/removeUserToken";
+import reloadHome from "../../util/reloadHome";
 
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
@@ -25,7 +26,7 @@ export default function LoggedState({ handleProfileOpen }) {
     setAnchorEl(null);
     removeUserToken();
     localStorage.removeItem("admin");
-    window.location.href = "/";
+    reloadHome();
   };
 
   return (

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-import { ToastContainer, toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
 import useInput from "../../hooks/useInput";
 import Loading from "../Loading";
+import reloadHome from "../../util/reloadHome";
 
 const style = {
   position: "absolute",
@@ -85,7 +87,7 @@ export default function LoginModal({ open, handleClose }) {
 
           setTimeout(() => {
             handleClose();
-            window.location.href = "/";
+            reloadHome();
           }, 1500);
         } else {
           setLoading(false);
