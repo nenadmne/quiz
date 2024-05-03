@@ -6,7 +6,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import CircleIcon from "@mui/icons-material/Circle";
 
 import useSocket from "../hooks/useSocket";
-import { getUsername } from "../util/getItem";
+import { getAnon, getUsername } from "../util/getItem";
 
 export default function ChatComponent() {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function ChatComponent() {
     }
   }, [username]);
 
-  const anon = localStorage.getItem("anon");
+  const anon = getAnon();
 
   // Input handler
   const messageChangeHandler = (event) => {

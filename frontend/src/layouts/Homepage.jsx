@@ -6,7 +6,7 @@ import Background from "../components/Backgrounds/Background";
 import ChatComponent from "../components/Chat";
 import useSocket from "../hooks/useSocket";
 import reloadHome from "../util/reloadHome";
-import { getUsername } from "../util/getItem";
+import { getGameroom, getUsername } from "../util/getItem";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -14,7 +14,7 @@ function Homepage() {
   const [gameStarted, setGameStarted] = useState(false);
 
   const username = getUsername();
-  const gameroom = localStorage.getItem("gameroom");
+  const gameroom = getGameroom();
   const socket = useSocket();
   const navigate = useNavigate();
 

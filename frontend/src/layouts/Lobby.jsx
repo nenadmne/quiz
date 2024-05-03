@@ -6,7 +6,7 @@ import reloadHome from "../util/reloadHome";
 import OnePlayerLobby from "../components/Lobby/OnePlayerLobby";
 import TwoPlayerLobby from "../components/Lobby/TwoPlayerLobby";
 import Loading from "../components/Loading";
-import { getUsername } from "../util/getItem";
+import { getGameroom, getUsername } from "../util/getItem";
 
 function Lobby() {
   const [countdown, setCountdown] = useState(5);
@@ -16,7 +16,7 @@ function Lobby() {
   const gameCtx = useContext(GameContext);
   const { players, addPlayer } = gameCtx;
   const username = getUsername();
-  const gameroom = localStorage.getItem("gameroom");
+  const gameroom = getGameroom();
 
   // Connecting with socket and storing connected players in context
   useEffect(() => {
