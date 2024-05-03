@@ -138,9 +138,7 @@ export default function EditModal({ open, handleClose, item }) {
             </Button>
           </form>
           {loading && (
-            <div className="absolute top-0 w-full h-full rounded-xl flex items-center justify-center flex-col gap-8 bg-black opacity-60 z-999">
-              <Loading />
-            </div>
+            <Loading className="absolute top-0 w-full h-full rounded-xl flex items-center justify-center flex-col gap-4 bg-black opacity-70 z-999" />
           )}
         </Box>
       </Modal>

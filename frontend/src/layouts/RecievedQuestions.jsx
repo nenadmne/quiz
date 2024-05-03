@@ -96,9 +96,7 @@ export default function RecievedQuestions() {
 
   if (questions === null) {
     return (
-      <div className="absolute w-full h-full flex items-center justify-center flex-col gap-8">
-        <Loading />
-      </div>
+      <Loading className="absolute w-full h-full flex flex-col gap-4 items-center justify-center" />
     );
   } else
     return (
@@ -135,9 +133,7 @@ export default function RecievedQuestions() {
           />
         </div>
         {loading && (
-          <div className="absolute w-full h-full flex items-center justify-center flex-col gap-8 bg-black opacity-60">
-            <Loading />
-          </div>
+          <Loading className="absolute w-full h-full flex flex-col gap-4 items-center justify-center bg-black opacity-70" />
         )}
       </>
     );

@@ -1,10 +1,13 @@
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function Loading() {
+export default function Loading({ className, color }) {
   return (
-    <>
-      <CircularProgress disableShrink />
-      <span className="text-xl text-white">Loading...</span>
-    </>
+    <div className={className}>
+      <CircularProgress
+        disableShrink
+        sx={{ color: `${color ? "black" : "white"}` }}
+      />
+      <span className={`text-xl ${color || "text-white"}`}>Loading...</span>
+    </div>
   );
 }

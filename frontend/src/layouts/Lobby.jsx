@@ -65,9 +65,7 @@ function Lobby() {
     return <TwoPlayerLobby countdown={countdown} players={players} />;
   }
   return (
-    <div className="w-full h-full bg-blackGrad flex flex-col gap-4 justify-center items-center">
-      <Loading />
-    </div>
+    <Loading className="w-full h-full bg-blackGrad flex flex-col gap-4 justify-center items-center" />
   );
 }
 

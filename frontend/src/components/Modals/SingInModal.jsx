@@ -215,9 +215,7 @@ export default function SinginModal({ open, handleClose }) {
         </Box>
         <ToastContainer />
         {loading && (
-          <div className="absolute w-full h-full left-0 top-0 bg-black opacity-40 flex flex-col items-center justify-center rounded-[1rem]">
-            <Loading />
-          </div>
+          <Loading className="absolute w-full h-full left-0 top-0 bg-black opacity-70 flex flex-col items-center justify-center rounded-[1rem]" />
         )}
       </Box>
     </Modal>

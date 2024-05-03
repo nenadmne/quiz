@@ -40,8 +40,6 @@ export default function Leaderboards() {
       </div>
     </section>
   ) : (
-    <div className="flex flex-col justify-center items-center w-full h-full gap-4 bg-blackGrad">
-      <Loading />
-    </div>
+    <Loading className=" w-full h-full flex flex-col gap-4 justify-center items-center bg-blackGrad" />
   );
 }

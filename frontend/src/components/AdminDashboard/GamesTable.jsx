@@ -40,7 +40,10 @@ export default function GamesTable({ games }) {
           pageSizeOptions={[5]}
         />
       ) : (
-        <Loading />
+        <Loading
+          className="flex flex-col gap-4 items-center justify-center"
+          color="text-black"
+        />
       )}
     </div>
   );

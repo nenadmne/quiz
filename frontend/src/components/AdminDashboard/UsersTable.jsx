@@ -55,7 +55,10 @@ export default function UsersTable() {
           className="w-full"
         />
       ) : (
-        <Loading />
+        <Loading
+          className="flex flex-col gap-4 items-center justify-center"
+          color="text-black"
+        />
       )}
     </div>
   );

@@ -162,7 +162,7 @@ export default function GameRoom() {
           </div>
         </>
       ) : (
-        <Loading />
+        <Loading className="absolute h-full w-full flex flex-col gap-4 items-center justify-center" />
       )}
     </div>
   );
