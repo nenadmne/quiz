@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useInput from "../../hooks/useInput";
+import removeUserToken from "../../util/removeUserToken";
 
 import Loading from "../Loading";
 
@@ -66,8 +67,7 @@ export default function AdminLogin() {
         setLoading(false);
         if (data.role === "administrator") {
           localStorage.setItem("admin", data.token);
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
+          removeUserToken();
           toast.success("Login successful!");
           setTimeout(() => {
             window.location.href = "/administrator";
