@@ -1,7 +1,8 @@
 import { useEffect } from "react";
+import { getAdminToken } from "../../util/getItem";
 
 export default function NonAdminRoute({ element }) {
-  const token = localStorage.getItem("admin");
+  const token = getAdminToken();
 
   useEffect(() => {
     if (token) {

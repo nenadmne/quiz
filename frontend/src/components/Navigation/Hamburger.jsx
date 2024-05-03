@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getAdminToken } from "../../util/getItem";
 
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -7,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Hamburger() {
   const [hamburger, setHamburger] = useState(null);
-  const adminToken = localStorage.getItem("admin");
+  const adminToken = getAdminToken();
 
   const handleHamburgerOpen = (event) => {
     setHamburger(event.currentTarget);
