@@ -6,6 +6,7 @@ import PlayerList from "../components/Leaderboard/PlayerList";
 
 export default function Leaderboards() {
   const [data, setData] = useState(null);
+  const [sortedData, setSortedData] = useState(null);
 
   const leaderboardsLoader = async () => {
     try {
@@ -27,16 +28,16 @@ export default function Leaderboards() {
     if (data) {
       const sortedData = data.sort((a, b) => b.totalPoints - a.totalPoints);
       setTimeout(() => {
-        setData(sortedData);
+        setSortedData(sortedData);
       }, 300);
     }
   }, [data]);
 
-  return data !== null ? (
+  return sortedData !== null ? (
     <section className="flex w-full h-full p-8 items-start justify-center text-white bg-greyGrad">
       <div className="w-[500px] bg-darkPurple rounded-xl p-6 flex flex-col items-center justify-center gap-8">
         <Heading />
-        <PlayerList data={data} />
+        <PlayerList data={sortedData} />
       </div>
     </section>
   ) : (
