@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { getUserToken } from "../util/getItem";
 import "./JoinGameBtn.css";
 
 export default function JoinGameBtn({ handleJoinGame }) {
   const [message, setMessage] = useState("");
-  const token = localStorage.getItem("token");
+  const token = getUserToken();
 
   useEffect(() => {
     if (token) {

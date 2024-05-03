@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import removeUserToken from "../../util/removeUserToken";
 import reloadHome from "../../util/reloadHome";
+import { getUserToken } from "../../util/getItem";
 
 export default function PrivateRoute({ element }) {
-  const token = localStorage.getItem("token");
+  const token = getUserToken();
 
   useEffect(() => {
     if (!token) {
