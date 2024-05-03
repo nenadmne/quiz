@@ -6,13 +6,14 @@ import Background from "../components/Backgrounds/Background";
 import ChatComponent from "../components/Chat";
 import useSocket from "../hooks/useSocket";
 import reloadHome from "../util/reloadHome";
+import { getUsername } from "../util/getItem";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
 
-  const username = localStorage.getItem("username");
+  const username = getUsername();
   const gameroom = localStorage.getItem("gameroom");
   const socket = useSocket();
   const navigate = useNavigate();

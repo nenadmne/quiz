@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserToken } from "../../util/getItem";
+import { getUserToken, getUsername } from "../../util/getItem";
 
 import Loading from "../Loading";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -25,7 +25,7 @@ const style = {
 };
 
 export default function ProfileModal({ open, handleClose }) {
-  const username = localStorage.getItem("username");
+  const username = getUsername();
   const token = getUserToken();
   const [userInfo, setUserInfo] = useState(null);
   const [history, setHistory] = useState(null);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
+import { getUsername } from "../util/getItem";
 
 import Fireworks from "../assets/Fireworks.json";
 import Loser from "../assets/Loser.json";
@@ -14,7 +15,7 @@ export default function GameOver({ players, playersJoined }) {
   const [draw, setDraw] = useState(false);
 
   const socket = useSocket();
-  const username = localStorage.getItem("username");
+  const username = getUsername();
 
   // Storing players stats into state so the track of their stats is not lost after they leave
   const [player1Name, setPlayer1Name] = useState(null);

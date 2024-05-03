@@ -6,6 +6,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import CircleIcon from "@mui/icons-material/Circle";
 
 import useSocket from "../hooks/useSocket";
+import { getUsername } from "../util/getItem";
 
 export default function ChatComponent() {
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function ChatComponent() {
   const chatRef = useRef();
 
   const socket = useSocket();
-  const username = localStorage.getItem("username");
+  const username = getUsername();
 
   // Chat users name --> Either username or anonymous
   useEffect(() => {

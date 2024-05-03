@@ -1,7 +1,7 @@
 import { useState } from "react";
 import removeUserToken from "../../util/removeUserToken";
 import reloadHome from "../../util/reloadHome";
-import { getAdminToken } from "../../util/getItem";
+import { getAdminToken, getUsername } from "../../util/getItem";
 
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,7 +13,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 export default function LoggedState({ handleProfileOpen }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const username = localStorage.getItem("username");
+  const username = getUsername();
   const adminToken = getAdminToken();
 
   const handleMenu = (event) => {

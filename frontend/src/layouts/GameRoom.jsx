@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { unstable_usePrompt } from "react-router-dom";
 import useSocket from "../hooks/useSocket";
+import { getUsername } from "../util/getItem";
 import GameContext from "../store/context";
 
 import ScoreSheetTable from "../components/Gameroom/ScoreSheetTable";
@@ -15,7 +16,7 @@ export default function GameRoom() {
   const gameCtx = useContext(GameContext);
   const { players, addPlayer, answers, addAnswers } = gameCtx;
 
-  const username = localStorage.getItem("username");
+  const username = getUsername();
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [timer, setTimer] = useState(10);
