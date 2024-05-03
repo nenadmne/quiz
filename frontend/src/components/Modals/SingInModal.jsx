@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 
 import useInput from "../../hooks/useInput";
-import reloadHome from "../../util/reloadHome";
+import { redirectHome } from "../../util/redirects";
 import Loading from "../Loading";
 
 import Box from "@mui/material/Box";
@@ -115,7 +115,7 @@ export default function SinginModal({ open, handleClose }) {
         toast.success("Signup successful!");
         setTimeout(() => {
           handleClose();
-          reloadHome();
+          redirectHome();
         }, 1500);
       } else {
         setLoading(false);

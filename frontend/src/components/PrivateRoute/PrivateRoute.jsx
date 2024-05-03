@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { removeUserToken } from "../../util/removeItem";
-import reloadHome from "../../util/reloadHome";
+import { redirectHome } from "../../util/redirects";
 import { getUserToken } from "../../util/getItem";
 
 export default function PrivateRoute({ element }) {
@@ -9,13 +9,13 @@ export default function PrivateRoute({ element }) {
 
   useEffect(() => {
     if (!token) {
-      reloadHome();
+      redirectHome();
     } else {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         removeUserToken();
-        reloadHome();
+        redirectHome();
       }
     }
   }, [token]);

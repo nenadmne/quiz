@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import GameContext from "../store/context";
 import useSocket from "../hooks/useSocket";
-import reloadHome from "../util/reloadHome";
+import { redirectHome } from "../util/redirects";
 
 import OnePlayerLobby from "../components/Lobby/OnePlayerLobby";
 import TwoPlayerLobby from "../components/Lobby/TwoPlayerLobby";
@@ -24,7 +24,7 @@ function Lobby() {
     if (gameroom) {
       socket.disconnect();
       removeGameroom();
-      reloadHome();
+      redirectHome();
     }
     socket.emit("join", username);
     socket.on("updatePlayers", (updatedPlayers) => {
@@ -61,7 +61,7 @@ function Lobby() {
 
   // Statement that returns player to homepage if he types in url lobby route
   if (!socket && players.length === 0) {
-    reloadHome();
+    redirectHome();
   } else if (players.length === 1) {
     return <OnePlayerLobby queue={queue} players={players} />;
   } else if (players.length === 2) {

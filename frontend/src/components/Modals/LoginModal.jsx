@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 
 import useInput from "../../hooks/useInput";
 import Loading from "../Loading";
-import reloadHome from "../../util/reloadHome";
+import { redirectHome } from "../../util/redirects";
 
 const style = {
   position: "absolute",
@@ -87,7 +87,7 @@ export default function LoginModal({ open, handleClose }) {
 
           setTimeout(() => {
             handleClose();
-            reloadHome();
+            redirectHome();
           }, 1500);
         } else {
           setLoading(false);

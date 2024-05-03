@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import { redirectAdmin } from "../util/redirects";
 
 export default function Questions() {
   const [answerValues, setAnswerValues] = useState([]); // State to store answer values
@@ -18,7 +19,7 @@ export default function Questions() {
   const submitHandler = () => {
     toast.success("Question submitted!");
     setTimeout(() => {
-      window.location.href = "/questions";
+      redirectAdmin();
     }, 2000);
   };
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { removeAdminToken, removeUserToken } from "../../util/removeItem";
-import reloadHome from "../../util/reloadHome";
+import { redirectHome } from "../../util/redirects";
 import { getAdminToken, getUsername } from "../../util/getItem";
 
 import Typography from "@mui/material/Typography";
@@ -27,7 +27,7 @@ export default function LoggedState({ handleProfileOpen }) {
     setAnchorEl(null);
     removeUserToken();
     removeAdminToken();
-    reloadHome();
+    redirectHome();
   };
 
   return (

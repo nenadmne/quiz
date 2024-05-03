@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useInput from "../../hooks/useInput";
 import { removeUserToken } from "../../util/removeItem";
+import { redirectAdmin } from "../../util/redirects";
 
 import Loading from "../Loading";
 
@@ -67,10 +68,10 @@ export default function AdminLogin() {
         setLoading(false);
         if (data.role === "administrator") {
           localStorage.setItem("admin", data.token);
-          removeUserToken()
+          removeUserToken();
           toast.success("Login successful!");
           setTimeout(() => {
-            window.location.href = "/administrator";
+            redirectAdmin();
           }, 1500);
         } else {
           toast.error("Invalid user role.");

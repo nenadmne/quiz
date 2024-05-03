@@ -5,8 +5,9 @@ import JoinGameBtn from "../components/JoinGameBtn";
 import Background from "../components/Backgrounds/Background";
 import ChatComponent from "../components/Chat";
 import useSocket from "../hooks/useSocket";
-import reloadHome from "../util/reloadHome";
+import { redirectHome } from "../util/redirects";
 import { getGameroom, getUsername } from "../util/getItem";
+import { removeGameroom } from "../util/removeItem";
 
 function Homepage() {
   const [play, setPlay] = useState(false);
@@ -26,8 +27,8 @@ function Homepage() {
 
   useEffect(() => {
     if (gameroom) {
-      reloadHome();
-      localStorage.removeItem("gameroom");
+      redirectHome();
+      removeGameroom();
       if (socket) {
         socket.disconnect();
       }

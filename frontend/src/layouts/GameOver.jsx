@@ -8,7 +8,7 @@ import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
 import useSocket from "../hooks/useSocket";
-import reloadHome from "../util/reloadHome";
+import { redirectHome } from "../util/redirects";
 
 export default function GameOver({ players, playersJoined }) {
   const [winner, setWinner] = useState(null);
@@ -25,7 +25,7 @@ export default function GameOver({ players, playersJoined }) {
 
   // Return to homepage button
   const handleButton = () => {
-    reloadHome();
+    redirectHome();
   };
 
   // Socket clean up function
