@@ -16,11 +16,14 @@ router.get("/leaderboards", async (req, res) => {
 
     for (const user of filteredUsers) {
       const { draw, win } = user;
-      const totalPoints = draw * 1 + win * 3;
+      const drawPoints = isNaN(draw) ? 0 : draw;
+      const winPoints = isNaN(win) ? 0 : win;
+
+      const totalPoints = drawPoints * 1 + winPoints * 3;
 
       // Update the user's document with the new totalPoints value
       await usersCollection.updateOne(
-        { _id: user._id },
+        { _id: new Object(user._id) },
         { $set: { totalPoints } }
       );
     }
