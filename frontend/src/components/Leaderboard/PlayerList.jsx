@@ -6,7 +6,7 @@ export default function PlayerList({ data }) {
       {data.map((item, index) => (
         <li
           key={item._id}
-          className="w-full flex flex-row justify-between items-center bg-blue bg-lineGrad py-2 px-12 rounded text-shadow"
+          className="w-full flex flex-row justify-between items-center bg-blue bg-lineGrad py-2 px-12 rounded text-shadow shadow-black shadow-md"
         >
           <div className="flex flex-row gap-4 items-center justify-center uppercase italic">
             <span>{`${index + 1}.`}</span>

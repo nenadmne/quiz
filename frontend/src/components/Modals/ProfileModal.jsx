@@ -103,7 +103,9 @@ export default function ProfileModal({ open, handleClose }) {
               )}
               {history.length > 0 && (
                 <div className="flex justify-center items-center mt-2">
-                  <span className="text-[1.75rem] text-white text-shadow uppercase tracking-[5px]">Match History</span>
+                  <span className="text-[1.75rem] text-white text-shadow uppercase tracking-[5px]">
+                    Match History
+                  </span>
                 </div>
               )}
 
