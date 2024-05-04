@@ -31,7 +31,7 @@ export default function AnswerList({
           playerAnswers[1].selectedAnswer === answer;
 
         return (
-          <li key={index} className="w-full">
+          <li key={index} className="w-full shadow-md shadow-black">
             <button
               className={`${
                 selectedAnswer === answer &&

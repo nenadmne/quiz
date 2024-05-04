@@ -75,7 +75,7 @@ export default function ScoreSheetTable({
       <img
         src={Logo}
         alt="logo image"
-        className="w-[8rem] 2xl:w-[10rem] top-[1rem] bg-greyGrad rounded-xl"
+        className="w-[8.5rem] 2xl:w-[10rem] top-[1rem] bg-greyGrad rounded-xl shadow-xl shadow-black"
       />
       <ScoreSheet playerName={playerTwoName} playerScore={playerTwoScore} />
     </div>

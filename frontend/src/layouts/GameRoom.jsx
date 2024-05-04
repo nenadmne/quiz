@@ -150,7 +150,7 @@ export default function GameRoom() {
             reveal={reveal}
           />
 
-          <div className="w-[800px] p-8 2xl:p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl">
+          <div className="w-[800px] p-8 2xl:p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl shadow-md shadow-black">
             <QuestionTimer timer={timer} points={questionElement.points} />
             <Question questionElement={questionElement} />
             <AnswerList
