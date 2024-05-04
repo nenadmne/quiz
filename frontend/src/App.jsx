@@ -69,10 +69,6 @@ function App() {
           path: "*",
           element: <NotFound />,
         },
-        {
-          path: "/test",
-          element: <Test />
-        },
       ],
     },
   ]);

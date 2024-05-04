@@ -5,3 +5,7 @@ export const redirectHome = () => {
 export const redirectAdmin = () => {
   window.location.href = "/administrator";
 };
+
+export const redirectQuestions = () => {
+  window.location.href = "/questions";
+};

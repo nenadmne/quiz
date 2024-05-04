@@ -19,7 +19,7 @@ export default function GameRoom() {
   const username = getUsername();
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(12);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -76,7 +76,7 @@ export default function GameRoom() {
         setQuestionElement(receivedQuestion);
         setQuestionNumber(numberOfQuestions);
         if (questionElement) {
-          setTimer(5);
+          setTimer(12);
         }
         setReveal(false);
         setSelectedAnswer(null);
