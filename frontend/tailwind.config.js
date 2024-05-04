@@ -27,6 +27,7 @@ export default {
       },
       backgroundColor: {
         blue: "rgb(0, 183, 255)",
+        dark:"#444"
       },
       animation: {
         blurIn: "blurIn 1s ease-out forwards",
