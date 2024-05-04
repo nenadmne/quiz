@@ -22,6 +22,11 @@ export default {
           "radial-gradient(circle at 10% 20%, rgb(221, 49, 49) 0%, rgb(119, 0, 0) 90%);",
         mixedGrad:
           "linear-gradient(109.6deg, rgb(14, 11, 56) 11.2%, rgb(239, 37, 37) 91.1%);",
+        lineGrad:
+          "linear-gradient(176deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.266667) 30%, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.2) 85%, rgba(0, 0, 0, 0.333333) 85%, rgba(0, 0, 0, 0.266667))",
+      },
+      backgroundColor: {
+        blue: "rgb(0, 183, 255)",
       },
       animation: {
         blurIn: "blurIn 1s ease-out forwards",

@@ -10,6 +10,7 @@ import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 const style = {
   position: "absolute",
+  maxHeight:"500px",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",

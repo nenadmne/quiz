@@ -18,3 +18,18 @@ body,
   top: unset;
   padding: 1rem;
 }
+
+.text-shadow {
+  text-shadow: rgba(0, 0, 0, 0.533333) 0.1em 0.1em 0.1em,
+    1px 1px 0px #000,
+    -1px -1px 0px #000,
+    -1px 1px 0px #000,
+    1px -1px 0px #000,
+    0px 1px 0px #000,
+    0px -1px 0px #000,
+    1px 0px 0px #000,
+    -1px 0px 0px #000,
+    1px 1px 1px rgba(0, 0, 0, 0.8),
+    2px 2px 1px rgba(0, 0, 0, 0.8),
+    3px 3px 1px rgba(0, 0, 0, 0.8);
+}
