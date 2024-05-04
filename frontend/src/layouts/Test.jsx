@@ -1,33 +1,40 @@
-import AnswerList from "../components/Gameroom/AnswerList";
-import Question from "../components/Gameroom/Question";
 import Logo from "../assets/logo.png";
+import { Button } from "@mui/material";
 
 export default function Test() {
-  const questionElement = {
-    _id: "661678a3d0088a55f05c44d7",
-    question:
-      "Which defender achieved both an assist and earned 3 Bonus Points in Ga…",
-    answers: ["Ake", "Wan-Bissaka", "Saliba", "Chilwell"],
-    correctAnswer: "Wan-Bissaka",
-    points: "2",
-  };
-
   return (
-    <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
-      <>
-        <div className="w-[800px] p-8 2xl:p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl shadow-md shadow-black">
-          <Question questionElement={questionElement} />
-          <ul className="w-full grid grid-cols-2 gap-4 2xl:gap-8">
-            {questionElement.answers.map((answer, index) => {
-              return (
-                <li key={index} className="w-full">
-                  <button>{answer}</button>
-                </li>
-              );
-            })}
-          </ul>
+    <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
+      <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center shadow-black shadow-md">
+        <img
+          src={Logo}
+          alt="logo image"
+          className="w-[10rem] bg-darkBlue rounded-xl"
+        />
+        <div className="w-full flex items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-white text-[2rem] text-shadow tracking-[1px] ">
+          Draw!
         </div>
-      </>
+        <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center text-shadow">
+          <div className="w-[200px] flex flex-col p-4 bg-darkPurple rounded text-white text-center shadow-md shadow-black">
+            <p className="text-[1.5rem]">player 1</p>
+            <strong className="text-[4rem]">5</strong>
+          </div>
+          <div className="w-[200px] flex flex-col p-4 bg-darkPurple rounded text-white text-center shadow-md shadow-black">
+            <p className="text-[1.5rem]">player 2</p>
+            <strong className="text-[4rem]">4</strong>
+          </div>
+        </div>
+        <Button
+          variant="contained"
+          sx={{
+            color: "white",
+            fontSize: "1rem",
+            textTransform: "none",
+          }}
+          className="bg-blackGrad hover:opacity-50 text-shadow tracking-[1px]"
+        >
+          Back to Homepage
+        </Button>
+      </div>
     </div>
   );
 }

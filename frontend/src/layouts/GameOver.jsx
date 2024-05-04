@@ -134,34 +134,40 @@ export default function GameOver({ players, playersJoined }) {
     }
   }, [winner, draw]);
 
+  const playerData = [
+    { name: player1Name, score: player1Score },
+    { name: player2Name, score: player2Score },
+  ];
+
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
-      <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center">
+      <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center shadow-black shadow-md">
         <img
           src={Logo}
           alt="logo image"
           className="w-[10rem] bg-darkBlue rounded-xl"
         />
         {winner && !draw && (
-          <div className="border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
+          <div className="w-full flex flex-row items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-white text-[2rem] text-shadow tracking-[1px]">
             <span> The winner is </span>
             <strong>{winner.name}</strong>
           </div>
         )}
         {draw && (
-          <div className="border border-black text-[1.75rem] w-full flex flex-row items-center justify-center gap-2">
+          <div className="w-full flex items-center justify-center py-2 bg-blackGrad shadow-[black] shadow-md text-white text-[2rem] text-shadow tracking-[1px]">
             Draw!
           </div>
         )}
         <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
-          <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">{player1Name}</p>
-            <strong className="text-[3rem]">{player1Score}</strong>
-          </div>
-          <div className="w-[200px] flex flex-col p-4 bg-blueGrad text-white items-center justify-center gap-4 rounded">
-            <p className="text-[1.5rem]">{player2Name}</p>
-            <strong className="text-[3rem]">{player2Score}</strong>
-          </div>
+          {playerData.map((player, index) => (
+            <div
+              key={index}
+              className="w-[200px] flex flex-col p-4 bg-darkPurple rounded text-white text-center shadow-md shadow-black"
+            >
+              <p className="text-[1.5rem]">{player.name}</p>
+              <strong className="text-[4rem]">{player.score}</strong>
+            </div>
+          ))}
         </div>
         {winner && winner.name === username && !draw && (
           <div className="absolute">
@@ -173,18 +179,17 @@ export default function GameOver({ players, playersJoined }) {
             <Lottie animationData={Loser} loop={true} />
           </div>
         )}
-        <div>
-          <Button
-            variant="contained"
-            sx={{
-              color: "white",
-            }}
-            onClick={handleButton}
-            className="bg-blueGrad hover:opacity-80"
-          >
-            Back to Homepage
-          </Button>
-        </div>
+        <Button
+          variant="contained"
+          sx={{
+            color: "white",
+            fontSize: "1rem",
+            textTransform: "none",
+          }}
+          className="bg-blackGrad hover:opacity-50 text-shadow tracking-[1px]"
+        >
+          Back to Homepage
+        </Button>
       </div>
     </div>
   );
