@@ -38,7 +38,7 @@ router.post("/signup", async (req, res) => {
     });
 
     // Generate JWT token
-    const KEY = "supersecret";
+    const KEY = process.env.TOKEN_KEY;
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
 
     client.close();
@@ -87,7 +87,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Generate JWT token
-    const KEY = "supersecret";
+    const KEY = process.env.TOKEN_KEY;
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
 
     client.close();
@@ -144,7 +144,7 @@ router.post("/adminLogin", async (req, res) => {
     }
 
     // Generate JWT token
-    const KEY = "supersecret";
+    const KEY = process.env.TOKEN_KEY;
     const token = sign({ username: username }, KEY, { expiresIn: "8h" });
 
     client.close();
