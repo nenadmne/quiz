@@ -24,7 +24,6 @@ export default function GameRoom() {
   const [questionElement, setQuestionElement] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [playersJoined, setPlayersJoined] = useState(null);
-  const [isFetching, setIsFetching] = useState(0);
 
   // Function preventing users from leaving the game, changing the url, without confirming
   useEffect(() => {
@@ -53,51 +52,21 @@ export default function GameRoom() {
       currentLocation.pathname !== nextLocation.pathname,
   });
 
-  // Countdown timer effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer >= 1) {
-          return prevTimer - 1;
-        }
-        return prevTimer;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
-
   // Switching questions function when time is up
-  useEffect(() => {
-    const fetchQuestion = () => {
-      if (username === players[0].name) {
-        socket.emit("getQuestion");
-      }
-
-      socket.on("question", (receivedQuestion, numberOfQuestions) => {
-        setQuestionElement(receivedQuestion);
-        setQuestionNumber(numberOfQuestions);
-        if (questionElement) {
-          setTimer(15);
-        }
-        setReveal(false);
-        setSelectedAnswer(null);
-      });
-    };
-
-    if (timer === 0) {
-      socket.emit("fetcher", username);
-      setReveal(true);
-      const isCorrectAnswer = selectedAnswer === questionElement.correctAnswer;
-      const points = questionElement.points;
-      socket.emit("submitAnswer", {
-        selectedAnswer,
-        username,
-        isCorrectAnswer,
-        points,
-      });
-      setTimeout(fetchQuestion, 3500);
+  const fetchQuestion = () => {
+    if (username === players[0].name) {
+      socket.emit("getQuestion");
     }
-  }, [timer]);
+    socket.on("question", (receivedQuestion, numberOfQuestions) => {
+      setQuestionElement(receivedQuestion);
+      setQuestionNumber(numberOfQuestions);
+      setReveal(false);
+      setSelectedAnswer(null);
+    });
+    socket.on("updateTimer", (timer) => {
+      setTimer(timer);
+    });
+  };
 
   // Function for providing 1 question object from database, setting joinedPlayers, emiting gameStart event
   useEffect(() => {
@@ -112,6 +81,25 @@ export default function GameRoom() {
       setQuestionNumber(numberOfQuestions);
     });
   }, []);
+
+  useEffect(() => {
+    socket.on("updateTimer", (timer) => {
+      setTimer(timer);
+    });
+
+    if (timer === 0) {
+      setReveal(true);
+      const isCorrectAnswer = selectedAnswer === questionElement.correctAnswer;
+      const points = questionElement.points;
+      socket.emit("submitAnswer", {
+        selectedAnswer,
+        username,
+        isCorrectAnswer,
+        points,
+      });
+      setTimeout(fetchQuestion, 3500);
+    }
+  }, [timer]);
 
   // Listen for updateScore events
   useEffect(() => {
