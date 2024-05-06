@@ -19,11 +19,12 @@ export default function GameRoom() {
   const username = getUsername();
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [timer, setTimer] = useState(12);
+  const [timer, setTimer] = useState(15);
   const [reveal, setReveal] = useState(false);
   const [questionElement, setQuestionElement] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [playersJoined, setPlayersJoined] = useState(null);
+  const [isFetching, setIsFetching] = useState(0);
 
   // Function preventing users from leaving the game, changing the url, without confirming
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function GameRoom() {
         setQuestionElement(receivedQuestion);
         setQuestionNumber(numberOfQuestions);
         if (questionElement) {
-          setTimer(12);
+          setTimer(15);
         }
         setReveal(false);
         setSelectedAnswer(null);
@@ -84,6 +85,7 @@ export default function GameRoom() {
     };
 
     if (timer === 0) {
+      socket.emit("fetcher", username);
       setReveal(true);
       const isCorrectAnswer = selectedAnswer === questionElement.correctAnswer;
       const points = questionElement.points;
@@ -93,7 +95,6 @@ export default function GameRoom() {
         isCorrectAnswer,
         points,
       });
-
       setTimeout(fetchQuestion, 3500);
     }
   }, [timer]);

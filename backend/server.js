@@ -56,6 +56,7 @@ const playerRooms = new Map();
 let room;
 let answers = [];
 let numberOfQuestions = 0;
+let fetchers = [];
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
@@ -89,8 +90,21 @@ io.on("connection", (socket) => {
       const players = playerRooms.get(room);
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++;
-      if (numberOfQuestions < 6 && players !== undefined) {
+      if (
+        numberOfQuestions < 6 &&
+        numberOfQuestions > 1 &&
+        players !== undefined && 
+        fetchers.length === 2
+      ) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
+        fetchers = [];
+      }
+      if (
+        numberOfQuestions === 1 &&
+        players !== undefined
+      ) {
+        io.to(room).emit("question", randomQuestion, numberOfQuestions);
+        fetchers = [];
       }
       console.log(`84: Question number ${numberOfQuestions}`);
     } catch (error) {
@@ -104,6 +118,7 @@ io.on("connection", (socket) => {
       let playerToUpdate;
       let updatedPlayers;
       answers.push({ username: username, selectedAnswer: selectedAnswer });
+      fetchers.push(username);
 
       for (const [roomId, players] of playerRooms.entries()) {
         playerToUpdate = players.find((player) => player.name === username);
