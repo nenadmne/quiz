@@ -26,7 +26,11 @@ const server = http.createServer(app);
 // 2.step on creating io
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "https://admin.socket.io"],
+    origin: [
+      "http://localhost:5173",
+      "https://admin.socket.io",
+      "https://quiz-cyan-tau.vercel.app",
+    ],
     credentials: true,
   },
 });
@@ -41,7 +45,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(users);
-app.use(games)
+app.use(games);
 app.use(leaderboards);
 app.use(userInfo);
 app.use(gameOver);
@@ -134,7 +138,7 @@ io.on("connection", (socket) => {
 
   socket.on("activeRooms", () => {
     const activeRoomsCount = Array.from(playerRooms.keys()).length;
-    console.log(`137: Active rooms = ${activeRoomsCount}`)
+    console.log(`137: Active rooms = ${activeRoomsCount}`);
     io.emit("activeRooms", activeRoomsCount);
   });
 
