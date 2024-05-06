@@ -17,7 +17,6 @@ import AdminRoute from "./components/PrivateRoute/AdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
 import NonAdminRoute from "./components/PrivateRoute/NonAdminRoute";
-import Test from "./layouts/Test";
 
 function App() {
   const router = createBrowserRouter([

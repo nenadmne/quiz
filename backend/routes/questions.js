@@ -5,7 +5,7 @@ const router = express.Router();
 const { MongoClient, ObjectId } = require("mongodb");
 
 const uri = process.env.MONGODB_URI;
-const collection = process.env.MONGODB_COLLECTION;
+const collection = "questions";
 
 router.post("/addQuestion", async (req, res) => {
   const questionData = req.body.questionData;
@@ -78,9 +78,7 @@ router.put("/recievedQuestion", async (req, res) => {
       }
     );
     await client.close();
-    res
-      .status(200)
-      .json({ message: "Question eddited successfully" });
+    res.status(200).json({ message: "Question eddited successfully" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "An error occurred" });

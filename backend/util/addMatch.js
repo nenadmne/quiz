@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_NAME;
+const dbName = "quiz";
 const collectionName = "match_history";
 
 async function connectToMongoDB() {

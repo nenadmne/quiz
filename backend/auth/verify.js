@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    const KEY = "supersecret";
+    const KEY = process.env.TOKEN_KEY;
     const decoded = jwt.verify(token.replace("Bearer ", ""), KEY);
     req.user = decoded;
     next();

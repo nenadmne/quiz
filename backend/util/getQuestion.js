@@ -2,8 +2,8 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_NAME;
-const collectionName = process.env.MONGODB_COLLECTION;
+const dbName = "quiz";
+const collectionName = "questions";
 
 let usedQuestionId = [];
 
