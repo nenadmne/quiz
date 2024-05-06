@@ -10,7 +10,7 @@ export default function AdminDashboard() {
 
   const fetchGames = async () => {
     try {
-      const response = await fetch("http://localhost:4000/matchHistory");
+      const response = await fetch("https://quiz-wy28.onrender.com/matchHistory");
       if (!response.ok) {
         throw new Error("Failed to fetch users!");
       }

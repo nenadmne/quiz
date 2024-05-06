@@ -34,7 +34,7 @@ export default function ProfileModal({ open, handleClose }) {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch("http://localhost:4000/userInfo", {
+        const response = await fetch("https://quiz-wy28.onrender.com/userInfo", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

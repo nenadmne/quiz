@@ -53,7 +53,7 @@ export default function AdminLogin() {
     toast.dismiss();
 
     try {
-      const response = await fetch("http://localhost:4000/adminLogin", {
+      const response = await fetch("https://quiz-wy28.onrender.com/adminLogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

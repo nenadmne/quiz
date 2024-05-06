@@ -100,7 +100,7 @@ export const addQuestionAction = async ({ request }) => {
   };
 
   try {
-    const response = await fetch("http://localhost:4000/addQuestion", {
+    const response = await fetch("https://quiz-wy28.onrender.com/addQuestion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

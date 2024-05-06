@@ -45,7 +45,7 @@ export default function EditModal({ open, handleClose, item }) {
     };
 
     try {
-      const response = await fetch("http://localhost:4000/recievedQuestion", {
+      const response = await fetch("https://quiz-wy28.onrender.com/recievedQuestion", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

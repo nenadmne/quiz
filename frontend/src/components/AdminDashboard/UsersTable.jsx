@@ -15,7 +15,7 @@ export default function UsersTable() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:4000/users");
+      const response = await fetch("https://quiz-wy28.onrender.com/users");
       if (!response.ok) {
         throw new Error("Failed to fetch users!");
       }

@@ -85,7 +85,7 @@ export default function GameOver({ players, playersJoined }) {
           const winnerPlayer = winner;
 
           try {
-            const response = await fetch("http://localhost:4000/gameOver", {
+            const response = await fetch("https://quiz-wy28.onrender.com/gameOver", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export default function GameOver({ players, playersJoined }) {
           const drawedGame = draw;
           const roomId = room;
           try {
-            const response = await fetch("http://localhost:4000/gameOver", {
+            const response = await fetch("https://quiz-wy28.onrender.com/gameOver", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

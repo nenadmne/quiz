@@ -94,7 +94,7 @@ export default function SinginModal({ open, handleClose }) {
     setLoading(true);
     toast.dismiss();
     try {
-      const response = await fetch("http://localhost:4000/signup", {
+      const response = await fetch("https://quiz-wy28.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

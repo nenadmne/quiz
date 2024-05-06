@@ -10,7 +10,7 @@ export default function Leaderboards() {
 
   const leaderboardsLoader = async () => {
     try {
-      const response = await fetch("http://localhost:4000/leaderboards");
+      const response = await fetch("https://quiz-wy28.onrender.com/leaderboards");
 
       if (!response.ok) {
         throw new Error("Failed to add question");

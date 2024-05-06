@@ -13,7 +13,7 @@ export default function RecievedQuestions() {
   // Fetching suggested questions
   const recievedQuestions = async () => {
     try {
-      const response = await fetch("http://localhost:4000/recievedQuestions");
+      const response = await fetch("https://quiz-wy28.onrender.com/recievedQuestions");
       if (!response.ok) {
         throw new Error("Failed to fetch suggested questions");
       }
@@ -31,7 +31,7 @@ export default function RecievedQuestions() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:4000/deleteQuestion/${itemId}`,
+        `https://quiz-wy28.onrender.com/deleteQuestion/${itemId}`,
         {
           method: "DELETE",
           headers: {
@@ -56,7 +56,7 @@ export default function RecievedQuestions() {
   const addHandler = async (questionData, itemId) => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/addQuestion", {
+      const response = await fetch("https://quiz-wy28.onrender.com/addQuestion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function RecievedQuestions() {
         throw new Error("Failed to add question");
       }
       const deleteResponse = await fetch(
-        `http://localhost:4000/deleteQuestion/${itemId}`,
+        `https://quiz-wy28.onrender.com/deleteQuestion/${itemId}`,
         {
           method: "DELETE",
           headers: {
