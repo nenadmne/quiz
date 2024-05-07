@@ -11,12 +11,7 @@ export default function Buttons({ handleLoginOpen, handleSigninOpen }) {
       >
         Login
       </Button>
-      <Button
-        sx={{ marginRight: 2 }}
-        color="inherit"
-        variant="outlined"
-        onClick={handleSigninOpen}
-      >
+      <Button color="inherit" variant="outlined" onClick={handleSigninOpen}>
         Sign up
       </Button>
     </>

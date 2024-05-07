@@ -31,7 +31,7 @@ export default function LoggedState({ handleProfileOpen }) {
   };
 
   return (
-    <div className="h-full flex flex-row gap-4 justify-center items-center px-4 pt-4 pb-2">
+    <div className="h-full flex flex-row gap-2 sm:gap-4 justify-center items-center md:px-4 pt-2 md:pt-3 pb-2 md:pb-2">
       <button onClick={() => !adminToken && handleProfileOpen()}>
         <Typography className="flex flex-row gap-2 px-4 py-2 border border-black rounded-xl bg-white text-black">
           {!adminToken && <EmojiEventsIcon />}
