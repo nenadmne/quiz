@@ -81,10 +81,10 @@ function Homepage() {
       <section className="w-full h-full flex flex-col justify-center items-center">
         {!gameStarted && <Background play={play} />}
         {!play && loaded && (
-          <section className="absolute w-full h-full flex flex-col items-center justify-center">
-            <JoinGameBtn handleJoinGame={handleJoinGame} message={message}/>
+          <section className="absolute w-full h-full flex flex-col items-center justify-center mb-[1.5rem] md:mb-0">
+            <JoinGameBtn handleJoinGame={handleJoinGame} message={message} />
             <IconButton onClick={handleNextButton}>
-              <ArrowRightIcon sx={{ color: "white", fontSize: "4rem" }} />
+              <ArrowRightIcon sx={{ color: "white" }} className="font-arrow" />
             </IconButton>
           </section>
         )}

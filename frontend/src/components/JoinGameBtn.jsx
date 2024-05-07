@@ -4,7 +4,7 @@ export default function JoinGameBtn({ handleJoinGame, message }) {
 
   return (
     <div className="voltage-button">
-      <button onClick={handleJoinGame}>{message}</button>
+      <button onClick={handleJoinGame} className="text-shadow">{message}</button>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
