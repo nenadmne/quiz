@@ -2,11 +2,11 @@ import { EmojiEvents } from "@mui/icons-material";
 
 export default function PlayerList({ data }) {
   return (
-    <ul className="text-2xl flex flex-col justify-center items-center gap-2 w-[800px]">
+    <ul className="sm:text-xl md:text-2xl flex flex-col justify-center items-center gap-2 w-[100vw] p-6 sm:p-8 lg:p-0 lg:w-[800px]">
       {data.map((item, index) => (
         <li
           key={item._id}
-          className="w-full flex flex-row justify-between items-center bg-blue bg-lineGrad py-2 px-12 rounded text-shadow shadow-black shadow-md"
+          className="w-full flex flex-row justify-between items-center bg-blue bg-lineGrad py-2 px-4 sm:px-6 md:px-12 rounded text-shadow shadow-black shadow-md"
         >
           <div className="flex flex-row gap-4 items-center justify-center uppercase italic">
             <span>{`${index + 1}.`}</span>

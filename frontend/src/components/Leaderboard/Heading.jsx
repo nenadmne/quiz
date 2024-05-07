@@ -9,7 +9,7 @@ export default function Heading() {
           filter: "drop-shadow(rgba(0, 0, 0, 0.533333) 0.1em 0.1em 0.1em)",
         }}
       />
-      <h1 className="text-[2rem] font-bold uppercase text-shadow">
+      <h1 className="text-[1.5rem] sm:text-[2rem] font-bold uppercase text-shadow">
         Leaderboard
       </h1>
       <MilitaryTechIcon

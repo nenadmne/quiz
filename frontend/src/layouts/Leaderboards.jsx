@@ -37,8 +37,8 @@ export default function Leaderboards() {
   }, [data]);
 
   return sortedData !== null ? (
-    <section className="flex w-full h-full p-8 items-start justify-center text-white bg-blackGrad">
-      <div className="w-fit rounded-xl p-6 flex flex-col items-center justify-center gap-8">
+    <section className="flex w-full h-full p-4 md:p-8 items-start justify-center text-white bg-blackGrad">
+      <div className="w-fit rounded-xl p-6 flex flex-col items-center justify-center gap-4 md:gap-8">
         <Heading />
         <PlayerList data={sortedData} />
       </div>
