@@ -70,7 +70,7 @@ export default function ChatComponent() {
   }, [messageData]);
 
   return (
-    <div className="absolute left-[2rem] bottom-[7rem] lg:bottom-[10rem] bg-transparent rounded-full bg-darkPurple flex justify-center items-center w-[4rem] h-[4rem] hover:cursor-pointer">
+    <div className="absolute left-[2rem] bottom-[10rem] bg-transparent rounded-full bg-darkPurple flex justify-center items-center w-[4rem] h-[4rem] hover:cursor-pointer">
       <Tooltip title={`${open ? "close chat" : "open chat"}`}>
         <Button className="w-full" onClick={() => setOpen(!open)}>
           <MailOutlineIcon sx={{ fontSize: "2rem", color: "white" }} />
