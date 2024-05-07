@@ -79,14 +79,9 @@ function Homepage() {
         {!play && loaded && (
           <section className="absolute w-full h-full flex flex-col items-center justify-center mb-[1.5rem] md:mb-0">
             <JoinGameBtn handleJoinGame={handleJoinGame} message={message} />
-            {token && (
-              <IconButton onClick={handleNextButton}>
-                <ArrowRightIcon
-                  sx={{ color: "white" }}
-                  className="font-arrow"
-                />
-              </IconButton>
-            )}
+            <IconButton onClick={handleNextButton}>
+              <ArrowRightIcon sx={{ color: "white" }} className="font-arrow" />
+            </IconButton>
           </section>
         )}
         <ChatComponent />
