@@ -46,9 +46,7 @@ export default function OnePlayerLobby({ queue, players }) {
             Waiting for opponent{dots}
           </span>
         </div>
-        <span
-          className={`text-normal sm:text-lg md:text-xl text-darkPurple px-6 py-2 bg-white rounded-xl`}
-        >
+        <span className="text-normal sm:text-lg md:text-xl text-darkPurple px-6 py-2 bg-white rounded-xl">
           {`Queue time: ${queueTime(queue)}`}
         </span>
       </div>
