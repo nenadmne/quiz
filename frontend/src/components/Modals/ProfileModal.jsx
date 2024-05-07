@@ -12,7 +12,6 @@ import quizApi from "../../api/api";
 const style = {
   position: "absolute",
   maxHeight: "500px",
-  width: "600px",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -68,7 +67,7 @@ export default function ProfileModal({ open, handleClose }) {
                 </strong>
               </div>
               {history.length > 0 ? (
-                <ul className="text-[1.5rem] flex flex-row gap-4 text-center">
+                <ul className="w-[300px] sm:w-[400px] md:w-[600px] text-[1.5rem] flex flex-row gap-4 text-center">
                   <li className="text-white bg-dark bg-lineGrad px-4 py-2 w-full rounded-xl text-shadow shadow-[grey] shadow-md">{`Win: ${
                     userInfo?.win || "0"
                   }`}</li>
