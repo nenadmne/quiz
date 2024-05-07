@@ -33,17 +33,12 @@
   /* Particle styling */
   border-radius: 50%;
   background: currentColor;
-  color: oklch(
-    75% 0.3
-      calc(
-        sin(var(--hue-angle) * var(--index)) * var(--hue-range) +
-          var(--hue-start)
-      )
-  );
+  color: oklch(75% 0.3 calc(sin(var(--hue-angle) * var(--index)) * var(--hue-range) + var(--hue-start)));
   position: absolute;
   width: calc(var(--size) * 0.05vmin);
   height: calc(var(--size) * 0.05vmin);
-  contain: strict; /* Does this help or is translate3d already doing it*/
+  contain: strict;
+  /* Does this help or is translate3d already doing it*/
 }
 
 @keyframes animation {
@@ -65,4 +60,18 @@
   overflow: hidden;
   position: absolute;
   padding: 5rem 10rem 10rem 10rem;
+}
+
+@media(max-width:500px) {
+  .center {
+    padding: 0;
+    padding-bottom: 15rem;
+  }
+}
+
+@media(min-width:500px) and (max-width:768px) {
+  .center {
+    padding: 0;
+    padding-bottom: 10rem;
+  }
 }
