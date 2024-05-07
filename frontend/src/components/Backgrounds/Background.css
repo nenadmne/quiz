@@ -312,42 +312,20 @@
   .background {
     padding-bottom: 5rem;
   }
-
-  .content {
-    width: 80vmin;
-    /* Adjusted width for better fit on smaller screens */
-    height: 80vmin;
-    /* Adjusted height for better fit on smaller screens */
-    perspective: 8vmin;
-    /* Adjusted perspective for better depth perception on smaller screens */
-  }
-
   .door:before {
-    width: 250%;
-    /* Adjusted width for better coverage */
-    height: 250%;
-    /* Adjusted height for better coverage */
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: -25%;
+    background-image: repeating-conic-gradient(#fff9 0%,
+        transparent 0.0004%,
+        transparent 0.004%,
+        transparent 0.074%),
+      radial-gradient(#0000, #0a123a),
+      linear-gradient(180deg, #2000587d, #2000587d, #000, #9c27b02b),
+      linear-gradient(0deg, #ff9800, #ff9800, #000, #009688ba);
+    animation: spin 500s linear 0s infinite;
     border-radius: 100%;
-    /* Adjusted border radius for better shape */
-  }
-
-  .panel {
-    width: 60vmin;
-    /* Adjusted width for better fit on smaller screens */
-    height: 60vmin;
-    /* Adjusted height for better fit on smaller screens */
-  }
-
-  .tunnel {
-    --height: 50;
-    /* Adjusted height for better fit on smaller screens */
-    --width: 50;
-    /* Adjusted width for better fit on smaller screens */
-    --depth: 150;
-    /* Adjusted depth for better fit on smaller screens */
-    height: calc(var(--height) * 1vmin);
-    /* Adjusted height for better fit on smaller screens */
-    width: calc(var(--width) * 1vmin);
-    /* Adjusted width for better fit on smaller screens */
   }
 }
