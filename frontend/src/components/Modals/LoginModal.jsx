@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import useInput from "../../hooks/useInput";
 import Loading from "../Loading";
 import { redirectHome } from "../../util/redirects";
+import quizApi from "../../api/api";
 
 const style = {
   position: "absolute",
@@ -59,24 +60,19 @@ export default function LoginModal({ open, handleClose }) {
     }
   }, [enteredName, enteredPassword]);
 
+  // Login function for sending credentials and aquiring token from backend
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     toast.dismiss();
 
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: enteredName,
-          password: enteredPassword,
-        }),
+      const response = await quizApi.post("/login", {
+        username: enteredName,
+        password: enteredPassword,
       });
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = response.data;
         setLoading(false);
         if (data.role === "user") {
           localStorage.setItem("token", data.token);
@@ -95,8 +91,8 @@ export default function LoginModal({ open, handleClose }) {
         }
       } else {
         setLoading(false);
-        const errorData = await response.json(); // Parse error response body
-        toast.error(errorData.message || "Login failed."); // Display error message from server if available
+        const errorData = response.data.message;
+        toast.error(errorData || "Login failed.");
       }
     } catch (error) {
       console.error("Error during login:", error);

@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import { getUsername } from "../util/getItem";
+import useSocket from "../hooks/useSocket";
+import { redirectHome } from "../util/redirects";
+import quizApi from "../api/api";
 
 import Fireworks from "../assets/Fireworks.json";
 import Loser from "../assets/Loser.json";
 import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
-import useSocket from "../hooks/useSocket";
-import { redirectHome } from "../util/redirects";
 
 export default function GameOver({ players, playersJoined }) {
   const [winner, setWinner] = useState(null);
@@ -85,47 +86,35 @@ export default function GameOver({ players, playersJoined }) {
           const winnerPlayer = winner;
 
           try {
-            const response = await fetch("https://quiz-wy28.onrender.com/gameOver", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                room: roomId,
-                winner: winnerPlayer,
-              }),
+            const response = await quizApi.post("/gameOver", {
+              room: roomId,
+              winner: winnerPlayer,
             });
 
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
+            if (response.status !== 200) {
+              throw new Error(
+                response.data.message || "Network response was not ok"
+              );
             }
-
-            const data = await response.json();
-            console.log(data);
+            const data = response.data;
           } catch (error) {
             console.error("Error:", error);
           }
         } else if (draw) {
-          console.log("here i am");
           const drawedGame = draw;
           const roomId = room;
           try {
-            const response = await fetch("https://quiz-wy28.onrender.com/gameOver", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                draw: drawedGame,
-                room: roomId,
-              }),
+            const response = await quizApi.post("/gameOver", {
+              draw: drawedGame,
+              room: roomId,
             });
 
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
+            if (response.status !== 200) {
+              throw new Error(
+                response.data.message || "Network response was not ok"
+              );
             }
-            const data = await response.json();
-            console.log(data);
+            const data = response.data;
           } catch (error) {
             console.error("Error:", error);
           }

@@ -3,19 +3,21 @@ import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import Heading from "../components/Leaderboard/Heading";
 import PlayerList from "../components/Leaderboard/PlayerList";
+import quizApi from "../api/api";
 
 export default function Leaderboards() {
   const [data, setData] = useState(null);
   const [sortedData, setSortedData] = useState(null);
 
+  // Fetching data for leaderboard
   const leaderboardsLoader = async () => {
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/leaderboards");
+      const response = await quizApi.get("/leaderboards");
 
-      if (!response.ok) {
-        throw new Error("Failed to add question");
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Network response was not ok");
       }
-      const leaderboardData = await response.json();
+      const leaderboardData = response.data;
       setData(leaderboardData.filteredUsers);
     } catch (error) {
       console.error("Error:", error);
@@ -23,6 +25,7 @@ export default function Leaderboards() {
     }
   };
 
+  // Sorting leaderboard
   useEffect(() => {
     leaderboardsLoader();
     if (data) {

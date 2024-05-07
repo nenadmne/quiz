@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "../Loading";
+import quizApi from "../../api/api";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -27,12 +28,14 @@ export default function EditModal({ open, handleClose, item }) {
   const [correctValue, setCorrectValue] = useState(item.correctAnswer);
   const [pointsValue, setPointsValue] = useState(item.points);
 
+  // Changin answers function
   const handleAnswerChange = (event, index) => {
     const newAnswerValues = [...answerValues];
     newAnswerValues[index] = event.target.value;
     setAnswerValues(newAnswerValues);
   };
 
+  // Edit question function with put request
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -45,21 +48,18 @@ export default function EditModal({ open, handleClose, item }) {
     };
 
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/recievedQuestion", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ questionData, id: item._id }),
+      const response = await quizApi.put("/recievedQuestion", {
+        questionData,
+        id: item._id,
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         setLoading(false);
-        throw new Error("Failed to add question");
+        throw new Error(response.data.message || "Failed to add question");
       }
       setLoading(false);
       toast.success("Successfully editted!");
-      const responseData = await response.json();
+      const responseData = response.data;
       handleClose();
     } catch (error) {
       toast.error(error);

@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import Loading from "../components/Loading";
 import QuestionItem from "../components/RecievedQuestions/QuestionItem";
+import quizApi from "../api/api";
 
 import EngineeringIcon from "@mui/icons-material/Engineering";
 
@@ -13,11 +14,13 @@ export default function RecievedQuestions() {
   // Fetching suggested questions
   const recievedQuestions = async () => {
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/recievedQuestions");
-      if (!response.ok) {
-        throw new Error("Failed to fetch suggested questions");
+      const response = await quizApi.get("/recievedQuestions");
+      if (response.status !== 200) {
+        throw new Error(
+          response.data.message || "Failed to fetch suggested questions"
+        );
       }
-      const data = await response.json();
+      const data = response.data;
       const questions = data.questions;
       setQuestions(questions);
     } catch (error) {
@@ -30,17 +33,9 @@ export default function RecievedQuestions() {
   const deleteHandler = async (itemId) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://quiz-wy28.onrender.com/deleteQuestion/${itemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete question");
+      const response = await quizApi.delete(`/deleteQuestion/${itemId}`);
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Failed to delete question");
       }
       await recievedQuestions();
       setLoading(false);
@@ -48,7 +43,7 @@ export default function RecievedQuestions() {
     } catch (error) {
       console.error("Error:", error);
       toast.error(error);
-      throw new Error("deleteHandler: An error occurred");
+      throw new Error("An error occurred");
     }
   };
 
@@ -56,28 +51,14 @@ export default function RecievedQuestions() {
   const addHandler = async (questionData, itemId) => {
     setLoading(true);
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/addQuestion", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ questionData }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add question");
+      const response = await quizApi.post("/addQuestion", { questionData });
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Failed to add question");
       }
-      const deleteResponse = await fetch(
-        `https://quiz-wy28.onrender.com/deleteQuestion/${itemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!deleteResponse.ok) {
-        throw new Error("Failed to delete question");
+      console.log(response.data)
+      const deleteResponse = await quizApi.delete(`/deleteQuestion/${itemId}`);
+      if (deleteResponse.status !== 200) {
+        throw new Error(response.data.message || "Failed to delete question");
       }
       await recievedQuestions();
       setLoading(false);

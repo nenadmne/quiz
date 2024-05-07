@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { redirectQuestions } from "../util/redirects";
+import quizApi from "../api/api";
 
 export default function Questions() {
   const [answerValues, setAnswerValues] = useState([]); // State to store answer values
@@ -19,7 +20,7 @@ export default function Questions() {
   const submitHandler = () => {
     toast.success("Question submitted!");
     setTimeout(() => {
-      redirectQuestions()
+      redirectQuestions();
     }, 1500);
   };
 
@@ -107,19 +108,11 @@ export const suggestQuestionAction = async ({ request }) => {
   };
 
   try {
-    const response = await fetch("https://quiz-wy28.onrender.com/suggestQuestion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ questionData }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to add question");
+    const response = await quizApi.post("/suggestQuestion", { questionData });
+    if (response.status !== 200) {
+      throw new Error(response.data.message || "Failed to add question");
     }
-
-    const data = await response.json();
+    const data = response.data;
     return data;
   } catch (error) {
     console.error("Error:", error);

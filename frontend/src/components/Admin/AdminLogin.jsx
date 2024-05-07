@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import useInput from "../../hooks/useInput";
 import { removeUserToken } from "../../util/removeItem";
 import { redirectAdmin } from "../../util/redirects";
-
+import quizApi from "../../api/api";
 import Loading from "../Loading";
 
 import TextField from "@mui/material/TextField";
@@ -47,24 +47,19 @@ export default function AdminLogin() {
     }
   }, [enteredName, enteredPassword]);
 
+  // Function for sending credentials for login request
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     toast.dismiss();
-
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/adminLogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: enteredName,
-          password: enteredPassword,
-        }),
+      const response = await quizApi.post("/adminLogin", {
+        username: enteredName,
+        password: enteredPassword,
       });
-      if (response.ok) {
-        const data = await response.json();
+  
+      if (response.status === 200) {
+        const data = response.data;
         setLoading(false);
         if (data.role === "administrator") {
           localStorage.setItem("admin", data.token);
@@ -78,8 +73,8 @@ export default function AdminLogin() {
         }
       } else {
         setLoading(false);
-        const errorData = await response.json(); // Parse error response body
-        toast.error(errorData.message || "Login failed."); // Display error message from server if available
+        const errorData = response.data;
+        toast.error(errorData.message || "Login failed.");
       }
     } catch (error) {
       console.error("Error during login:", error);

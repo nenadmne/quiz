@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import useInput from "../../hooks/useInput";
 import { redirectHome } from "../../util/redirects";
 import Loading from "../Loading";
+import quizApi from "../../api/api";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -94,19 +95,13 @@ export default function SinginModal({ open, handleClose }) {
     setLoading(true);
     toast.dismiss();
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: enteredName,
-          email: enteredEmail,
-          password: enteredPassword,
-        }),
+      const response = await quizApi.post("/signup", {
+        username: enteredName,
+        email: enteredEmail,
+        password: enteredPassword,
       });
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = response.data;
         setLoading(false);
         localStorage.setItem("token", data.token);
         // Decode the token
@@ -119,8 +114,8 @@ export default function SinginModal({ open, handleClose }) {
         }, 1500);
       } else {
         setLoading(false);
-        const errorData = await response.json(); // Parse error response body
-        toast.error(errorData.message || "Signup failed."); // Display error message from server if available
+        const errorData = response.data;
+        toast.error(errorData.message || "Signup failed.");
       }
     } catch (error) {
       console.error("Error during signup:", error);

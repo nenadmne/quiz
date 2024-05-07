@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import quizApi from "../api/api";
 
 export default function AdminQuestionForm() {
   const [answerValues, setAnswerValues] = useState([]); // State to store answer values
@@ -100,19 +101,12 @@ export const addQuestionAction = async ({ request }) => {
   };
 
   try {
-    const response = await fetch("https://quiz-wy28.onrender.com/addQuestion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ questionData }),
-    });
+    const response = await quizApi.post("/addQuestion", { questionData });
 
-    if (!response.ok) {
-      throw new Error("Failed to add question");
+    if (response.status !== 200) {
+      throw new Error(response.data.message || "Failed to add question");
     }
-
-    const data = await response.json();
+    const data = response.data;
     return data;
   } catch (error) {
     console.error("Error:", error);

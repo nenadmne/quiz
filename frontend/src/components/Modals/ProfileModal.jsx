@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserToken, getUsername } from "../../util/getItem";
+import { getUsername } from "../../util/getItem";
 
 import Loading from "../Loading";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -7,6 +7,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
+import quizApi from "../../api/api";
 
 const style = {
   position: "absolute",
@@ -27,33 +28,24 @@ const style = {
 
 export default function ProfileModal({ open, handleClose }) {
   const username = getUsername();
-  const token = getUserToken();
   const [userInfo, setUserInfo] = useState(null);
   const [history, setHistory] = useState(null);
 
+  // Fetching user info and his match history
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch("https://quiz-wy28.onrender.com/userInfo", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Assuming you have a token stored in localStorage
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch user info");
+        const response = await quizApi.get("/userInfo");
+        if (response.status !== 200) {
+          throw new Error(response.data.message || "Failed to fetch user info");
         }
-
-        const data = await response.json();
+        const data = response.data;
         setUserInfo(data.user);
         setHistory(data.matches);
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
     }
-
     if (open) {
       fetchUserInfo();
     }

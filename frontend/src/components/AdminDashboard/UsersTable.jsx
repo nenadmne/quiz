@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 import Loading from "../Loading";
+import quizApi from "../../api/api";
 
 const columns = [
   { field: "id", headerName: "User ID", width: 120 },
@@ -13,13 +14,14 @@ export default function UsersTable() {
   const [users, setUsers] = useState(null);
   const [rows, setRows] = useState([]);
 
+  // Fetch users from database
   const fetchUsers = async () => {
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/users");
-      if (!response.ok) {
-        throw new Error("Failed to fetch users!");
+      const response = await quizApi.get("/users");
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Failed to fetch users!");
       }
-      const usersData = await response.json();
+      const usersData = response.data;
       setUsers(usersData.users);
     } catch (error) {
       console.error("Error:", error);
@@ -27,6 +29,7 @@ export default function UsersTable() {
     }
   };
 
+  // Setting table rows data after fetching users
   useEffect(() => {
     fetchUsers();
     if (users) {

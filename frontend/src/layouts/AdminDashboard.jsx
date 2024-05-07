@@ -4,17 +4,19 @@ import ActiveUsersPieChart from "../components/AdminDashboard/ActiveUsersPieChar
 import UsersTable from "../components/AdminDashboard/UsersTable";
 import GamesPieChart from "../components/AdminDashboard/GamesPieChart";
 import GamesTable from "../components/AdminDashboard/GamesTable";
+import quizApi from "../api/api";
 
 export default function AdminDashboard() {
   const [games, setGames] = useState(null);
 
+  // Fetching games from database
   const fetchGames = async () => {
     try {
-      const response = await fetch("https://quiz-wy28.onrender.com/matchHistory");
-      if (!response.ok) {
-        throw new Error("Failed to fetch users!");
+      const response = await quizApi.get("/matchHistory");
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Failed to fetch users!");
       }
-      const games = await response.json();
+      const games = response.data;
       setGames(games.matches);
     } catch (error) {
       console.error("Error:", error);
