@@ -22,9 +22,9 @@ function NotFound() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full transform translate-y-[-20%]">
-      <h1 className="m-2 text-[3rem]"> OOPS! </h1>
-      <h2 className="m-2 text-[4.5rem]"> 404 - PAGE NOT FOUND </h2>
-      <p className="m-2 text-[2rem]">
+      <h1 className="m-2 text-[1.5rem] sm:text-[2rem] md:text-[3rem]"> OOPS! </h1>
+      <h2 className="m-2 text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[4.5rem]"> 404 - PAGE NOT FOUND </h2>
+      <p className="m-2 text-[1rem] sm:text-[1.5rem] md:text-[2rem]">
         Redirecting you back on homepage in {countdown}...
       </p>
     </div>
