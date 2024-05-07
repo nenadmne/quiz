@@ -41,8 +41,6 @@ export default function ActiveUsersPieChart() {
           ],
         },
       ]}
-      width={425}
-      height={175}
     />
   );
 }

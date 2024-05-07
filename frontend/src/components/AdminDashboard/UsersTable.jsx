@@ -44,7 +44,7 @@ export default function UsersTable() {
   }, [users]);
 
   return (
-    <div className="flex items-center justify-center flex-grow w-[500px]">
+    <div className="flex items-center justify-center flex-grow w-full md:w-[500px]">
       {users ? (
         <DataGrid
           rows={rows}
@@ -55,7 +55,6 @@ export default function UsersTable() {
             },
           }}
           pageSizeOptions={[5]}
-          className="w-full"
         />
       ) : (
         <Loading

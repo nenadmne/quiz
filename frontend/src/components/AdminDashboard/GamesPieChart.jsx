@@ -24,8 +24,6 @@ export default function GamesPieChart({ games }) {
           ],
         },
       ]}
-      width={425}
-      height={175}
     />
   );
 }

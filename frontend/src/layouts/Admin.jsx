@@ -7,7 +7,7 @@ export default function Admin() {
   const adminToken = getAdminToken();
 
   return (
-    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad">
+    <section className="w-full h-full flex flex-col items-center gap-4 sm:gap-6 md:gap-8 bg-blueGrad">
       <div className="abosulte w-full h-fit top-0 right-0">
         <ToastContainer />
       </div>

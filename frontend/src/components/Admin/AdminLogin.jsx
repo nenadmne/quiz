@@ -57,7 +57,7 @@ export default function AdminLogin() {
         username: enteredName,
         password: enteredPassword,
       });
-  
+
       if (response.status === 200) {
         const data = response.data;
         setLoading(false);
@@ -84,7 +84,7 @@ export default function AdminLogin() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white w-[400px] flex flex-col p-8 gap-4 rounded-[1rem] mt-12"
+      className="bg-white w-[90%] max-w-[450px] flex flex-col p-4 md:p-6 gap-4 rounded-[1rem] mt-12"
     >
       <TextField
         error={nameHasError}

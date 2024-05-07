@@ -27,7 +27,7 @@ export default function GamesTable({ games }) {
   }, [games]);
 
   return (
-    <div className="flex items-center justify-center flex-grow w-[500px]">
+    <div className="flex items-center justify-center flex-grow w-full md:w-[500px]">
       {games ? (
         <DataGrid
           rows={rows}

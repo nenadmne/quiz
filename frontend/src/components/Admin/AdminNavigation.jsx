@@ -12,12 +12,12 @@ export default function AdminNavigation() {
 
   return (
     <>
-      <div className="flex flex-row gap-2 mt-8">
+      <div className="flex flex-row gap-2 md:mt-8">
         {tabs.map((tab, index) => (
           <NavLink
             key={index}
             to={tab.to}
-            className={`px-6 py-2 rounded-xl hover:bg-darkPurple cursor-pointer text-white $`}
+            className={`px-4 md:px-6 py-2 rounded-xl hover:bg-darkPurple cursor-pointer text-white text-[0.75rem] sm:text-[1rem] $`}
             style={({ isActive }) => {
               return isActive
                 ? { background: background, border: "1px solid white" }

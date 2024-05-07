@@ -29,13 +29,19 @@ export default function AdminDashboard() {
   }, [games]);
 
   return (
-    <section className="flex flex-col gap-16 bg-white rounded-[1rem] p-8 max-h-[450px] overflow-y-scroll">
-      <div className="flex flex-row gap-16 items-center justify-center">
-        <ActiveUsersPieChart />
+    <section className="flex flex-col w-full sm:w-[425px] md:w-[600px] lg:w-[1024px] xl:w-[1100px] gap-8 md:gap-16 bg-white rounded-[1rem] p-4 sm:p-8 max-h-[600px] md:max-h-[450px] overflow-y-scroll">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-center w-[full]">
+        <div className="w-full md:w-[425px] h-[100px] sm:h-[120px] md:h-[175px]">
+          <ActiveUsersPieChart />
+        </div>
         <UsersTable />
       </div>
-      <div className="flex flex-row items-center justify-center gap-16">
-        {games && <GamesPieChart games={games} />}
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
+        {games && (
+          <div className="w-full md:w-[425px] h-[100px] sm:h-[120px] md:h-[175px]">
+            <GamesPieChart games={games} />
+          </div>
+        )}
         <GamesTable games={games} />
       </div>
     </section>
