@@ -57,20 +57,16 @@ function Homepage() {
   };
 
   useEffect(() => {
-    if (activeButtonIndex === 0) {
-      setMessage("Play");
-    } else {
-      setMessage("Private game");
-    }
-  }, [activeButtonIndex]);
-
-  useEffect(() => {
     if (token) {
-      setMessage("Play");
+      if (activeButtonIndex === 0) {
+        setMessage("Play");
+      } else {
+        setMessage("Private game");
+      }
     } else {
       setMessage("Login");
     }
-  }, [token]);
+  }, [token, activeButtonIndex]);
 
   const handleNextButton = () => {
     setActiveButtonIndex((prevIndex) => (prevIndex === 1 ? 0 : 1));
@@ -83,9 +79,14 @@ function Homepage() {
         {!play && loaded && (
           <section className="absolute w-full h-full flex flex-col items-center justify-center mb-[1.5rem] md:mb-0">
             <JoinGameBtn handleJoinGame={handleJoinGame} message={message} />
-            <IconButton onClick={handleNextButton}>
-              <ArrowRightIcon sx={{ color: "white" }} className="font-arrow" />
-            </IconButton>
+            {token && (
+              <IconButton onClick={handleNextButton}>
+                <ArrowRightIcon
+                  sx={{ color: "white" }}
+                  className="font-arrow"
+                />
+              </IconButton>
+            )}
           </section>
         )}
         <ChatComponent />
