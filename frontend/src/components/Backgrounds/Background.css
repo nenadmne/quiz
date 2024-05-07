@@ -322,7 +322,7 @@
     background-image: repeating-conic-gradient(#fff9 0%,
         transparent 0.0004%,
         transparent 0.004%,
-        transparent 0.9%),
+        transparent 2.9%),
       radial-gradient(#0000, #0a123a),
       linear-gradient(180deg, #2000587d, #2000587d, #000, #9c27b02b),
       linear-gradient(0deg, #ff9800, #ff9800, #000, #009688ba);
