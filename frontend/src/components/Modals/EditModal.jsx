@@ -14,7 +14,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 700,
+  width: "95%",
+  maxWidth:"700px",
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: 4,
@@ -79,7 +80,7 @@ export default function EditModal({ open, handleClose, item }) {
         <Box sx={style}>
           <form
             method="POST"
-            className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
+            className="w-content flex flex-col justify-center items-center gap-4 md:gap-8 p-4 md:p-8 bg-white rounded-xl"
             onSubmit={submitHandler}
           >
             <h1 className="uppercase text-xl">
@@ -94,7 +95,7 @@ export default function EditModal({ open, handleClose, item }) {
               onChange={(event) => setQuestionValue(event.target.value)}
               required
             />
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-2 md:gap-4 w-full">
               {answerValues.map((item, index) => (
                 <TextField
                   key={index}
@@ -107,7 +108,7 @@ export default function EditModal({ open, handleClose, item }) {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-rows-1 sm:grid-cols-2 gap-2 md:gap-4 w-full">
               <Autocomplete
                 disablePortal
                 options={answerValues}
