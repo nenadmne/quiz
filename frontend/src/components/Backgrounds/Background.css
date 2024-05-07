@@ -312,12 +312,13 @@
   .background {
     padding-bottom: 5rem;
   }
+
   .door:before {
     content: "";
-    width: 100%;
-    height: 100%;
+    width: 300%;
+    height: 300%;
     position: absolute;
-    left: -25%;
+    left: -75%;
     background-image: repeating-conic-gradient(#fff9 0%,
         transparent 0.0004%,
         transparent 0.004%,
