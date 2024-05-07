@@ -47,7 +47,7 @@
   background-image: repeating-conic-gradient(#fff9 0%,
       transparent 0.0004%,
       transparent 0.004%,
-      transparent 0.074%),
+      transparent 0.094%),
     radial-gradient(#0000, #0a123a),
     linear-gradient(180deg, #2000587d, #2000587d, #000, #9c27b02b),
     linear-gradient(0deg, #ff9800, #ff9800, #000, #009688ba);
@@ -315,14 +315,14 @@
 
   .door:before {
     content: "";
-    width: 50%;
-    height: 50%;
+    width: 200%;
+    height: 200%;
     position: absolute;
-    left: 25%;
+    left: -50%;
     background-image: repeating-conic-gradient(#fff9 0%,
         transparent 0.0004%,
         transparent 0.004%,
-        transparent 0.074%),
+        transparent 0.9%),
       radial-gradient(#0000, #0a123a),
       linear-gradient(180deg, #2000587d, #2000587d, #000, #9c27b02b),
       linear-gradient(0deg, #ff9800, #ff9800, #000, #009688ba);
