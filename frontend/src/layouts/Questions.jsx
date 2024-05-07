@@ -25,7 +25,7 @@ export default function Questions() {
   };
 
   return (
-    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad">
+    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-4 md:p-0">
       <div className="absolute w-full h-fit top-0 right-0 z-10">
         <ToastContainer
           style={{
@@ -37,7 +37,7 @@ export default function Questions() {
       </div>
       <Form
         method="POST"
-        className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl mt-12"
+        className="w-content flex flex-col justify-center items-center gap-8 p-4 md:p-8 bg-white rounded-xl md:mt-12"
         onSubmit={submitHandler}
       >
         <h1 className="uppercase text-xl">
@@ -50,7 +50,7 @@ export default function Questions() {
           name="question"
           required
         />
-        <div className="grid grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full">
           {[1, 2, 3, 4].map((item, index) => (
             <TextField
               key={index}
@@ -62,11 +62,10 @@ export default function Questions() {
             />
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-rows-1 sm:grid-cols-2  gap-2 sm:gap-4 w-full">
           <Autocomplete
             disablePortal
             options={answerValues}
-            sx={{ width: 300 }}
             renderInput={(params) => (
               <TextField
                 {...params}
