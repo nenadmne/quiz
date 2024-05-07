@@ -312,4 +312,42 @@
   .background {
     padding-bottom: 5rem;
   }
+
+  .content {
+    width: 80vmin;
+    /* Adjusted width for better fit on smaller screens */
+    height: 80vmin;
+    /* Adjusted height for better fit on smaller screens */
+    perspective: 8vmin;
+    /* Adjusted perspective for better depth perception on smaller screens */
+  }
+
+  .door:before {
+    width: 250%;
+    /* Adjusted width for better coverage */
+    height: 250%;
+    /* Adjusted height for better coverage */
+    border-radius: 100%;
+    /* Adjusted border radius for better shape */
+  }
+
+  .panel {
+    width: 60vmin;
+    /* Adjusted width for better fit on smaller screens */
+    height: 60vmin;
+    /* Adjusted height for better fit on smaller screens */
+  }
+
+  .tunnel {
+    --height: 50;
+    /* Adjusted height for better fit on smaller screens */
+    --width: 50;
+    /* Adjusted width for better fit on smaller screens */
+    --depth: 150;
+    /* Adjusted depth for better fit on smaller screens */
+    height: calc(var(--height) * 1vmin);
+    /* Adjusted height for better fit on smaller screens */
+    width: calc(var(--width) * 1vmin);
+    /* Adjusted width for better fit on smaller screens */
+  }
 }
