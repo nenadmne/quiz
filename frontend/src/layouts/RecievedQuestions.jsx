@@ -55,7 +55,6 @@ export default function RecievedQuestions() {
       if (response.status !== 200) {
         throw new Error(response.data.message || "Failed to add question");
       }
-      console.log(response.data)
       const deleteResponse = await quizApi.delete(`/deleteQuestion/${itemId}`);
       if (deleteResponse.status !== 200) {
         throw new Error(response.data.message || "Failed to delete question");
