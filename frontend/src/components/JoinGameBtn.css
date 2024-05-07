@@ -157,7 +157,7 @@
     margin: 0;
 
     button {
-      padding: 0.8rem 1.75rem 0.9rem 1.75rem;
+      padding: 0.8rem 1.75rem 0.8rem 1.75rem;
       border: 3px solid #5978f3;
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -170,7 +170,7 @@
   .voltage-button {
 
     button {
-      padding: 1rem 2rem 1.1rem 2rem;
+      padding: 1rem 2rem;
       border: 3.5px solid #5978f3;
       font-size: 1.15rem;
       text-transform: uppercase;
