@@ -19,7 +19,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "90%",
-  maxWidth:"450px",
+  maxWidth: "450px",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -72,31 +72,27 @@ export default function LoginModal({ open, handleClose }) {
         username: enteredName,
         password: enteredPassword,
       });
-      if (response.status === 200) {
-        const data = response.data;
-        setLoading(false);
-        if (data.role === "user") {
-          localStorage.setItem("token", data.token);
-          // Decode the token
-          const decodedToken = jwtDecode(data.token);
-          localStorage.setItem("username", decodedToken.username);
-          toast.success("Login successful!");
+      const data = response.data;
+      setLoading(false);
+      if (data.role === "user") {
+        localStorage.setItem("token", data.token);
+        // Decode the token
+        const decodedToken = jwtDecode(data.token);
+        localStorage.setItem("username", decodedToken.username);
+        toast.success("Login successful!");
 
-          setTimeout(() => {
-            handleClose();
-            redirectHome();
-          }, 1500);
-        } else {
-          setLoading(false);
-          toast.error("Invalid user role");
-        }
+        setTimeout(() => {
+          handleClose();
+          redirectHome();
+        }, 1500);
       } else {
         setLoading(false);
-        const errorData = response.data.message;
-        toast.error(errorData || "Login failed.");
+        toast.error("Invalid user role");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setLoading(false);
+      toast.error(error.response.data.message || "Login failed.");
     }
   };
 

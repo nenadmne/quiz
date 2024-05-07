@@ -101,25 +101,22 @@ export default function SinginModal({ open, handleClose }) {
         email: enteredEmail,
         password: enteredPassword,
       });
-      if (response.status === 200) {
-        const data = response.data;
-        setLoading(false);
-        localStorage.setItem("token", data.token);
-        // Decode the token
-        const decodedToken = jwtDecode(data.token);
-        localStorage.setItem("username", decodedToken.username);
-        toast.success("Signup successful!");
-        setTimeout(() => {
-          handleClose();
-          redirectHome();
-        }, 1500);
-      } else {
-        setLoading(false);
-        const errorData = response.data;
-        toast.error(errorData.message || "Signup failed.");
-      }
+      const data = response.data;
+      setLoading(false);
+      localStorage.setItem("token", data.token);
+      // Decode the token
+      const decodedToken = jwtDecode(data.token);
+      localStorage.setItem("username", decodedToken.username);
+      toast.success("Signup successful!");
+      setTimeout(() => {
+        handleClose();
+        redirectHome();
+      }, 1500);
     } catch (error) {
-      console.error("Error during signup:", error);
+      setLoading(false);
+      const errorMssg = error.response.data.message;
+      toast.error(errorMssg || "Signup failed.");
+      console.error("Error during signup:", errorMssg);
     }
   };
 
