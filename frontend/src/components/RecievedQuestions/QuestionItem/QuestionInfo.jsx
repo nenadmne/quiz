@@ -2,28 +2,28 @@ import { Tooltip } from "@mui/material";
 
 export default function QuestionInfo({ item }) {
   return (
-    <div className="w-[820px] flex flex-col gap-4">
-      <div className="flex flex-row justify-between text-black text-center text-black">
+    <div className="w-full lg:w-[820px] flex flex-col gap-8 sm:gap-4">
+      <div className="w-full flex flex-row gap-2 sm:gap-4 lg:gap-0 lg:justify-between text-black text-center text-black">
         <Tooltip title="Question">
-          <p className="flex flex-col items-center cursor-pointer w-[648px] bg-white rounded p-1">
+          <p className="flex flex-col items-center cursor-pointer w-full lg:w-[648px] bg-white rounded p-1">
             <span className="text-sm italic"> Question </span>
             <span className="font-bold">{item.question}</span>
           </p>
         </Tooltip>
         <Tooltip title="Points">
           <p className="flex flex-col items-center justify-center cursor-pointer w-[150px] bg-white rounded p-1">
-            <span className="italic text-sm"> Points </span>
-            <span className="flex items-center justify-center rounded-full font-bold">
+            <span className="italic text-sm w-full"> Points </span>
+            <span className="text-center rounded-full font-bold w-[150px]">
               {item.points}
             </span>
           </p>
         </Tooltip>
       </div>
-      <div className="flex flex-row justify-between">
-        <div className="grid grid-cols-2 w-[648px] gap-4">
+      <div className="flex flex-col md:flex-row justify-between gap-8 sm:gap-4 lg:gap-0">
+        <div className="grid grid-rows md:grid-cols-2 w-full lg:w-[648px] gap-2 sm:gap-4">
           {item.answers.map((answer, index) => (
             <Tooltip key={index} title={`Answer ${index + 1}`}>
-              <p className="flex flex-col bg-white text-black w-full p-1 cursor-pointer text-center rounded text-wrap">
+              <p className="flex flex-col bg-white text-black p-1 cursor-pointer text-center rounded text-wrap">
                 <span className="italic text-sm">{`Answer ${index + 1}`}</span>
                 <span className="font-bold"> {answer}</span>
               </p>

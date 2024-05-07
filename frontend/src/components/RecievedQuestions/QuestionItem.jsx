@@ -8,10 +8,10 @@ export default function QuestionItem({ item, deleteHandler, addHandler }) {
     correctAnswer: item.correctAnswer,
     points: item.points,
   };
-  
+
   return (
-    <li className="flex flex-col gap-4 border p-4 bg-darkPurple rounded-xl">
-      <div className="flex flex-row justify-between items-center">
+    <li className="border p-4 bg-darkPurple rounded-xl">
+      <div className="flex flex-col md:flex-row gap-8 lg:gap-0 justify-between items-center">
         <QuestionInfo item={item} />
         <ActionButtons
           item={item}

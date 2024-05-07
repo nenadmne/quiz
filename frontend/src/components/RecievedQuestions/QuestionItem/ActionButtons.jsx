@@ -20,7 +20,7 @@ export default function ActionButtons({ item, deleteHandler, addHandler }) {
   const handleEditOpen = () => setEditOpen(true);
   const handleEditClose = () => setEditOpen(false);
   return (
-    <div className="flex flex-col justify-between gap-6">
+    <div className="flex flex-row md:flex-col justify-between gap-6">
       <Tooltip title="Edit question">
         <CreateIcon style={style} onClick={handleEditOpen} />
       </Tooltip>

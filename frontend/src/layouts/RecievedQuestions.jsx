@@ -82,8 +82,8 @@ export default function RecievedQuestions() {
     return (
       <>
         {questions && questions.length > 0 && (
-          <section className="w-[1000px] max-h-[450px] overflow-y-scroll">
-            <ul className="bg-greyGrad flex flex-col p-8 gap-8 rounded-[1rem] text-white">
+          <section className="w-full lg:w-[1000px] max-h-[600px] lg:max-h-[450px] overflow-y-scroll">
+            <ul className="bg-greyGrad flex flex-col sm:p-4 lg:p-8 gap-4 md:gap-8 rounded-[1rem] text-white">
               {questions.map((item) => (
                 <QuestionItem
                   item={item}
