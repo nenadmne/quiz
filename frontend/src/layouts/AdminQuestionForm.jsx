@@ -36,7 +36,7 @@ export default function AdminQuestionForm() {
       </div>
       <Form
         method="POST"
-        className="w-content flex flex-col justify-center items-center gap-8 p-8 bg-white rounded-xl"
+        className="w-content flex flex-col justify-center items-center gap-6 md:gap-8 p-4 md:p-8 bg-white rounded-xl m-4 sm:m-0"
         onSubmit={submitHandler}
       >
         <h1 className="uppercase text-xl">
@@ -49,7 +49,7 @@ export default function AdminQuestionForm() {
           name="question"
           required
         />
-        <div className="grid grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full">
           {[1, 2, 3, 4].map((item, index) => (
             <TextField
               key={index}
@@ -61,11 +61,10 @@ export default function AdminQuestionForm() {
             />
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-rows-1 sm:grid-cols-2 gap-2 sm:gap-4 w-full">
           <Autocomplete
             disablePortal
             options={answerValues}
-            sx={{ width: 300 }}
             renderInput={(params) => (
               <TextField
                 {...params}

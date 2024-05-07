@@ -12,7 +12,7 @@ export default function AdminNavigation() {
 
   return (
     <>
-      <div className="flex flex-row gap-2 md:mt-8">
+      <div className="flex flex-row gap-2 lg:mt-8">
         {tabs.map((tab, index) => (
           <NavLink
             key={index}
