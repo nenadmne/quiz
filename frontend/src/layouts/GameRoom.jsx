@@ -129,7 +129,7 @@ export default function GameRoom() {
   }
 
   return (
-    <div className="w-full h-full gap-8 flex flex-col items-center bg-blackGrad pt-8">
+    <div className="w-full h-full gap-4 sm:gap-8 flex flex-col items-center bg-blackGrad pt-8">
       {questionElement && players !== undefined ? (
         <>
           <ScoreSheetTable
@@ -139,7 +139,7 @@ export default function GameRoom() {
             reveal={reveal}
           />
 
-          <div className="w-[800px] p-8 2xl:p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl shadow-md shadow-black">
+          <div className="w-[95%] lg:w-[800px] p-4 md:p-8 2xl:p-12 flex justify-center items-center flex-col bg-greyGrad rounded-xl shadow-md shadow-black">
             <QuestionTimer timer={timer} points={questionElement.points} />
             <Question questionElement={questionElement} />
             <AnswerList

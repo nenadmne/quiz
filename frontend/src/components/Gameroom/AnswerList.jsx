@@ -18,7 +18,7 @@ export default function AnswerList({
   }, [answers]);
 
   return (
-    <ul className="w-full grid grid-cols-2 gap-4 2xl:gap-8">
+    <ul className="w-full grid grid-rows-1 sm:grid-cols-2 gap-2 sm:gap-4 2xl:gap-8">
       {questionElement.answers.map((answer, index) => {
         const otherPlayerAnswer =
           playerAnswers &&

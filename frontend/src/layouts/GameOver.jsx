@@ -130,14 +130,14 @@ export default function GameOver({ players, playersJoined }) {
 
   return (
     <div className="w-full h-full flex bg-blackGrad pt-8 justify-center">
-      <div className="h-fit flex flex-col bg-greyGrad pb-6 px-8 rounded justify-center items-center shadow-black shadow-md">
+      <div className="w-[90%] sm:w-fit h-fit flex flex-col bg-greyGrad pb-6 px-4 sm:px-8 rounded justify-center items-center shadow-black shadow-md">
         <img
           src={Logo}
           alt="logo image"
           className="w-[10rem] bg-darkBlue rounded-xl"
         />
         {winner && !draw && (
-          <div className="w-full flex flex-row items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-white text-[1.5rem] text-shadow tracking-[1px]">
+          <div className="w-full flex flex-row items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-[1.5rem] text-white text-shadow tracking-[1px]">
             <span> The winner is </span>
             <strong>{winner.name}</strong>
           </div>
@@ -147,11 +147,11 @@ export default function GameOver({ players, playersJoined }) {
             Draw!
           </div>
         )}
-        <div className="w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
+        <div className="w-full sm:w-fit h-fit flex flex-row gap-4 py-8 rounded justify-between items-center">
           {playerData.map((player, index) => (
             <div
               key={index}
-              className="w-[200px] flex flex-col p-4 bg-darkPurple rounded text-white text-center shadow-md shadow-black"
+              className="w-[47%] sm:w-[200px] flex flex-col p-4 bg-darkPurple rounded text-white text-center shadow-md shadow-black"
             >
               <p className="text-[1.5rem]">{player.name}</p>
               <strong className="text-[4rem]">{player.score}</strong>

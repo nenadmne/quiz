@@ -35,32 +35,32 @@ export default function ScoreSheetTable({
     return (
       <>
         {isWrongAnswerPlayerOne && reveal && (
-          <div className="absolute w-[5rem] top-[-1rem] left-0">
+          <div className="absolute w-[2rem] md:w-[3.5rem] lg:w-[5rem] top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem] left-0">
             <Lottie animationData={WrongAnswer} loop={true} />
           </div>
         )}
         {isCorrectAnswerPlayerOne && reveal && (
-          <div className="absolute w-[5.5rem] top-[-1rem] left-0">
+          <div className="absolute w-[2.5rem] md:w-[4rem] lg:w-[5.5rem] top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem] left-0">
             <Lottie animationData={CorrectAnswer} loop={true} />
           </div>
         )}
         {noAnswerPlayerOne && reveal && (
-          <div className="absolute w-[5.5rem] top-[-1rem] left-0">
+          <div className="absolute w-[2.5rem] md:w-[4rem] lg:w-[5.5rem] top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem] left-0">
             <Lottie animationData={NoAnswer} loop={true} />
           </div>
         )}
         {isWrongAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[5rem] right-0 top-[-1rem]">
+          <div className="absolute w-[2rem] md:w-[3.5rem] lg:w-[5rem] right-0 top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem]">
             <Lottie animationData={WrongAnswer} loop={true} />
           </div>
         )}
         {isCorrectAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[5.5rem] right-0 top-[-1rem]">
+          <div className="absolute w-[2.5rem] md:w-[4rem] lg:w-[5.5rem] right-0 top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem]">
             <Lottie animationData={CorrectAnswer} loop={true} />
           </div>
         )}
         {noAnswerPlayerTwo && reveal && (
-          <div className="absolute w-[5.5rem] right-0 top-[-1rem]">
+          <div className="absolute w-[2.5rem] md:w-[4rem] lg:w-[5.5rem] right-0 top-[-1.5rem] md:top-[-0.5rem] lg:top-[-1rem]">
             <Lottie animationData={NoAnswer} loop={true} />
           </div>
         )}
@@ -69,13 +69,13 @@ export default function ScoreSheetTable({
   };
 
   return (
-    <div className="w-[52rem] flex flex-row justify-between items-end">
+    <div className="w-[95%] lg:w-[52rem] flex flex-row justify-between items-end">
       {answers && answers.length === 2 && animations()}
       <ScoreSheet playerName={playerOneName} playerScore={playerOneScore} />
       <img
         src={Logo}
         alt="logo image"
-        className="w-[8.5rem] 2xl:w-[10rem] top-[1rem] bg-greyGrad rounded-xl shadow-xl shadow-black"
+        className="w-[5rem] md:w-[8.5rem] 2xl:w-[10rem] top-[1rem] bg-greyGrad rounded-xl shadow-xl shadow-black"
       />
       <ScoreSheet playerName={playerTwoName} playerScore={playerTwoScore} />
     </div>
