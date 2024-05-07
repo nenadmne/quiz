@@ -315,10 +315,10 @@
 
   .door:before {
     content: "";
-    width: 300%;
-    height: 300%;
+    width: 50%;
+    height: 50%;
     position: absolute;
-    left: -75%;
+    left: 25%;
     background-image: repeating-conic-gradient(#fff9 0%,
         transparent 0.0004%,
         transparent 0.004%,
