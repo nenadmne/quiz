@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:frontend/src/layouts/AdminQuestionForm.jsx
 import { useState } from "react";
 import { Form } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -113,20 +112,3 @@ export const addQuestionAction = async ({ request }) => {
     throw new Error("An error occurred");
   }
 };
-=======
-import { NavLink } from "react-router-dom";
-import AddQuestion from "../components/Admin/AddQuestion";
-
-export default function AdminPage() {
-  return (
-    <section className="w-full h-full flex flex-col items-center gap-8 bg-blueGrad p-12">
-      <div>
-        <NavLink>Add Question</NavLink>
-        <NavLink></NavLink>
-        <NavLink></NavLink>
-      </div>
-      <AddQuestion />;
-    </section>
-  );
-}
->>>>>>> Stashed changes:frontend/src/layouts/AdminPage.jsx

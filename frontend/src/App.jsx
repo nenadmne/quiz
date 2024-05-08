@@ -2,19 +2,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./layouts/Homepage";
 import GameRoom from "./layouts/GameRoom";
 import NavigationBar from "./layouts/NavigationBar";
-<<<<<<< Updated upstream
 import AdminQuestionForm, {
   addQuestionAction,
 } from "./layouts/AdminQuestionForm";
-=======
-import AdminPage from "./layouts/AdminPage";
->>>>>>> Stashed changes
 import Lobby from "./layouts/Lobby";
 import NotFound from "./layouts/NotFound";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Leaderboards from "./layouts/Leaderboards";
 import Questions, { suggestQuestionAction } from "./layouts/Questions";
-<<<<<<< Updated upstream
 import Admin from "./layouts/Admin";
 import RecievedQuestions from "./layouts/RecievedQuestions";
 import AdminDashboard from "./layouts/AdminDashboard";
@@ -22,9 +17,6 @@ import AdminRoute from "./components/PrivateRoute/AdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
 import NonAdminRoute from "./components/PrivateRoute/NonAdminRoute";
-=======
-import { addQuestionAction } from "./components/Admin/AddQuestion";
->>>>>>> Stashed changes
 
 function App() {
   const router = createBrowserRouter([
