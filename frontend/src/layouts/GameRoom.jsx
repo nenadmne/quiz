@@ -79,6 +79,7 @@ export default function GameRoom() {
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
       setQuestionNumber(numberOfQuestions);
+      addAnswers([])
     });
   }, []);
 
@@ -148,7 +149,7 @@ export default function GameRoom() {
           </div>
         </>
       ) : (
-        <Loading className="absolute h-full w-full flex flex-col gap-4 items-center justify-center" />
+        <Loading className="absolute h-full w-full flex flex-col gap-4 items-center justify-center pb-24" />
       )}
     </div>
   );

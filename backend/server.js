@@ -55,7 +55,7 @@ app.use(questions);
 const playerRooms = new Map();
 let room;
 let answers = [];
-let question = null
+let question = null;
 let numberOfQuestions = 0;
 const timers = new Map();
 
@@ -107,8 +107,9 @@ io.on("connection", (socket) => {
       numberOfQuestions++;
       if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
+        answers=[];
         startTimer(room);
-        question = randomQuestion
+        question = randomQuestion;
       }
       console.log(`111: Question number ${numberOfQuestions}`);
     } catch (error) {
@@ -116,35 +117,29 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on(
-    "submitAnswer",
-    ({ selectedAnswer, username }) => {
-      let playerToUpdate;
-      let updatedPlayers;
-      answers.push({ username: username, selectedAnswer: selectedAnswer });
-
-      for (const [roomId, players] of playerRooms.entries()) {
-        playerToUpdate = players.find((player) => player.name === username);
-        if (playerToUpdate) {
-          break;
-        }
-      }
-      if (selectedAnswer === question.correctAnswer) {
-        playerToUpdate.score = +playerToUpdate.score + +question.points; // Increment score
-      }
-      for (const [roomId, players] of playerRooms.entries()) {
-        updatedPlayers = players;
-      }
-      if (timers.get(room) === 0) {
-        io.to(room).emit("updateScore", {
-          players: updatedPlayers,
-          answers: answers,
-        });
-        answers = [];
-        question = null;
+  socket.on("submitAnswer", ({ selectedAnswer, username }) => {
+    let playerToUpdate;
+    let updatedPlayers;
+    answers.push({ username: username, selectedAnswer: selectedAnswer });
+    for (const [roomId, players] of playerRooms.entries()) {
+      playerToUpdate = players.find((player) => player.name === username);
+      if (playerToUpdate) {
+        break;
       }
     }
-  );
+    if (selectedAnswer === question.correctAnswer) {
+      playerToUpdate.score = +playerToUpdate.score + +question.points; // Increment score
+    }
+    for (const [roomId, players] of playerRooms.entries()) {
+      updatedPlayers = players;
+    }
+    if (timers.get(room) === 0) {
+      io.to(room).emit("updateScore", {
+        players: updatedPlayers,
+        answers: answers,
+      });
+    }
+  });
 
   socket.on("chatMessage", (message) => {
     io.emit("chatMessage", message);
