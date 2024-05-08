@@ -55,8 +55,6 @@ app.use(questions);
 const playerRooms = new Map();
 let room;
 let answers = [];
-let question = null;
-let numberOfQuestions = 0;
 const timers = new Map();
 
 function startTimer(room) {
@@ -76,7 +74,7 @@ function startTimer(room) {
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
     console.log(`79: ${playerName} joined`);
-    const player = { id: socket.id, name: playerName, score: 0 };
+    const player = { id: socket.id, name: playerName, score:0};
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
         room = roomId;
@@ -86,32 +84,40 @@ io.on("connection", (socket) => {
     if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
       console.log(`89: New room created: ${room}`);
-      playerRooms.set(room, []);
+      playerRooms.set(room, {
+        players: [],
+        numberOfQuestions: 0,
+        question: null,
+      });
     }
     if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
       console.log(`94: New room created: ${room}`);
-      playerRooms.set(room, []);
+      playerRooms.set(room, {
+        players: [],
+        numberOfQuestions: 0,
+        question:null
+      });
     }
-
-    playerRooms.get(room).push(player);
+    const roomData = playerRooms.get(room);
+    roomData.players.push(player);
     socket.join(room); // Join the room here
-    io.to(room).emit("updatePlayers", playerRooms.get(room), room);
-    numberOfQuestions = 0;
+    io.to(room).emit("updatePlayers", roomData.players, room);
   });
 
   socket.on("getQuestion", async (roomId) => {
     try {
-      const players = playerRooms.get(roomId);
+      const roomData = playerRooms.get(room);
+      const players = roomData.players;
       const randomQuestion = await getRandomQuestion(roomId);
-      numberOfQuestions++;
-      if (numberOfQuestions < 6 && players !== undefined) {
-        io.to(roomId).emit("question", randomQuestion, numberOfQuestions);
+      roomData.numberOfQuestions++;
+      if (roomData.numberOfQuestions < 6 && players !== undefined) {
+        io.to(roomId).emit("question", randomQuestion, roomData.numberOfQuestions);
         answers = answers.filter(answer => answer.roomId !== roomId);
         startTimer(roomId);
-        question = randomQuestion;
+        roomData.question = randomQuestion;
       }
-      console.log(`115: Question number ${numberOfQuestions}`);
+      console.log(`115: Question number ${roomData.numberOfQuestions}`);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -125,18 +131,14 @@ io.on("connection", (socket) => {
       username: username,
       selectedAnswer: selectedAnswer,
     });
-    for (const [roomId, players] of playerRooms.entries()) {
-      playerToUpdate = players.find((player) => player.name === username);
-      if (playerToUpdate) {
-        break;
-      }
+    const roomData = playerRooms.get(roomId);
+    playerToUpdate = roomData.players.find((player) => player.name === username);
+
+    if (selectedAnswer === roomData.question.correctAnswer) {
+      playerToUpdate.score = +playerToUpdate.score + +roomData.question.points; // Increment score
     }
-    if (selectedAnswer === question.correctAnswer) {
-      playerToUpdate.score = +playerToUpdate.score + +question.points; // Increment score
-    }
-    for (const [roomId, players] of playerRooms.entries()) {
-      updatedPlayers = players;
-    }
+    updatedPlayers = roomData.players;
+
     if (timers.get(roomId) === 0) {
       io.to(roomId).emit("updateScore", {
         players: updatedPlayers,
