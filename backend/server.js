@@ -58,6 +58,7 @@ let answers = [];
 let question = null;
 let numberOfQuestions = 0;
 const timers = new Map();
+let fetchedUsers = [];
 
 function startTimer(room) {
   let timer = 15;
@@ -75,7 +76,7 @@ function startTimer(room) {
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
-    console.log(`77: ${playerName} joined`);
+    console.log(`79: ${playerName} joined`);
     const player = { id: socket.id, name: playerName, score: 0 };
     for (const [roomId, players] of playerRooms.entries()) {
       if (players.length < 2) {
@@ -85,12 +86,12 @@ io.on("connection", (socket) => {
     }
     if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
-      console.log(`87: New room created: ${room}`);
+      console.log(`89: New room created: ${room}`);
       playerRooms.set(room, []);
     }
     if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
-      console.log(`92: New room created: ${room}`);
+      console.log(`94: New room created: ${room}`);
       playerRooms.set(room, []);
     }
 
@@ -105,13 +106,13 @@ io.on("connection", (socket) => {
       const players = playerRooms.get(room);
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++;
-      if (numberOfQuestions < 6 && players !== undefined) {
+      if (numberOfQuestions < 6 && players !== undefined && fetchedUsers.length === 2) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
-        answers=[];
+        answers = [];
         startTimer(room);
         question = randomQuestion;
       }
-      console.log(`111: Question number ${numberOfQuestions}`);
+      console.log(`115: Question number ${numberOfQuestions}`);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -152,23 +153,28 @@ io.on("connection", (socket) => {
 
   socket.on("activeRooms", () => {
     const activeRoomsCount = Array.from(playerRooms.keys()).length;
-    console.log(`159: Active rooms = ${activeRoomsCount}`);
+    console.log(`156: Active rooms = ${activeRoomsCount}`);
     io.emit("activeRooms", activeRoomsCount);
   });
 
   socket.on("gameStart", async (players) => {
-    console.log(`164: Game started`);
+    console.log(`161: Game started`);
     await addMatch(players, room);
+  });
+
+  socket.on("joinConfirm", async (user) => {
+    fetchedUsers.push(user);
   });
 
   socket.on("gameOver", () => {
     io.to(room).emit("gameOver", room);
     playerRooms.delete(room);
-    console.log(`171: Deleted Room ${room}`);
+    fetchedUsers = [];
+    console.log(`173: Deleted Room ${room}`);
   });
 
   socket.on("disconnect", () => {
-    console.log("189: A user disconnected");
+    console.log("177: A user disconnected");
     // Reseting questions on user disconnection
     updateUsedQuestions();
 
@@ -191,7 +197,7 @@ io.on("connection", (socket) => {
       );
       if (playerRooms.get(room).length === 0) {
         playerRooms.delete(room);
-        console.log(`198: Deleted room ${room}`);
+        console.log(`200: Deleted room ${room}`);
       }
       io.to(room).emit("updatePlayers", playerRooms.get(room));
     }

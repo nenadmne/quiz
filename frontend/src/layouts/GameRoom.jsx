@@ -79,7 +79,7 @@ export default function GameRoom() {
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
       setQuestionNumber(numberOfQuestions);
-      addAnswers([])
+      addAnswers([]);
     });
   }, []);
 
@@ -107,6 +107,10 @@ export default function GameRoom() {
       });
     }
   }, [socket, questionNumber, players]);
+
+  useEffect(() => {
+    socket.emit("joinConfirm", username);
+  }, []);
 
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
