@@ -108,10 +108,6 @@ export default function GameRoom() {
     }
   }, [socket, questionNumber, players]);
 
-  useEffect(() => {
-    socket.emit("joinConfirm", username);
-  }, []);
-
   // Function for selecting answer
   const handleAnswerSelection = (answer) => {
     setSelectedAnswer(answer);

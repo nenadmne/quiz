@@ -58,7 +58,6 @@ let answers = [];
 let question = null;
 let numberOfQuestions = 0;
 const timers = new Map();
-let fetchedUsers = [];
 
 function startTimer(room) {
   let timer = 15;
@@ -106,7 +105,7 @@ io.on("connection", (socket) => {
       const players = playerRooms.get(room);
       const randomQuestion = await getRandomQuestion(room);
       numberOfQuestions++;
-      if (numberOfQuestions < 6 && players !== undefined && fetchedUsers.length === 2) {
+      if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
         answers = [];
         startTimer(room);
@@ -162,14 +161,9 @@ io.on("connection", (socket) => {
     await addMatch(players, room);
   });
 
-  socket.on("joinConfirm", async (user) => {
-    fetchedUsers.push(user);
-  });
-
   socket.on("gameOver", () => {
     io.to(room).emit("gameOver", room);
     playerRooms.delete(room);
-    fetchedUsers = [];
     console.log(`173: Deleted Room ${room}`);
   });
 
