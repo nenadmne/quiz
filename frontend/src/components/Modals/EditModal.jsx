@@ -53,19 +53,13 @@ export default function EditModal({ open, handleClose, item }) {
         questionData,
         id: item._id,
       });
-
-      if (response.status !== 200) {
-        setLoading(false);
-        throw new Error(response.data.message || "Failed to add question");
-      }
       setLoading(false);
       toast.success("Successfully editted!");
-      const responseData = response.data;
       handleClose();
     } catch (error) {
-      toast.error(error);
+      toast.error(error.response.data.message);
       console.error("Error:", error);
-      throw new Error("An error occurred");
+      throw new Error(error.response.data.message || "Failed to edit question");
     }
   };
 

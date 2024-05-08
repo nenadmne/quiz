@@ -108,13 +108,10 @@ export const suggestQuestionAction = async ({ request }) => {
 
   try {
     const response = await quizApi.post("/suggestQuestion", { questionData });
-    if (response.status !== 200) {
-      throw new Error(response.data.message || "Failed to add question");
-    }
     const data = response.data;
     return data;
   } catch (error) {
     console.error("Error:", error);
-    throw new Error("An error occurred");
+    throw new Error(error.response.data.message || "Failed to add suggestion");
   }
 };

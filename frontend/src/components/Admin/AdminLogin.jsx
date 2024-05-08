@@ -57,26 +57,20 @@ export default function AdminLogin() {
         username: enteredName,
         password: enteredPassword,
       });
-
-      if (response.status === 200) {
-        const data = response.data;
-        setLoading(false);
-        if (data.role === "administrator") {
-          localStorage.setItem("admin", data.token);
-          removeUserToken();
-          toast.success("Login successful!");
-          setTimeout(() => {
-            redirectAdmin();
-          }, 1500);
-        } else {
-          toast.error("Invalid user role.");
-        }
-      } else {
-        setLoading(false);
-        const errorData = response.data;
-        toast.error(errorData.message || "Login failed.");
+      const data = response.data;
+      setLoading(false);
+      if (data.role === "administrator") {
+        localStorage.setItem("admin", data.token);
+        removeUserToken();
+        toast.success("Login successful!");
+        setTimeout(() => {
+          redirectAdmin();
+        }, 1500);
       }
     } catch (error) {
+      setLoading(false);
+      const errorData = error.response.data;
+      toast.error(errorData.message || "Login failed.");
       console.error("Error during login:", error);
     }
   };

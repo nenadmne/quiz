@@ -84,21 +84,17 @@ export default function GameOver({ players, playersJoined }) {
         if (winner !== null && !draw) {
           const roomId = room;
           const winnerPlayer = winner;
-
           try {
             const response = await quizApi.post("/gameOver", {
               room: roomId,
               winner: winnerPlayer,
             });
-
-            if (response.status !== 200) {
-              throw new Error(
-                response.data.message || "Network response was not ok"
-              );
-            }
             const data = response.data;
           } catch (error) {
-            console.error("Error:", error);
+            throw new Error(
+              error.response.data.message ||
+                "Failed to send winner and room info"
+            );
           }
         } else if (draw) {
           const drawedGame = draw;
@@ -108,15 +104,11 @@ export default function GameOver({ players, playersJoined }) {
               draw: drawedGame,
               room: roomId,
             });
-
-            if (response.status !== 200) {
-              throw new Error(
-                response.data.message || "Network response was not ok"
-              );
-            }
             const data = response.data;
           } catch (error) {
-            console.error("Error:", error);
+            throw new Error(
+              error.response.data.message || "Failed to send draw and room info"
+            );
           }
         }
       });

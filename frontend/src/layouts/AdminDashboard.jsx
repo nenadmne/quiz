@@ -13,14 +13,11 @@ export default function AdminDashboard() {
   const fetchGames = async () => {
     try {
       const response = await quizApi.get("/matchHistory");
-      if (response.status !== 200) {
-        throw new Error(response.data.message || "Failed to fetch users!");
-      }
       const games = response.data;
       setGames(games.matches);
     } catch (error) {
       console.error("Error:", error);
-      throw new Error("An error occurred");
+      throw new Error(error.response.data.message || "An error occurred");
     }
   };
 

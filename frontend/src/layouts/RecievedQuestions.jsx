@@ -15,17 +15,14 @@ export default function RecievedQuestions() {
   const recievedQuestions = async () => {
     try {
       const response = await quizApi.get("/recievedQuestions");
-      if (response.status !== 200) {
-        throw new Error(
-          response.data.message || "Failed to fetch suggested questions"
-        );
-      }
       const data = response.data;
       const questions = data.questions;
       setQuestions(questions);
     } catch (error) {
       console.error("Error:", error);
-      throw new Error("An error occurred");
+      throw new Error(
+        error.response.data.message || "Failed to fetch suggested questions"
+      );
     }
   };
 
@@ -34,16 +31,16 @@ export default function RecievedQuestions() {
     setLoading(true);
     try {
       const response = await quizApi.delete(`/deleteQuestion/${itemId}`);
-      if (response.status !== 200) {
-        throw new Error(response.data.message || "Failed to delete question");
-      }
       await recievedQuestions();
       setLoading(false);
       toast.success("Successfully deleted question!");
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
-      toast.error(error);
-      throw new Error("An error occurred");
+      toast.error(error.response.data.message);
+      throw new Error(
+        error.response.data.message || "Failed to delete question"
+      );
     }
   };
 
@@ -52,20 +49,14 @@ export default function RecievedQuestions() {
     setLoading(true);
     try {
       const response = await quizApi.post("/addQuestion", { questionData });
-      if (response.status !== 200) {
-        throw new Error(response.data.message || "Failed to add question");
-      }
       const deleteResponse = await quizApi.delete(`/deleteQuestion/${itemId}`);
-      if (deleteResponse.status !== 200) {
-        throw new Error(response.data.message || "Failed to delete question");
-      }
       await recievedQuestions();
       setLoading(false);
       toast.success("Successfully submitted question!");
     } catch (error) {
       console.error("Error:", error);
-      toast.error(error);
-      throw new Error("Add question: An error occurred");
+      toast.error(error.response.data.message);
+      throw new Error(error.response.data.message || "Add question: An error occurred");
     }
   };
 

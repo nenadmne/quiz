@@ -18,14 +18,11 @@ export default function UsersTable() {
   const fetchUsers = async () => {
     try {
       const response = await quizApi.get("/users");
-      if (response.status !== 200) {
-        throw new Error(response.data.message || "Failed to fetch users!");
-      }
       const usersData = response.data;
       setUsers(usersData.users);
     } catch (error) {
       console.error("Error:", error);
-      throw new Error("An error occurred");
+      throw new Error(error.response.data.message || "Failed to fetch users!");
     }
   };
 

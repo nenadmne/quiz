@@ -14,9 +14,9 @@ import Admin from "./layouts/Admin";
 import RecievedQuestions from "./layouts/RecievedQuestions";
 import AdminDashboard from "./layouts/AdminDashboard";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
+import NonAdminRoute from "./components/PrivateRoute/NonAdminRoute";
 
 import "react-toastify/dist/ReactToastify.css";
-import NonAdminRoute from "./components/PrivateRoute/NonAdminRoute";
 
 function App() {
   const router = createBrowserRouter([

@@ -13,15 +13,11 @@ export default function Leaderboards() {
   const leaderboardsLoader = async () => {
     try {
       const response = await quizApi.get("/leaderboards");
-
-      if (response.status !== 200) {
-        throw new Error(response.data.message || "Network response was not ok");
-      }
       const leaderboardData = response.data;
       setData(leaderboardData.filteredUsers);
     } catch (error) {
       console.error("Error:", error);
-      throw new Error("An error occurred");
+      throw new Error(error.response.data.message || "An error occurred");
     }
   };
 

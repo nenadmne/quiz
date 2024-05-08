@@ -35,14 +35,12 @@ export default function ProfileModal({ open, handleClose }) {
     async function fetchUserInfo() {
       try {
         const response = await quizApi.get("/userInfo");
-        if (response.status !== 200) {
-          throw new Error(response.data.message || "Failed to fetch user info");
-        }
         const data = response.data;
         setUserInfo(data.user);
         setHistory(data.matches);
       } catch (error) {
         console.error("Error fetching user info:", error);
+        throw new Error(error.response.data.message || "Failed to fetch user info");
       }
     }
     if (open) {
