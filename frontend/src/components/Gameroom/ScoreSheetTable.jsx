@@ -12,7 +12,6 @@ export default function ScoreSheetTable({
   reveal,
   answers,
 }) {
-  console.log(answers)
   const playerOneName = players[0].name;
   const playerOneScore = players[0].score;
   const playerTwoName = players[1].name;

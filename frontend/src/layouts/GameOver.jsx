@@ -129,7 +129,7 @@ export default function GameOver({ players, playersJoined }) {
           className="w-[10rem] bg-darkBlue rounded-xl"
         />
         {winner && !draw && (
-          <div className="w-full flex flex-row items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-[1.5rem] text-white text-shadow tracking-[1px]">
+          <div className="w-full flex flex-row items-center justify-center py-2 gap-2 bg-blackGrad shadow-[black] shadow-md text-[1.25rem] sm:text-[1.5rem] text-white text-shadow tracking-[1px]">
             <span> The winner is </span>
             <strong>{winner.name}</strong>
           </div>
