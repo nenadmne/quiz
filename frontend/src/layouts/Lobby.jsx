@@ -15,7 +15,7 @@ function Lobby() {
   const socket = useSocket();
 
   const gameCtx = useContext(GameContext);
-  const { players, addPlayer } = gameCtx;
+  const { players, addPlayer, room, addRoom } = gameCtx;
   const username = getUsername();
   const gameroom = getGameroom();
 
@@ -27,8 +27,9 @@ function Lobby() {
       redirectHome();
     }
     socket.emit("join", username);
-    socket.on("updatePlayers", (updatedPlayers) => {
+    socket.on("updatePlayers", (updatedPlayers, room) => {
       addPlayer(updatedPlayers);
+      addRoom(room)
     });
   }, []);
 

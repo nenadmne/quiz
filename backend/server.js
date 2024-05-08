@@ -96,8 +96,9 @@ io.on("connection", (socket) => {
 
     playerRooms.get(room).push(player);
     socket.join(room); // Join the room here
-    io.to(room).emit("updatePlayers", playerRooms.get(room));
+    io.to(room).emit("updatePlayers", playerRooms.get(room), room);
     numberOfQuestions = 0;
+    console.log(playerRooms)
   });
 
   socket.on("getQuestion", async () => {

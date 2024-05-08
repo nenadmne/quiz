@@ -4,6 +4,7 @@ import GameContext from "./context";
 const defaultGameState = {
   players: [],
   answers: [],
+  room: {},
 };
 
 const gameReducer = (state, action) => {
@@ -12,6 +13,7 @@ const gameReducer = (state, action) => {
     return {
       players: updatedPlayers,
       answers: state.answers,
+      room: state.room
     };
   }
   if (action.type === "REMOVE") {
@@ -21,6 +23,7 @@ const gameReducer = (state, action) => {
     return {
       players: updatedPlayers,
       answers: state.answers,
+      room: state.room
     };
   }
   if (action.type === "ADD_ANSWERS") {
@@ -28,6 +31,15 @@ const gameReducer = (state, action) => {
     return {
       players: state.players,
       answers: updatedAnswers,
+      room: state.room
+    };
+  }
+  if (action.type === "ADD_ROOM") {
+    const updatedRoom = action.room;
+    return {
+      players: state.players,
+      answers: state.answers,
+      room: updatedRoom
     };
   }
   return defaultGameState;
@@ -51,12 +63,18 @@ const GameProvider = (props) => {
     dispatchGameAction({ type: "ADD_ANSWERS", answers: answers });
   };
 
+  const addRoomHandler = (room) => {
+    dispatchGameAction({ type: "ADD_ROOM", room: room });
+  };
+
   const gameContext = {
     answers: gameState.answers,
     players: gameState.players,
+    room: gameState.room,
     addPlayer: addPlayerHandler,
     removePlayer: removePlayerHandler,
     addAnswers: addAnswersHandler,
+    addRoom: addRoomHandler,
   };
 
   return (
