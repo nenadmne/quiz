@@ -36,7 +36,7 @@ export default function AdminQuestionForm() {
       </div>
       <Form
         method="POST"
-        className="w-content flex flex-col justify-center items-center gap-6 md:gap-8 p-4 md:p-8 bg-white rounded-xl m-4 sm:m-0"
+        className="w-content lg:w-[900px] flex flex-col justify-center items-center gap-6 md:gap-8 p-4 md:p-8 bg-white rounded-xl m-4 sm:m-0"
         onSubmit={submitHandler}
       >
         <h1 className="uppercase text-xl">
