@@ -81,7 +81,7 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    if (!room || playerRooms.get(room).players === undefined) {
+    if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
       console.log(`86: New room created: ${room}`);
       playerRooms.set(room, {
