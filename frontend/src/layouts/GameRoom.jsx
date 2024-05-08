@@ -88,7 +88,7 @@ export default function GameRoom() {
       setTimer(timer);
     });
 
-    if (timer === 0) {
+    if (timer === 0 && players.length === 2) {
       setReveal(true);
       socket.emit("submitAnswer", {
         selectedAnswer,

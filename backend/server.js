@@ -81,7 +81,7 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    if (!room || playerRooms.get(room) === undefined) {
+    if (!room || playerRooms.get(room).players === undefined) {
       room = socket.id; // Use socket ID as room ID
       console.log(`86: New room created: ${room}`);
       playerRooms.set(room, {
@@ -90,7 +90,7 @@ io.on("connection", (socket) => {
         question: null,
       });
     }
-    if (playerRooms.get(room).length >= 2) {
+    if (playerRooms.get(room).players.length >= 2) {
       room = socket.id; // If room is full, create new room
       console.log(`95: New room created: ${room}`);
       playerRooms.set(room, {
@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
 
   socket.on("getQuestion", async (roomId) => {
     try {
-      const roomData = playerRooms.get(room);
+      const roomData = playerRooms.get(roomId);
       const players = roomData.players;
       const randomQuestion = await getRandomQuestion(roomId);
       roomData.numberOfQuestions++;
