@@ -14,7 +14,7 @@ import GameOver from "./GameOver";
 export default function GameRoom() {
   const socket = useSocket();
   const gameCtx = useContext(GameContext);
-  const { players, addPlayer, answers, addAnswers } = gameCtx;
+  const { players, addPlayer, answers, room, addAnswers } = gameCtx;
 
   const username = getUsername();
 
@@ -55,7 +55,7 @@ export default function GameRoom() {
   // Switching questions function when time is up
   const fetchQuestion = () => {
     if (username === players[0].name) {
-      socket.emit("getQuestion");
+      socket.emit("getQuestion", room);
     }
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
@@ -73,8 +73,8 @@ export default function GameRoom() {
     localStorage.setItem("gameroom", "gameroom"); // important for socket disconnect logic when back button is clicked and navigated to lobby
     setPlayersJoined(players);
     if (username === players[0].name) {
-      socket.emit("getQuestion");
-      socket.emit("gameStart", { players });
+      socket.emit("getQuestion", room);
+      socket.emit("gameStart", { players }, room);
     }
     socket.on("question", (receivedQuestion, numberOfQuestions) => {
       setQuestionElement(receivedQuestion);
@@ -93,6 +93,7 @@ export default function GameRoom() {
       socket.emit("submitAnswer", {
         selectedAnswer,
         username,
+        roomId: room,
       });
       setTimeout(fetchQuestion, 3500);
     }
@@ -114,15 +115,15 @@ export default function GameRoom() {
   };
 
   if (questionNumber === 5) {
-    return <GameOver players={players} />;
+    return <GameOver players={players} room={room} />;
   }
 
   if (players !== undefined && players.length === 1) {
-    return <GameOver players={players} playersJoined={playersJoined} />;
+    return <GameOver players={players} room={room} playersJoined={playersJoined} />;
   }
 
   if (players === undefined) {
-    return <GameOver players={[]} playersJoined={playersJoined} />;
+    return <GameOver players={[]} room={room} playersJoined={playersJoined} />;
   }
 
   return (

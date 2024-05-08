@@ -98,18 +98,17 @@ io.on("connection", (socket) => {
     socket.join(room); // Join the room here
     io.to(room).emit("updatePlayers", playerRooms.get(room), room);
     numberOfQuestions = 0;
-    console.log(playerRooms)
   });
 
-  socket.on("getQuestion", async () => {
+  socket.on("getQuestion", async (roomId) => {
     try {
-      const players = playerRooms.get(room);
-      const randomQuestion = await getRandomQuestion(room);
+      const players = playerRooms.get(roomId);
+      const randomQuestion = await getRandomQuestion(roomId);
       numberOfQuestions++;
       if (numberOfQuestions < 6 && players !== undefined) {
-        io.to(room).emit("question", randomQuestion, numberOfQuestions);
-        answers = [];
-        startTimer(room);
+        io.to(roomId).emit("question", randomQuestion, numberOfQuestions);
+        answers = answers.filter(answer => answer.roomId !== roomId);
+        startTimer(roomId);
         question = randomQuestion;
       }
       console.log(`115: Question number ${numberOfQuestions}`);
@@ -118,10 +117,14 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("submitAnswer", ({ selectedAnswer, username }) => {
+  socket.on("submitAnswer", ({ selectedAnswer, username, roomId }) => {
     let playerToUpdate;
     let updatedPlayers;
-    answers.push({ username: username, selectedAnswer: selectedAnswer });
+    answers.push({
+      roomId: roomId,
+      username: username,
+      selectedAnswer: selectedAnswer,
+    });
     for (const [roomId, players] of playerRooms.entries()) {
       playerToUpdate = players.find((player) => player.name === username);
       if (playerToUpdate) {
@@ -134,10 +137,10 @@ io.on("connection", (socket) => {
     for (const [roomId, players] of playerRooms.entries()) {
       updatedPlayers = players;
     }
-    if (timers.get(room) === 0) {
-      io.to(room).emit("updateScore", {
+    if (timers.get(roomId) === 0) {
+      io.to(roomId).emit("updateScore", {
         players: updatedPlayers,
-        answers: answers,
+        answers: answers.filter((answer) => answer.roomId === roomId),
       });
     }
   });
@@ -157,15 +160,15 @@ io.on("connection", (socket) => {
     io.emit("activeRooms", activeRoomsCount);
   });
 
-  socket.on("gameStart", async (players) => {
+  socket.on("gameStart", async (players, roomId) => {
     console.log(`161: Game started`);
-    await addMatch(players, room);
+    await addMatch(players, roomId);
   });
 
-  socket.on("gameOver", () => {
-    io.to(room).emit("gameOver", room);
-    playerRooms.delete(room);
-    console.log(`173: Deleted Room ${room}`);
+  socket.on("gameOver", (roomId) => {
+    io.to(roomId).emit("gameOver", roomId);
+    playerRooms.delete(roomId);
+    console.log(`173: Deleted Room ${roomId}`);
   });
 
   socket.on("disconnect", () => {

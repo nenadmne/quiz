@@ -11,7 +11,7 @@ import Logo from "../assets/logo.png";
 
 import Button from "@mui/material/Button";
 
-export default function GameOver({ players, playersJoined }) {
+export default function GameOver({ players, playersJoined, room }) {
   const [winner, setWinner] = useState(null);
   const [draw, setDraw] = useState(false);
 
@@ -60,7 +60,7 @@ export default function GameOver({ players, playersJoined }) {
 
       // To emit only once
       if (username === players[0].name) {
-        socket.emit("gameOver");
+        socket.emit("gameOver", room);
       }
     }
 
