@@ -55,6 +55,7 @@ app.use(questions);
 const playerRooms = new Map();
 let room;
 let answers = [];
+let question = null
 let numberOfQuestions = 0;
 const timers = new Map();
 
@@ -107,6 +108,7 @@ io.on("connection", (socket) => {
       if (numberOfQuestions < 6 && players !== undefined) {
         io.to(room).emit("question", randomQuestion, numberOfQuestions);
         startTimer(room);
+        question = randomQuestion
       }
       console.log(`111: Question number ${numberOfQuestions}`);
     } catch (error) {
@@ -116,7 +118,7 @@ io.on("connection", (socket) => {
 
   socket.on(
     "submitAnswer",
-    ({ selectedAnswer, username, isCorrectAnswer, points }) => {
+    ({ selectedAnswer, username }) => {
       let playerToUpdate;
       let updatedPlayers;
       answers.push({ username: username, selectedAnswer: selectedAnswer });
@@ -127,8 +129,8 @@ io.on("connection", (socket) => {
           break;
         }
       }
-      if (isCorrectAnswer) {
-        playerToUpdate.score = +playerToUpdate.score + +points; // Increment score
+      if (selectedAnswer === question.correctAnswer) {
+        playerToUpdate.score = +playerToUpdate.score + +question.points; // Increment score
       }
       for (const [roomId, players] of playerRooms.entries()) {
         updatedPlayers = players;
@@ -138,9 +140,8 @@ io.on("connection", (socket) => {
           players: updatedPlayers,
           answers: answers,
         });
-      }
-      if (answers.length === 2) {
         answers = [];
+        question = null;
       }
     }
   );

@@ -89,13 +89,9 @@ export default function GameRoom() {
 
     if (timer === 0) {
       setReveal(true);
-      const isCorrectAnswer = selectedAnswer === questionElement.correctAnswer;
-      const points = questionElement.points;
       socket.emit("submitAnswer", {
         selectedAnswer,
         username,
-        isCorrectAnswer,
-        points,
       });
       setTimeout(fetchQuestion, 3500);
     }
