@@ -73,17 +73,17 @@ function startTimer(room) {
 
 io.on("connection", (socket) => {
   socket.on("join", (playerName) => {
-    console.log(`79: ${playerName} joined`);
+    console.log(`76: ${playerName} joined`);
     const player = { id: socket.id, name: playerName, score:0};
     for (const [roomId, players] of playerRooms.entries()) {
-      if (players.length < 2) {
+      if (players.players.length < 2) {
         room = roomId;
         break;
       }
     }
     if (!room || playerRooms.get(room) === undefined) {
       room = socket.id; // Use socket ID as room ID
-      console.log(`89: New room created: ${room}`);
+      console.log(`86: New room created: ${room}`);
       playerRooms.set(room, {
         players: [],
         numberOfQuestions: 0,
@@ -92,7 +92,7 @@ io.on("connection", (socket) => {
     }
     if (playerRooms.get(room).length >= 2) {
       room = socket.id; // If room is full, create new room
-      console.log(`94: New room created: ${room}`);
+      console.log(`95: New room created: ${room}`);
       playerRooms.set(room, {
         players: [],
         numberOfQuestions: 0,
@@ -117,7 +117,7 @@ io.on("connection", (socket) => {
         startTimer(roomId);
         roomData.question = randomQuestion;
       }
-      console.log(`115: Question number ${roomData.numberOfQuestions}`);
+      console.log(`120: Question number ${roomData.numberOfQuestions}`);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -158,12 +158,12 @@ io.on("connection", (socket) => {
 
   socket.on("activeRooms", () => {
     const activeRoomsCount = Array.from(playerRooms.keys()).length;
-    console.log(`156: Active rooms = ${activeRoomsCount}`);
+    console.log(`161: Active rooms = ${activeRoomsCount}`);
     io.emit("activeRooms", activeRoomsCount);
   });
 
   socket.on("gameStart", async (players, roomId) => {
-    console.log(`161: Game started`);
+    console.log(`166: Game started`);
     await addMatch(players, roomId);
   });
 
@@ -181,25 +181,24 @@ io.on("connection", (socket) => {
     // Updating online users count in chat on every user disconection
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
-
+    console.log(socket.id)
     // Updating players after user left the game
-    let room;
-    for (const [roomId, players] of playerRooms.entries()) {
-      if (players.some((player) => player.id === socket.id)) {
-        room = roomId;
+    let deletedRoom;
+    for (const [roomId, playersObj] of playerRooms.entries()) {
+      const foundPlayer = playersObj.players.find(player => player.id === socket.id);
+      if (foundPlayer) {
+        deletedRoom = roomId;
         break;
       }
     }
-    if (room) {
-      playerRooms.set(
-        room,
-        playerRooms.get(room).filter((player) => player.id !== socket.id)
-      );
-      if (playerRooms.get(room).length === 0) {
-        playerRooms.delete(room);
-        console.log(`200: Deleted room ${room}`);
+    if (deletedRoom) {
+      const roomData = playerRooms.get(deletedRoom);
+      roomData.players = roomData.players.filter((player) => player.id !== socket.id)
+      if (roomData.players.length === 0) {
+        playerRooms.delete(deletedRoom);
+        console.log(`199: Deleted room ${deletedRoom}`);
       }
-      io.to(room).emit("updatePlayers", playerRooms.get(room));
+      io.to(deletedRoom).emit("updatePlayers", roomData.players, deletedRoom);
     }
   });
 });
