@@ -2,7 +2,7 @@ import { EmojiEvents } from "@mui/icons-material";
 
 export default function PlayerList({ data }) {
   return (
-    <ul className="max-h-[600px] overflow-y-scroll sm:text-xl md:text-2xl flex flex-col justify-center items-center gap-2 w-[100vw] p-6 sm:p-8 lg:p-0 lg:w-[800px]">
+    <ul className="max-h-[400px] md:max-h-[600px] overflow-y-scroll sm:text-xl md:text-2xl flex flex-col items-center gap-2 w-[100vw] p-6 sm:p-8 lg:p-0 lg:w-[800px]">
       {data.map((item, index) => (
         <li
           key={item._id}
