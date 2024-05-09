@@ -181,7 +181,6 @@ io.on("connection", (socket) => {
     // Updating online users count in chat on every user disconection
     const connectedUsers = io.engine.clientsCount;
     io.emit("connectedUsers", connectedUsers);
-    console.log(socket.id)
     // Updating players after user left the game
     let deletedRoom;
     for (const [roomId, playersObj] of playerRooms.entries()) {
